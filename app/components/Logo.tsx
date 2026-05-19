@@ -14,7 +14,7 @@ export default function Logo({
 }) {
   const img = (
     <Image
-      src="/ebright-logo.svg"
+      src="/ebright-logo.png"
       alt="Ebright"
       width={width}
       height={height}
