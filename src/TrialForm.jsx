@@ -114,7 +114,7 @@ export default function TrialForm() {
     })
   }
 
-  const submitForm = () => {
+  const submitForm = async () => {
     if (!validate() || isSubmitting) return
     setIsSubmitting(true)
 
@@ -146,19 +146,25 @@ export default function TrialForm() {
       gclid: utmData.gclid || '',
     }
 
-    window.parent.postMessage({ type: 'TRIAL_FORM_SUBMIT', payload }, '*')
+    try {
+      await fetch('/api/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      })
+    } catch (err) {
+      console.error('Submission error:', err)
+    }
 
-    setTimeout(() => {
-      try {
-        if (window.parent && window.parent !== window) {
-          window.parent.location.href = THANK_YOU_URL
-        } else {
-          window.location.href = THANK_YOU_URL
-        }
-      } catch {
-        window.top.location.href = THANK_YOU_URL
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.location.href = THANK_YOU_URL
+      } else {
+        window.location.href = THANK_YOU_URL
       }
-    }, 400)
+    } catch {
+      window.top.location.href = THANK_YOU_URL
+    }
   }
 
   return (
