@@ -1,7 +1,7 @@
 import './App.css'
 import TrialForm from './TrialForm'
 
-const LOGO_URL = 'https://drive.google.com/uc?export=view&id=1Lqhqp2G9ycW1WrDT7iB3HXHc7WYS3eSb'
+const LOGO_URL = '/logo.png'
 
 export default function App() {
   return (
