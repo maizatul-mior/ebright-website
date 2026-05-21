@@ -100,7 +100,26 @@ export default async function handler(req, res) {
             'Content-Type': 'application/json',
             ...(webhookApiKey ? { 'x-api-key': webhookApiKey } : {}),
           },
-          body: JSON.stringify(req.body),
+          body: JSON.stringify({
+            parent_name: parentName,
+            parent_email: parentEmail,
+            parent_phone: parentPhone,
+            location: locationKey,
+            preferred_branch: preferredBranch || locationKey,
+            children: children || [],
+            children_count: childrenCount || (children?.length ?? 0),
+            remarks: remarks || '',
+            lead_source: lead_source || 'Website',
+            device_type: device_type || '',
+            landing_page_url: landing_page_url || '',
+            utm_source: utm_source || '',
+            utm_medium: utm_medium || '',
+            utm_campaign: utm_campaign || '',
+            utm_content: utm_content || '',
+            utm_term: utm_term || '',
+            fbclid: fbclid || '',
+            gclid: gclid || '',
+          }),
         });
         webhookStatus = webhookRes.ok ? 'success' : 'failed';
       } catch {
