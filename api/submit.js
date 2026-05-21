@@ -328,6 +328,10 @@ async function ensureTable(client) {
       created_at TIMESTAMPTZ DEFAULT NOW()
     )
   `);
+  // Add columns if they don't exist (handles existing tables with old schema)
+  await client.query(`ALTER TABLE trial_leads ADD COLUMN IF NOT EXISTS ghl_contact_id TEXT`);
+  await client.query(`ALTER TABLE trial_leads ADD COLUMN IF NOT EXISTS ghl_status TEXT DEFAULT 'pending'`);
+  await client.query(`ALTER TABLE trial_leads ADD COLUMN IF NOT EXISTS webhook_status TEXT`);
 }
 
 // ── Main handler ─────────────────────────────────────────────────────────────
