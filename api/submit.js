@@ -91,11 +91,15 @@ export default async function handler(req, res) {
 
     // Forward to GHL webhook if configured
     const webhookUrl = process.env.GHL_WEBHOOK_URL;
+    const webhookApiKey = process.env.GHL_WEBHOOK_API_KEY;
     if (webhookUrl) {
       try {
         const webhookRes = await fetch(webhookUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            ...(webhookApiKey ? { 'x-api-key': webhookApiKey } : {}),
+          },
           body: JSON.stringify(req.body),
         });
         webhookStatus = webhookRes.ok ? 'success' : 'failed';
