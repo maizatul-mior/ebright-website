@@ -1,33 +1,9 @@
 import { useState, useEffect } from 'react'
 import './TrialForm.css'
 
-const BRANCH_TO_LOCATION = {
-  'Online - Zoom Class': 'online',
-  'Selangor - Ampang': 'ampang',
-  'Selangor - Bandar Baru Bangi': 'bandar_baru_bangi',
-  'Selangor - Bandar Rimbayu': 'bandar_rimbayu',
-  'Selangor - Bandar Seri Putra': 'bandar_seri_putra',
-  'Selangor - Bandar Tun Hussein Onn': 'bandar_tun_hussein_onn',
-  'Selangor - Cyberjaya': 'cyberjaya',
-  'Selangor - Dataran Puchong Utama': 'dataran_puchong_utama',
-  'Selangor - Denai Alam': 'denai_alam',
-  'Selangor - Eco Grandeur': 'eco_grandeur',
-  'Selangor - Kajang TTDI Grove': 'kajang_ttdi_grove',
-  'Selangor - Klang': 'klang',
-  'Selangor - Kota Damansara': 'kota_damansara',
-  'Selangor - Kota Warisan': 'kota_warisan',
-  'Selangor - Setia Alam': 'setia_alam',
-  'Selangor - Shah Alam': 'shah_alam',
-  'Selangor - Subang Taipan': 'subang_taipan',
-  'Selangor - Taman Sri Gombak': 'taman_sri_gombak',
-  'W.P. Kuala Lumpur - Danau Kota': 'danau_kota',
-  'W.P. Kuala Lumpur - Sri Petaling': 'sri_petaling',
-  'W.P. Putrajaya - Presint 15': 'putrajaya',
-}
-
 const THANK_YOU_URL = 'https://www.ebright.my/completeregistration'
 
-export default function TrialForm() {
+export default function TrialForm({ branches = [] }) {
   const [currentStep, setCurrentStep] = useState(1)
   const [numChildren, setNumChildren] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -118,8 +94,9 @@ export default function TrialForm() {
     if (!validate() || isSubmitting) return
     setIsSubmitting(true)
 
-    const locationKey = BRANCH_TO_LOCATION[branch]
-    if (!locationKey) {
+    // branch value IS the locationKey directly
+    const selectedBranch = branches.find(b => b.value === branch)
+    if (!selectedBranch) {
       alert('Invalid branch selected. Please select a valid branch.')
       setIsSubmitting(false)
       return
@@ -131,8 +108,8 @@ export default function TrialForm() {
       parentPhone,
       childrenCount: numChildren,
       children: childInputs,
-      preferredBranch: branch,
-      locationKey,
+      preferredBranch: selectedBranch.label,
+      locationKey: selectedBranch.value,
       remarks: remarks || '',
       utm_source: utmData.utm_source || '',
       utm_medium: utmData.utm_medium || '',
@@ -301,27 +278,9 @@ export default function TrialForm() {
                   className={branch ? 'filled' : ''}
                 >
                   <option value="">Please select</option>
-                  <option value="Online - Zoom Class">Online - Zoom Class</option>
-                  <option value="Selangor - Ampang">Selangor - Ampang</option>
-                  <option value="Selangor - Bandar Baru Bangi">Selangor - Bandar Baru Bangi</option>
-                  <option value="Selangor - Bandar Rimbayu">Selangor - Bandar Rimbayu</option>
-                  <option value="Selangor - Bandar Seri Putra">Selangor - Bandar Seri Putra</option>
-                  <option value="Selangor - Bandar Tun Hussein Onn">Selangor - Bandar Tun Hussein Onn</option>
-                  <option value="Selangor - Cyberjaya">Selangor - Cyberjaya</option>
-                  <option value="Selangor - Dataran Puchong Utama">Selangor - Dataran Puchong Utama</option>
-                  <option value="Selangor - Denai Alam">Selangor - Denai Alam</option>
-                  <option value="Selangor - Eco Grandeur">Selangor - Eco Grandeur</option>
-                  <option value="Selangor - Kajang TTDI Grove">Selangor - Kajang TTDI Grove</option>
-                  <option value="Selangor - Klang">Selangor - Klang</option>
-                  <option value="Selangor - Kota Damansara">Selangor - Kota Damansara</option>
-                  <option value="Selangor - Kota Warisan">Selangor - Kota Warisan</option>
-                  <option value="Selangor - Setia Alam">Selangor - Setia Alam</option>
-                  <option value="Selangor - Shah Alam">Selangor - Shah Alam</option>
-                  <option value="Selangor - Subang Taipan">Selangor - Subang Taipan</option>
-                  <option value="Selangor - Taman Sri Gombak">Selangor - Taman Sri Gombak</option>
-                  <option value="W.P. Kuala Lumpur - Danau Kota">W.P. Kuala Lumpur - Danau Kota</option>
-                  <option value="W.P. Kuala Lumpur - Sri Petaling">W.P. Kuala Lumpur - Sri Petaling</option>
-                  <option value="W.P. Putrajaya - Presint 15">W.P. Putrajaya - Presint 15</option>
+                  {branches.map(b => (
+                    <option key={b.value} value={b.value}>{b.label}</option>
+                  ))}
                 </select>
                 {errors.branch && <span className="trial-error-msg">{errors.branch}</span>}
               </div>
