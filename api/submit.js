@@ -8,6 +8,8 @@ const pool = new Pool({
   user: process.env.PG_USER,
   password: process.env.PG_PASSWORD,
   ssl: false,
+  connectionTimeoutMillis: 5000,
+  idleTimeoutMillis: 10000,
 });
 
 // ── Location & GHL config ────────────────────────────────────────────────────
@@ -374,7 +376,14 @@ export default async function handler(req, res) {
   const locationConfig = LOCATION_MAPPING[formData.location];
   if (!locationConfig) return res.status(400).json({ error: 'Invalid location key: ' + formData.location });
 
-  const client = await pool.connect();
+  let client;
+  try {
+    client = await pool.connect();
+  } catch (connErr) {
+    console.error('DB connection failed:', connErr.message);
+    return res.status(500).json({ error: 'Database connection failed', details: connErr.message });
+  }
+
   let ghlContactId = null;
   let ghlStatus = 'pending';
 
