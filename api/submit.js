@@ -376,111 +376,100 @@ export default async function handler(req, res) {
   const locationConfig = LOCATION_MAPPING[formData.location];
   if (!locationConfig) return res.status(400).json({ error: 'Invalid location key: ' + formData.location });
 
-  let client;
-  try {
-    client = await pool.connect();
-  } catch (connErr) {
-    console.error('DB connection failed:', connErr.message);
-    return res.status(500).json({ error: 'Database connection failed', details: connErr.message });
-  }
-
   let ghlContactId = null;
   let ghlStatus = 'pending';
+  let dbId = null;
 
+  // ── Step 1: Push to GHL (primary — always runs) ──────────────────────────
   try {
-    await ensureTable(client);
+    const [fieldMap, pipelineInfo] = await Promise.all([
+      getCustomFieldIds(locationConfig.locationId, locationConfig.token),
+      getPipelineInfo(locationConfig.locationId, locationConfig.token, formData.location),
+    ]);
 
-    // Save to PostgreSQL first
-    const dbResult = await client.query(
-      `INSERT INTO trial_leads (
-        parent_name, parent_email, parent_phone, branch, location_key,
-        children, num_children, remarks, utm_source, utm_medium, utm_campaign,
-        utm_content, utm_term, fbclid, gclid, device_type, lead_source,
-        landing_page_url, ghl_status
-      ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,'pending')
-      RETURNING id`,
-      [
-        formData.parent_name, formData.parent_email, formData.parent_contact,
-        body.preferredBranch || formData.location, formData.location,
-        JSON.stringify(formData.children), formData.children.length,
-        formData.remarks, formData.utm_source, formData.utm_medium, formData.utm_campaign,
-        formData.utm_content, formData.utm_term, formData.fbclid, formData.gclid,
-        formData.device_type, formData.lead_source, formData.landing_page_url,
-      ]
-    );
-    const dbId = dbResult.rows[0].id;
+    const existingId = await searchDuplicate(locationConfig, formData.parent_email, formData.parent_contact);
 
-    // Push to GHL
-    try {
-      const [fieldMap, pipelineInfo] = await Promise.all([
-        getCustomFieldIds(locationConfig.locationId, locationConfig.token),
-        getPipelineInfo(locationConfig.locationId, locationConfig.token, formData.location),
-      ]);
-
-      // Check for duplicate in this location
-      const existingId = await searchDuplicate(locationConfig, formData.parent_email, formData.parent_contact);
-
-      if (existingId) {
-        ghlContactId = existingId;
+    if (existingId) {
+      ghlContactId = existingId;
+      await updateContact(locationConfig, ghlContactId, formData, fieldMap);
+    } else {
+      const { ok, data } = await createContact(locationConfig, formData, fieldMap);
+      if (ok) {
+        ghlContactId = data.contact?.id;
+      } else if (data.meta?.contactId) {
+        ghlContactId = data.meta.contactId;
         await updateContact(locationConfig, ghlContactId, formData, fieldMap);
-      } else {
-        const { ok, data } = await createContact(locationConfig, formData, fieldMap);
-        if (ok) {
-          ghlContactId = data.contact?.id;
-        } else if (data.meta?.contactId) {
-          ghlContactId = data.meta.contactId;
-          await updateContact(locationConfig, ghlContactId, formData, fieldMap);
-        }
       }
-
-      if (ghlContactId && pipelineInfo) {
-        const alreadyHasOpp = await hasOpportunities(locationConfig, ghlContactId);
-        if (!alreadyHasOpp) {
-          const kids = formData.children;
-          if (kids.length > 0) {
-            for (let i = 0; i < kids.length; i++) {
-              const oppName = `${formData.parent_name} | ${kids[i].name || 'Child'} (${kids[i].age || '?'})`;
-              await createOpportunity(locationConfig, ghlContactId, oppName, pipelineInfo, formData.lead_source);
-              if (i < kids.length - 1) await new Promise(r => setTimeout(r, 1200));
-            }
-          } else {
-            await createOpportunity(locationConfig, ghlContactId, formData.parent_name, pipelineInfo, formData.lead_source);
-          }
-        }
-      }
-
-      if (ghlContactId) {
-        const kidsSummary = formData.children
-          .map((c, i) => `Child ${i + 1}: ${c.name || 'N/A'} (${c.age || 'N/A'})`)
-          .join('\n') || 'None';
-        await addNote(locationConfig, ghlContactId,
-          `TRIAL CLASS SUBMISSION\n\nDetails:\n` +
-          `- Name: ${formData.parent_name}\n` +
-          `- Email: ${formData.parent_email}\n` +
-          `- Phone: ${formData.parent_contact}\n` +
-          `- Location: ${locationConfig.name}\n` +
-          `- Lead Source: ${formData.lead_source}\n` +
-          `- Remarks: ${formData.remarks || 'None'}\n\n` +
-          `Children Info:\n${kidsSummary}`
-        );
-      }
-
-      ghlStatus = ghlContactId ? 'success' : 'failed';
-    } catch (ghlErr) {
-      console.error('GHL error:', ghlErr.message);
-      ghlStatus = 'failed';
     }
 
-    await client.query(
-      `UPDATE trial_leads SET ghl_contact_id = $1, ghl_status = $2 WHERE id = $3`,
-      [ghlContactId, ghlStatus, dbId]
-    );
+    if (ghlContactId && pipelineInfo) {
+      const alreadyHasOpp = await hasOpportunities(locationConfig, ghlContactId);
+      if (!alreadyHasOpp) {
+        const kids = formData.children;
+        if (kids.length > 0) {
+          for (let i = 0; i < kids.length; i++) {
+            const oppName = `${formData.parent_name} | ${kids[i].name || 'Child'} (${kids[i].age || '?'})`;
+            await createOpportunity(locationConfig, ghlContactId, oppName, pipelineInfo, formData.lead_source);
+            if (i < kids.length - 1) await new Promise(r => setTimeout(r, 1200));
+          }
+        } else {
+          await createOpportunity(locationConfig, ghlContactId, formData.parent_name, pipelineInfo, formData.lead_source);
+        }
+      }
+    }
 
-    return res.status(200).json({ success: true, id: dbId, ghlContactId, ghlStatus });
-  } catch (err) {
-    console.error('Submit error:', err.message);
-    return res.status(500).json({ error: 'Server error', details: err.message });
-  } finally {
-    client.release();
+    if (ghlContactId) {
+      const kidsSummary = formData.children
+        .map((c, i) => `Child ${i + 1}: ${c.name || 'N/A'} (${c.age || 'N/A'})`)
+        .join('\n') || 'None';
+      await addNote(locationConfig, ghlContactId,
+        `TRIAL CLASS SUBMISSION\n\nDetails:\n` +
+        `- Name: ${formData.parent_name}\n` +
+        `- Email: ${formData.parent_email}\n` +
+        `- Phone: ${formData.parent_contact}\n` +
+        `- Location: ${locationConfig.name}\n` +
+        `- Lead Source: ${formData.lead_source}\n` +
+        `- Remarks: ${formData.remarks || 'None'}\n\n` +
+        `Children Info:\n${kidsSummary}`
+      );
+    }
+
+    ghlStatus = ghlContactId ? 'success' : 'failed';
+  } catch (ghlErr) {
+    console.error('GHL error:', ghlErr.message);
+    ghlStatus = 'failed';
   }
+
+  // ── Step 2: Save to PostgreSQL (optional — DB issues won't break GHL) ────
+  try {
+    const client = await pool.connect();
+    try {
+      await ensureTable(client);
+      const dbResult = await client.query(
+        `INSERT INTO trial_leads (
+          parent_name, parent_email, parent_phone, branch, location_key,
+          children, num_children, remarks, utm_source, utm_medium, utm_campaign,
+          utm_content, utm_term, fbclid, gclid, device_type, lead_source,
+          landing_page_url, ghl_contact_id, ghl_status
+        ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17,$18,$19,$20)
+        RETURNING id`,
+        [
+          formData.parent_name, formData.parent_email, formData.parent_contact,
+          body.preferredBranch || formData.location, formData.location,
+          JSON.stringify(formData.children), formData.children.length,
+          formData.remarks, formData.utm_source, formData.utm_medium, formData.utm_campaign,
+          formData.utm_content, formData.utm_term, formData.fbclid, formData.gclid,
+          formData.device_type, formData.lead_source, formData.landing_page_url,
+          ghlContactId, ghlStatus,
+        ]
+      );
+      dbId = dbResult.rows[0].id;
+    } finally {
+      client.release();
+    }
+  } catch (dbErr) {
+    console.error('DB error (non-fatal):', dbErr.message);
+  }
+
+  return res.status(200).json({ success: true, id: dbId, ghlContactId, ghlStatus });
 }
