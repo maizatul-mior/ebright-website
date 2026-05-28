@@ -25,10 +25,10 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/trial-area-a" element={<FormPage area="a" />} />
-        <Route path="/trial-area-b" element={<FormPage area="b" />} />
-        <Route path="/trial-area-c" element={<FormPage area="c" />} />
-        <Route path="*" element={<Navigate to="/trial-area-a" replace />} />
+        <Route path="/trial-class-a" element={<FormPage area="a" />} />
+        <Route path="/trial-class-b" element={<FormPage area="b" />} />
+        <Route path="/trial-class-c" element={<FormPage area="c" />} />
+        <Route path="*" element={<Navigate to="/trial-class-a" replace />} />
       </Routes>
     </BrowserRouter>
   )
