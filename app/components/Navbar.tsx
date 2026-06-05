@@ -5,46 +5,38 @@ import { useState } from "react";
 import Logo from "./Logo";
 
 const nav = [
-  { label: "Home", href: "/" },
   {
-    label: "Our Story",
+    label: "About Us",
     href: "/our-story",
     children: [
-      { label: "About Ebright", href: "/our-story" },
+      { label: "Our Story", href: "/our-story" },
       { label: "Our Team", href: "/our-team" },
-      { label: "Hall Of Excellence", href: "/hall-of-excellence" },
-      { label: "Annual Showcase 2023", href: "/annual-showcase-2023" },
-      { label: "Annual Showcase 2024", href: "/annual-showcase-2024" },
-      { label: "Annual Showcase 2025", href: "/annual-showcase-2025" },
     ],
   },
-  { label: "Our Branches", href: "/our-branches" },
-  { label: "Trial Class", href: "/trial-class" },
   {
     label: "Programmes",
-    href: "/programmes/weekly-classes",
+    href: "/programmes",
     children: [
       { label: "Weekly Classes", href: "/programmes/weekly-classes" },
       { label: "Online Classes", href: "/programmes/online-classes" },
       { label: "Trinity College London", href: "/programmes/trinity-college-london" },
     ],
   },
-  { label: "Gallery", href: "/gallery" },
-  { label: "Media Exposure", href: "/media-exposure" },
-  { label: "Testimonial", href: "/testimonial" },
-  { label: "Contact Us", href: "/contact-us" },
+  { label: "Our Branches", href: "/our-branches" },
   {
-    label: "More",
-    href: "#",
+    label: "Success",
+    href: "/hall-of-excellence",
     children: [
-      { label: "Franchising Opportunity", href: "/franchising-opportunity" },
-      { label: "Join The Team", href: "/join-the-team" },
-      { label: "Blog", href: "/blog" },
-      { label: "FAQ", href: "/faq" },
-      { label: "Privacy Policy", href: "/privacy-policy" },
-      { label: "Terms and Conditions", href: "/terms-and-conditions" },
+      { label: "Hall Of Excellence", href: "/hall-of-excellence" },
+      { label: "Testimonials", href: "/testimonial" },
+      { label: "Media Exposure", href: "/media-exposure" },
+      { label: "Gallery", href: "/gallery" },
+      { label: "Annual Showcase 2025", href: "/annual-showcase-2025" },
+      { label: "Annual Showcase 2024", href: "/annual-showcase-2024" },
+      { label: "Annual Showcase 2023", href: "/annual-showcase-2023" },
     ],
   },
+  { label: "Contact Us", href: "/contact-us" },
 ];
 
 export default function Navbar() {
@@ -52,16 +44,16 @@ export default function Navbar() {
   const [openSub, setOpenSub] = useState<string | null>(null);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-black/5 bg-[var(--background)]/90 backdrop-blur">
+    <header className="sticky top-0 z-50 bg-[var(--brand)] text-white shadow-sm">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-6">
-        <Logo width={130} height={44} className="h-9 w-auto" />
+        <Logo white width={130} height={44} className="h-9 w-auto" />
 
-        <nav className="hidden items-center gap-1 lg:flex">
+        <nav className="hidden items-center gap-0.5 lg:flex">
           {nav.map((item) => (
             <div key={item.label} className="group relative">
               {item.children ? (
                 <>
-                  <button className="inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-[var(--ink-soft)] transition hover:text-[var(--foreground)]">
+                  <button className="inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-white/90 transition hover:bg-white/10 hover:text-white">
                     {item.label}
                     <svg className="h-3 w-3" viewBox="0 0 12 12" fill="currentColor">
                       <path d="M6 8L2 4h8z" />
@@ -82,7 +74,7 @@ export default function Navbar() {
               ) : (
                 <Link
                   href={item.href}
-                  className="inline-block rounded-full px-3 py-2 text-sm font-medium text-[var(--ink-soft)] transition hover:text-[var(--foreground)]"
+                  className="inline-block rounded-full px-3 py-2 text-sm font-medium text-white/90 transition hover:bg-white/10 hover:text-white"
                 >
                   {item.label}
                 </Link>
@@ -93,14 +85,14 @@ export default function Navbar() {
 
         <Link
           href="/trial-class"
-          className="hidden rounded-full bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--brand-strong)] lg:inline-flex"
+          className="hidden items-center gap-2 rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-bold text-[var(--foreground)] shadow-sm transition hover:brightness-95 lg:inline-flex"
         >
-          Book a Trial
+          Book A Trial Class
         </Link>
 
         <button
           aria-label="Toggle menu"
-          className="rounded-lg p-2 lg:hidden"
+          className="rounded-lg p-2 text-white lg:hidden"
           onClick={() => setMobileOpen((v) => !v)}
         >
           <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -110,26 +102,26 @@ export default function Navbar() {
       </div>
 
       {mobileOpen && (
-        <nav className="border-t border-black/5 bg-white lg:hidden">
+        <nav className="border-t border-white/10 bg-[var(--brand-strong)] lg:hidden">
           <div className="space-y-1 px-4 py-3">
             {nav.map((item) =>
               item.children ? (
                 <div key={item.label}>
                   <button
                     onClick={() => setOpenSub(openSub === item.label ? null : item.label)}
-                    className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium text-[var(--foreground)]"
+                    className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium text-white"
                   >
                     {item.label}
                     <span className="text-xs">{openSub === item.label ? "−" : "+"}</span>
                   </button>
                   {openSub === item.label && (
-                    <div className="ml-3 border-l border-black/10 pl-3">
+                    <div className="ml-3 border-l border-white/20 pl-3">
                       {item.children.map((c) => (
                         <Link
                           key={c.href}
                           href={c.href}
                           onClick={() => setMobileOpen(false)}
-                          className="block rounded-lg px-3 py-1.5 text-sm text-[var(--ink-soft)]"
+                          className="block rounded-lg px-3 py-1.5 text-sm text-white/80"
                         >
                           {c.label}
                         </Link>
@@ -142,7 +134,7 @@ export default function Navbar() {
                   key={item.label}
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
-                  className="block rounded-lg px-3 py-2 text-sm font-medium text-[var(--foreground)]"
+                  className="block rounded-lg px-3 py-2 text-sm font-medium text-white"
                 >
                   {item.label}
                 </Link>
@@ -151,9 +143,9 @@ export default function Navbar() {
             <Link
               href="/trial-class"
               onClick={() => setMobileOpen(false)}
-              className="mt-2 block rounded-full bg-[var(--brand)] px-4 py-2 text-center text-sm font-semibold text-white"
+              className="mt-2 block rounded-lg bg-[var(--accent)] px-4 py-2 text-center text-sm font-bold text-[var(--foreground)]"
             >
-              Book a Trial
+              Book A Trial Class
             </Link>
           </div>
         </nav>

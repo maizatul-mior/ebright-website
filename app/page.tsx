@@ -1,321 +1,344 @@
+import Image from "next/image";
 import Link from "next/link";
+import { Fragment } from "react";
 
 export default function Home() {
   return (
     <>
       <Hero />
+      <StatsBar />
       <About />
-      <Stats />
-      <Testimonials />
-      <BranchesPreview />
-      <WhatWeOffer />
-      <Advisors />
-      <Ambassadors />
+      <Programs />
+      <VideoTestimonials />
+      <Experts />
+      <FindAClass />
+      <FinalCta />
     </>
   );
 }
 
+/* ---------------------------------------------------------------- Hero ---- */
+
 function Hero() {
   return (
-    <section
-      className="relative overflow-hidden"
-      style={{
-        background:
-          "radial-gradient(60% 80% at 20% 0%, var(--cream) 0%, transparent 60%), radial-gradient(45% 60% at 90% 20%, rgba(255,210,63,0.35) 0%, transparent 60%)",
-      }}
-    >
-      <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 md:grid-cols-2 md:py-28">
-        <div className="flex flex-col justify-center">
-          <span className="mb-5 inline-flex w-fit items-center gap-2 rounded-full bg-white/70 px-3 py-1 text-xs font-semibold text-[var(--brand-strong)] ring-1 ring-[var(--brand)]/20">
-            <span className="h-1.5 w-1.5 rounded-full bg-[var(--brand)]" />
-            Trinity College London accredited
-          </span>
-          <h1 className="text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
-            Empower your child with the confidence and skills to{" "}
-            <span className="text-[var(--brand)]">speak up</span> and{" "}
-            <span className="text-[var(--brand)]">shine!</span>
+    <section className="bg-[var(--background)]">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 px-6 py-12 md:grid-cols-2 md:py-16">
+        <div className="flex flex-col">
+          <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl lg:text-6xl">
+            From Shy Kids
+            <br />
+            to <span className="text-[var(--brand)]">Confident</span>
+            <br />
+            <span className="text-[var(--brand)]">Speakers</span>
           </h1>
-          <p className="mt-6 max-w-xl text-lg text-[var(--ink-soft)]">
-            Our engaging public speaking classes for kids foster creativity, communication, and
-            leadership.
+          <p className="mt-6 max-w-lg text-lg leading-7 text-[var(--ink-soft)]">
+            Empower your child with the confidence and skills to speak up and shine! Our engaging
+            public speaking classes for kids foster creativity, communication, and leadership.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/trial-class"
-              className="inline-flex items-center justify-center rounded-full bg-[var(--brand)] px-6 py-3 text-base font-semibold text-white shadow-sm transition hover:bg-[var(--brand-strong)]"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[var(--brand)] px-6 py-3 text-base font-semibold text-white shadow-sm transition hover:bg-[var(--brand-strong)]"
             >
-              I want my child to shine on stage!
+              <CalendarIcon className="h-5 w-5" />
+              Book A Trial Class
             </Link>
             <Link
-              href="/programmes/weekly-classes"
-              className="inline-flex items-center justify-center rounded-full border border-black/10 bg-white px-6 py-3 text-base font-semibold text-[var(--foreground)] transition hover:border-black/30"
+              href="/testimonial"
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-black/10 bg-white px-6 py-3 text-base font-semibold transition hover:border-black/30"
             >
-              See Programmes
+              <PlayIcon className="h-5 w-5 text-[var(--brand)]" />
+              View A Video
             </Link>
           </div>
-        </div>
-        <div className="relative flex items-center justify-center">
-          <div className="grid grid-cols-2 gap-4">
-            <HeroCard emoji="🎤" title="Confidence" tint="bg-[var(--cream)]" />
-            <HeroCard emoji="🌟" title="Creativity" tint="bg-white" rotate="rotate-2" />
-            <HeroCard emoji="🧠" title="Critical thinking" tint="bg-white" rotate="-rotate-2" />
-            <HeroCard emoji="👑" title="Leadership" tint="bg-[var(--cream)]" />
+          <div className="mt-7 flex items-center gap-3">
+            <Image
+              src="/home/hero-parents.png"
+              alt="Happy Ebright parents"
+              width={528}
+              height={187}
+              className="h-9 w-auto"
+            />
+            <div>
+              <div className="flex text-[var(--accent)]">
+                {"★★★★★".split("").map((s, i) => (
+                  <span key={i}>{s}</span>
+                ))}
+              </div>
+              <p className="text-sm font-medium text-[var(--ink-soft)]">
+                Trusted by 20,000+ parents
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-  );
-}
 
-function HeroCard({
-  emoji,
-  title,
-  tint,
-  rotate = "",
-}: {
-  emoji: string;
-  title: string;
-  tint: string;
-  rotate?: string;
-}) {
-  return (
-    <div
-      className={`flex aspect-square flex-col items-center justify-center gap-3 rounded-3xl p-6 text-center shadow-sm ring-1 ring-black/5 ${tint} ${rotate}`}
-    >
-      <span className="text-5xl">{emoji}</span>
-      <span className="text-sm font-semibold">{title}</span>
-    </div>
-  );
-}
-
-function About() {
-  return (
-    <section className="bg-white py-20">
-      <div className="mx-auto max-w-4xl px-6 text-center">
-        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">About Ebright</h2>
-        <div className="mt-6 space-y-4 text-lg leading-8 text-[var(--ink-soft)]">
-          <p>
-            Ebright is one of Malaysia&apos;s most prominent public speaking centres, with more
-            than 4,400 active students attending our weekly physical and online classes.
-          </p>
-          <p>
-            Our strength lies in our ability to structure our program systematically in a fun and
-            interactive manner. In addition, we are one of the very few centres in Malaysia
-            approved by Trinity College London (UK) to run an internationally recognized
-            communication skill assessment for our students.
-          </p>
-          <p>Since 2016, we have trained nearly 20,000 young lives in the art of public speaking.</p>
-        </div>
-        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-          <Link
-            href="/trial-class"
-            className="inline-flex rounded-full bg-[var(--brand)] px-6 py-3 text-base font-semibold text-white transition hover:bg-[var(--brand-strong)]"
-          >
-            Register for a trial class!
-          </Link>
-          <Link
-            href="/our-story"
-            className="inline-flex rounded-full border border-black/10 bg-white px-6 py-3 text-base font-semibold transition hover:border-black/30"
-          >
-            Read our story
-          </Link>
+        <div className="relative flex items-center justify-center">
+          <Image
+            src="/home/hero-girl.png"
+            alt="Confident young Ebright speaker holding a microphone"
+            width={1910}
+            height={2000}
+            priority
+            className="h-auto w-full max-w-md"
+          />
         </div>
       </div>
     </section>
   );
 }
 
-function Stats() {
-  const items = [
-    { value: "4,400+", label: "Active students weekly" },
-    { value: "~20,000", label: "Young lives trained since 2016" },
-    { value: "Trinity", label: "College London approved" },
+/* ----------------------------------------------------------- Stats bar ---- */
+
+function StatsBar() {
+  const stats = [
+    { icon: UsersIcon, value: "20,000+", label: "Young Lives Trained Since 2016" },
+    { icon: CapIcon, value: "4,400+", label: "Active Students Worldwide" },
+    { icon: BuildingIcon, value: "20+", label: "Convenient Physical & Online Branches" },
+    { icon: AwardIcon, value: "10+", label: "Years of Experience in Kids Training" },
   ];
   return (
-    <section className="border-y border-black/5 bg-[var(--cream)]">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 px-6 py-12 sm:grid-cols-3">
-        {items.map((item) => (
-          <div key={item.label} className="text-center">
-            <div className="text-3xl font-bold tracking-tight text-[var(--brand)] sm:text-4xl">
-              {item.value}
+    <section className="bg-[var(--brand)] text-white">
+      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-6 gap-y-8 px-6 py-10 lg:flex-nowrap lg:gap-x-0">
+        {stats.map(({ icon: Icon, value, label }, i) => (
+          <Fragment key={label}>
+            <div className="flex items-center gap-4 lg:flex-1 lg:justify-center lg:px-4">
+              <span className="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-white">
+                <Icon className="h-8 w-8 text-[var(--brand)]" />
+              </span>
+              <div>
+                <div className="text-3xl font-extrabold leading-none">{value}</div>
+                <div className="mt-1.5 max-w-[11rem] text-sm leading-snug text-white/90">{label}</div>
+              </div>
             </div>
-            <div className="mt-2 text-sm font-medium text-[var(--ink-soft)]">{item.label}</div>
-          </div>
+            {i < stats.length - 1 && <span className="hidden h-14 w-px bg-white/50 lg:block" />}
+          </Fragment>
         ))}
       </div>
     </section>
   );
 }
 
-function Testimonials() {
-  const list = [
-    {
-      quote:
-        "My son has been joining Ebright Online since pandemic. He looks forward to his online lesson where he meets new friends and supports one another. Coach is also very encouraging and engaging students in a positive manner!",
-      author: "Ebright Parent",
-    },
-    {
-      quote:
-        "Absolutely phenomenal public speaking class for kids! My little one has transformed from a shy speaker to a confident communicator, all thanks to this fantastic programme!",
-      author: "Ebright Parent",
-    },
-  ];
-  return (
-    <section className="bg-white py-20">
-      <div className="mx-auto max-w-7xl px-6">
-        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">What parents are saying</h2>
-        <div className="mt-12 grid gap-6 md:grid-cols-2">
-          {list.map((t, i) => (
-            <figure
-              key={i}
-              className="rounded-3xl bg-[var(--cream)] p-8 shadow-sm ring-1 ring-black/5"
-            >
-              <span className="text-4xl text-[var(--brand)]">&ldquo;</span>
-              <blockquote className="mt-2 text-lg leading-7 text-[var(--foreground)]">
-                {t.quote}
-              </blockquote>
-              <figcaption className="mt-4 text-sm font-semibold text-[var(--ink-soft)]">
-                — {t.author}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-        <div className="mt-10 text-center">
-          <Link href="/testimonial" className="text-sm font-semibold text-[var(--brand)] hover:underline">
-            Read more testimonials →
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
+/* --------------------------------------------------------------- About ---- */
 
-function BranchesPreview() {
-  const branches = [
-    "Subang Taipan HQ", "Setia Alam", "Putrajaya", "Kota Damansara",
-    "Sri Petaling", "Ampang", "Cyberjaya", "Denai Alam",
-    "Klang", "Danau Kota", "Shah Alam", "Bandar Seri Putra",
-    "Kajang TTDI Grove", "Bandar Baru Bangi", "Bandar Tun Hussein Onn", "Bandar Rimbayu",
-    "Taman Sri Gombak", "Eco Grandeur", "Kota Warisan", "Tropicana Sungai Buloh",
-    "Puncak Jalil", "Puchong Utama", "Online (Zoom)",
+function About() {
+  const awards = [
+    { src: "/home/award-soba.png", alt: "Star Outstanding Business Awards", w: 1010, h: 392 },
+    { src: "/home/award-toym.png", alt: "JCI TOYM 2025", w: 624, h: 392 },
+    { src: "/home/award-choice-2024.png", alt: "Parents' Choice Awards 2024 Winner", w: 596, h: 596 },
+    { src: "/home/award-choice-2025.png", alt: "Parents' Choice Awards 2025 Winner", w: 666, h: 596 },
   ];
   return (
-    <section className="bg-[var(--background)] py-20">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="flex flex-col items-start justify-between gap-4 md:flex-row md:items-end">
-          <div>
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Our Branches</h2>
-            <p className="mt-3 text-lg text-[var(--ink-soft)]">
-              23 locations across Malaysia, plus online via Zoom.
-            </p>
+    <section className="bg-[var(--cream)] py-20">
+      <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 md:grid-cols-2">
+        <div className="grid grid-cols-2 gap-4">
+          <CollageImg src="/home/about-1.png" alt="Ebright community event" className="aspect-square" />
+          <CollageImg src="/home/about-2.png" alt="Ebright class in session" className="row-span-2 aspect-[3/5]" />
+          <CollageImg src="/home/about-3.png" alt="Student speaking on stage" className="aspect-[4/3]" />
+          <CollageImg src="/home/about-4.png" alt="Ebright monthly showcase" className="aspect-[16/9]" />
+        </div>
+        <div>
+          <h2 className="text-3xl font-bold leading-tight tracking-tight sm:text-4xl">
+            Malaysia&apos;s Most Prominent Public Speaking Academy for Kids
+          </h2>
+          <p className="mt-6 text-lg leading-8 text-[var(--ink-soft)]">
+            Ebright boasts a highly structured, systemized curriculum with a fun, interactive
+            learning environment. We are proud to be one of the few centers in Malaysia approved by
+            Trinity College London (UK) to run internationally recognized communication skill
+            assessments for our students.
+          </p>
+          <p className="mt-8 text-sm font-semibold uppercase tracking-wider text-[var(--ink-soft)]">
+            Our Awards
+          </p>
+          <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-4">
+            {awards.map((a) => (
+              <Image
+                key={a.src}
+                src={a.src}
+                alt={a.alt}
+                width={a.w}
+                height={a.h}
+                className="h-16 w-auto object-contain"
+              />
+            ))}
           </div>
-          <Link
-            href="/our-branches"
-            className="rounded-full border border-black/10 bg-white px-5 py-2 text-sm font-semibold transition hover:border-black/30"
-          >
-            View all branches →
-          </Link>
-        </div>
-        <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-          {branches.map((b) => (
-            <div
-              key={b}
-              className="rounded-xl bg-white px-4 py-3 text-sm font-medium ring-1 ring-black/5"
-            >
-              <span className="mr-2 text-[var(--brand)]">●</span>
-              {b}
-            </div>
-          ))}
         </div>
       </div>
     </section>
   );
 }
 
-function WhatWeOffer() {
-  const offerings = [
-    {
-      emoji: "📅",
-      title: "Weekly Classes",
-      body:
-        "Every week, we bring the fun with multiple classes happening at different times and venues across Klang Valley! Kids dive into exciting activities that boost their confidence and presentation skills.",
-    },
-    {
-      emoji: "🏫",
-      title: "Free School Workshop",
-      body:
-        "Our special school collaboration program is sparking excitement across Malaysia! We bring dynamic public speaking classes to students from schools nationwide.",
-    },
-    {
-      emoji: "🌈",
-      title: "School Holiday Programmes",
-      body:
-        "Nothing to do during school holidays? Join our intensive workshops featuring confidence-building activities like Debate and Emcee training.",
-    },
-    {
-      emoji: "🎤",
-      title: "Monthly Showcases",
-      body:
-        "We're expanding our reach and empowering students to discover their voices — nurturing the next generation of stellar speakers and leaders.",
-    },
-  ];
+function CollageImg({ src, alt, className }: { src: string; alt: string; className?: string }) {
+  return (
+    <div className={`relative overflow-hidden rounded-2xl ring-1 ring-black/5 ${className ?? ""}`}>
+      <Image src={src} alt={alt} fill className="object-cover" sizes="(max-width:768px) 50vw, 25vw" />
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------ Programs ---- */
+
+function Programs() {
   return (
     <section className="bg-white py-20">
       <div className="mx-auto max-w-7xl px-6">
-        <div className="max-w-2xl">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">What We Offer</h2>
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            Programs Designed to <span className="text-[var(--brand)]">Unlock Your Child&apos;s Potential</span>
+          </h2>
           <p className="mt-4 text-lg text-[var(--ink-soft)]">
-            Programmes that meet your child where they are.
+            From weekly foundational growth to high-energy holiday camps, find the perfect fit for
+            your child&apos;s schedule.
           </p>
         </div>
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {offerings.map((o) => (
-            <article
-              key={o.title}
-              className="flex flex-col gap-3 rounded-3xl bg-[var(--cream)] p-6 shadow-sm ring-1 ring-black/5 transition hover:shadow-md hover:ring-[var(--brand)]/30"
-            >
-              <span className="text-3xl">{o.emoji}</span>
-              <h3 className="text-lg font-semibold">{o.title}</h3>
-              <p className="text-sm leading-6 text-[var(--ink-soft)]">{o.body}</p>
-            </article>
-          ))}
+
+        <div className="mt-12 grid gap-5 lg:grid-cols-3 lg:grid-rows-2">
+          <ProgramCard
+            className="lg:row-span-2 lg:min-h-[460px]"
+            src="/home/prog-weekly.png"
+            title="Weekly Classes"
+            blurb="Consistent, step-by-step confidence building via physical campuses or Zoom."
+            href="/programmes/weekly-classes"
+          />
+          <ProgramCard
+            src="/home/prog-workshops.png"
+            title="School Workshops"
+            blurb="High-impact public speaking and leadership programs brought directly to classrooms nationwide."
+            href="/programmes/weekly-classes"
+          />
+          <ProgramCard
+            src="/home/prog-camps.png"
+            title="Holiday Camps"
+            blurb="Fun-focused, intensive school break programs covering debate, emceeing, and leadership."
+            href="/programmes/weekly-classes"
+          />
+          <ProgramCard
+            className="lg:col-span-2"
+            src="/home/prog-showcases.jpg"
+            title="Live Showcases"
+            blurb="Regular opportunities for students to speak on real stages in front of live audiences."
+            href="/gallery"
+          />
         </div>
       </div>
     </section>
   );
 }
 
-function Advisors() {
-  const advisors = [
-    {
-      name: "Mary Ann Tear",
-      role: "Senior Examiner, Trinity College London",
-      bio: "Choreographer, director, Performing Arts lecturer and British Federation Adjudicator. Former UK lecturer in Performing Arts at the Universities of Hertfordshire and Middlesex, judge at the ESU Public Speaking Competition 2008, and currently coaches the Worlds School Debate team in Singapore. She is currently the advisor for Ebright's communication skills.",
-    },
-    {
-      name: "Prof. TS. Dr. Nor Badrul Anuar",
-      role: "Professor, Universiti Malaya",
-      bio: "Head of the Centre of Research for Cyber Security & Network (CSNET) at Universiti Malaya. Research focuses on network intrusion and prevention systems, cybersecurity, cloud/edge computing security, and IoT. Recognized by Stanford University as one of the world's top 2% scientists.",
-    },
-    {
-      name: "Dr. Muhammad Faiz Zaki",
-      role: "Senior Lecturer, Universiti Malaya",
-      bio: "Director of UM's Data and Information Management Centre. PhD from Universiti Malaya, MSc from University College London. Expertise in computer networking, big data analytics, and cybersecurity, focusing on network traffic classification using real-time analytics with edge computing and federated learning.",
-    },
+function ProgramCard({
+  src,
+  title,
+  blurb,
+  href,
+  className,
+}: {
+  src: string;
+  title: string;
+  blurb: string;
+  href: string;
+  className?: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className={`group relative flex min-h-[220px] flex-col justify-end overflow-hidden rounded-3xl p-6 text-white ring-1 ring-black/5 ${className ?? ""}`}
+    >
+      <Image src={src} alt={title} fill className="object-cover transition duration-500 group-hover:scale-105" sizes="(max-width:1024px) 100vw, 50vw" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
+      <div className="relative">
+        <h3 className="text-xl font-bold">{title}</h3>
+        <p className="mt-1 max-w-sm text-sm leading-5 text-white/85">{blurb}</p>
+        <span className="mt-3 inline-flex items-center gap-1 rounded-md bg-white/20 px-3 py-1 text-xs font-semibold backdrop-blur transition group-hover:bg-white/30">
+          Learn More <ArrowIcon className="h-3 w-3" />
+        </span>
+      </div>
+    </Link>
+  );
+}
+
+/* ------------------------------------------------- Video testimonials ---- */
+
+function VideoTestimonials() {
+  const videos = [
+    { src: "/home/video-1.png", quote: "Absolutely phenomenal public speaking class for kids!" },
+    { src: "/home/video-2.png", quote: "Absolutely phenomenal public speaking class for kids!" },
+    { src: "/home/video-3.png", quote: "Absolutely phenomenal public speaking class for kids!" },
   ];
   return (
     <section className="bg-[var(--cream)] py-20">
       <div className="mx-auto max-w-7xl px-6">
-        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Our Advisors</h2>
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            Loved by Parents. <span className="text-[var(--brand)]">Proven by Kids.</span>
+          </h2>
+          <p className="mt-4 text-lg text-[var(--ink-soft)]">
+            Hear directly from the supportive parents and talented young ambassadors who make up the
+            Ebright family.
+          </p>
+        </div>
         <div className="mt-12 grid gap-6 md:grid-cols-3">
-          {advisors.map((a) => (
-            <article key={a.name} className="rounded-3xl bg-white p-7 shadow-sm ring-1 ring-black/5">
-              <div className="mb-4 grid h-14 w-14 place-items-center rounded-full bg-[var(--brand)] text-xl font-bold text-white">
-                {a.name.split(" ").slice(-1)[0][0]}
+          {videos.map((v, i) => (
+            <Link key={i} href="/testimonial" className="group block">
+              <div className="relative aspect-video overflow-hidden rounded-2xl ring-1 ring-black/5">
+                <Image src={v.src} alt={`Parent testimonial ${i + 1}`} fill className="object-cover" sizes="(max-width:768px) 100vw, 33vw" />
+                <div className="absolute inset-0 grid place-items-center bg-black/10 transition group-hover:bg-black/20">
+                  <span className="grid h-14 w-14 place-items-center rounded-full bg-white/90 text-[var(--brand)] shadow-lg transition group-hover:scale-110">
+                    <PlayIcon className="h-6 w-6" />
+                  </span>
+                </div>
               </div>
-              <h3 className="text-lg font-semibold">{a.name}</h3>
-              <p className="mt-1 text-sm font-medium text-[var(--brand)]">{a.role}</p>
-              <p className="mt-3 text-sm leading-6 text-[var(--ink-soft)]">{a.bio}</p>
+              <p className="mt-3 text-center text-sm font-medium italic text-[var(--ink-soft)]">
+                &ldquo;{v.quote}&rdquo;
+              </p>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------- Experts ---- */
+
+function Experts() {
+  const experts = [
+    {
+      src: "/home/expert-maryann.png",
+      name: "Mary Ann Tear",
+      role: "Senior Examiner & Trainer, Trinity College London",
+    },
+    {
+      src: "/home/expert-badrul.png",
+      name: "Prof. Ts. Dr. Nor Badrul Anuar",
+      role: "Professor, Dept. of Computer Systems & Technology, Universiti Malaya",
+    },
+    {
+      src: "/home/expert-faiz.png",
+      name: "Dr. Muhammad Faiz Zaki",
+      role: "Senior Lecturer in Computer Networking, Universiti Malaya",
+    },
+  ];
+  return (
+    <section className="bg-white py-20">
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            Guided by <span className="text-[var(--brand)]">World-Class Academic Experts</span>
+          </h2>
+          <p className="mt-4 text-lg text-[var(--ink-soft)]">
+            Our curriculum and standards are overseen by top-tier educators, university professors,
+            and international examiners.
+          </p>
+        </div>
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
+          {experts.map((e) => (
+            <article key={e.name} className="overflow-hidden rounded-3xl bg-[var(--cream)] ring-1 ring-black/5">
+              <div className="relative aspect-[4/5] w-full">
+                <Image src={e.src} alt={e.name} fill className="object-cover object-top" sizes="(max-width:768px) 100vw, 33vw" />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 to-transparent p-5 pt-12 text-white">
+                  <h3 className="text-lg font-bold">{e.name}</h3>
+                  <p className="mt-1 text-xs leading-4 text-white/85">{e.role}</p>
+                </div>
+              </div>
             </article>
           ))}
         </div>
@@ -324,33 +347,158 @@ function Advisors() {
   );
 }
 
-function Ambassadors() {
-  const list = [
-    { name: "Aisy Mateen", note: "Son of Malaysia's well-known actress Yana Samsudin. Known as a bright child for his exquisite Malay." },
-    { name: "Nur Ayeesha Azzaleea", note: "Popularly known as Zaza. Her TikTok videos with her teacher mother have garnered millions of views." },
-    { name: "Arishya Putri", note: "One of our most supportive Ebright Online students. National Fencer winning multiple awards." },
-    { name: "Alyssa Dezek", note: "Singer and actress whose YouTube channel has over 4.5M subscribers — youngest YouTuber in Malaysia's Top 10." },
-    { name: "Dhiya Humaira", note: "Loyal Ebright student. TikToks of her speeches have reached over 10k views." },
-    { name: "Ara Mysara Wan", note: "Youngest sibling of Adam's Autism Family, featuring awareness on living with an autistic child." },
-    { name: "Cinta Sumayyah", note: "Elder daughter of Malaysian pop song icon and actress Elyana Emrizal. Avid sports enthusiast." },
-    { name: "Ara Aziz", note: "Daughter of Malaysian actor/director Aziz M. Osman. Hosts 'No Gadget No Problem' — a kids show." },
-  ];
+/* -------------------------------------------------------- Find a class ---- */
+
+function FindAClass() {
+  const branches = Array.from({ length: 5 }, () => ({
+    name: "Ebright Public Speaking Academy - Subang Taipan",
+    distance: "Taipan, 2 Km",
+    address: "21-2, Jalan USJ 10/1d, Taipan Business Centre, 47620 Subang Jaya, Selangor, Malaysia",
+  }));
   return (
-    <section className="bg-white py-20">
+    <section className="bg-[var(--cream)] py-20">
       <div className="mx-auto max-w-7xl px-6">
-        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Our Ambassadors</h2>
-        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {list.map((p) => (
-            <div key={p.name} className="rounded-2xl bg-[var(--cream)] p-5 ring-1 ring-black/5">
-              <div className="mb-3 grid h-12 w-12 place-items-center rounded-full bg-[var(--brand)] text-base font-bold text-white">
-                {p.name[0]}
-              </div>
-              <h3 className="text-base font-semibold">{p.name}</h3>
-              <p className="mt-1 text-xs leading-5 text-[var(--ink-soft)]">{p.note}</p>
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+            Find an Ebright Class <span className="text-[var(--brand)]">Near You</span>
+          </h2>
+          <p className="mt-4 text-lg text-[var(--ink-soft)]">
+            With physical locations across Klang Valley and structured virtual classrooms on Zoom,
+            premium training is always within reach.
+          </p>
+        </div>
+
+        <div className="mt-12 grid overflow-hidden rounded-3xl ring-1 ring-black/5 lg:grid-cols-2">
+          <div className="bg-white p-5">
+            <div className="flex items-center gap-2 rounded-full border border-black/10 px-4 py-2">
+              <SearchIcon className="h-4 w-4 text-[var(--ink-soft)]" />
+              <input
+                type="text"
+                placeholder="Find location"
+                className="w-full bg-transparent text-sm outline-none placeholder:text-[var(--ink-soft)]"
+              />
             </div>
-          ))}
+            <ul className="mt-4 max-h-[360px] space-y-3 overflow-y-auto pr-1">
+              {branches.map((b, i) => (
+                <li key={i} className="rounded-xl border border-black/5 p-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-sm font-semibold">{b.name}</h3>
+                    <span className="text-xs font-medium text-[var(--brand)]">{b.distance}</span>
+                  </div>
+                  <p className="mt-1 text-xs leading-5 text-[var(--ink-soft)]">{b.address}</p>
+                </li>
+              ))}
+            </ul>
+            <Link
+              href="/our-branches"
+              className="mt-4 inline-flex w-full items-center justify-center rounded-lg bg-[var(--brand)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[var(--brand-strong)]"
+            >
+              View all branches
+            </Link>
+          </div>
+          <div className="relative min-h-[320px]">
+            <Image src="/home/map.png" alt="Map of Ebright branches" fill className="object-cover" sizes="(max-width:1024px) 100vw, 50vw" />
+          </div>
         </div>
       </div>
     </section>
+  );
+}
+
+/* ----------------------------------------------------------- Final CTA ---- */
+
+function FinalCta() {
+  return (
+    <section className="bg-white px-6 py-16">
+      <div className="relative mx-auto max-w-7xl overflow-hidden rounded-3xl">
+        <Image src="/home/cta-bg.png" alt="Ebright students on stage" fill className="object-cover" sizes="100vw" />
+        <div className="absolute inset-0 bg-black/55" />
+        <div className="relative flex flex-col items-center px-6 py-20 text-center text-white">
+          <h2 className="max-w-2xl text-3xl font-extrabold uppercase tracking-tight sm:text-4xl">
+            Ready To Watch Your Child Shine On Stage?
+          </h2>
+          <Link
+            href="/trial-class"
+            className="mt-8 inline-flex items-center justify-center rounded-lg bg-[var(--accent)] px-8 py-4 text-base font-bold text-[var(--foreground)] shadow-lg transition hover:brightness-95"
+          >
+            Claim The Trial Class Now
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* --------------------------------------------------------------- Icons ---- */
+
+function CalendarIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+      <rect x="3" y="4" width="18" height="18" rx="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M16 2v4M8 2v4M3 10h18" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function PlayIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M8 5v14l11-7z" />
+    </svg>
+  );
+}
+
+function ArrowIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
+      <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function SearchIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+      <circle cx="11" cy="11" r="7" />
+      <path d="M21 21l-4-4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function UsersIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function CapIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+      <path d="M22 10L12 5 2 10l10 5 10-5z" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M6 12v5c0 1 2.7 2.5 6 2.5s6-1.5 6-2.5v-5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function BuildingIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+      <rect x="4" y="3" width="16" height="18" rx="1" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M9 7h.01M15 7h.01M9 11h.01M15 11h.01M9 15h.01M15 15h.01M10 21v-3h4v3" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function AwardIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+      <circle cx="12" cy="9" r="6" />
+      <path d="M8.2 14.3 6.5 21l5.5-3 5.5 3-1.7-6.7" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M12 6v3l2 1" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }

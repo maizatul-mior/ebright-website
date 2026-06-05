@@ -54,13 +54,13 @@ export default function JoinTeam() {
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <a
               href="mailto:sales@ebright.my?subject=Career%20Application"
-              className="inline-flex rounded-full bg-[var(--brand)] px-6 py-3 text-base font-semibold text-white transition hover:bg-[var(--brand-strong)]"
+              className="inline-flex rounded-lg bg-[var(--brand)] px-6 py-3 text-base font-semibold text-white transition hover:bg-[var(--brand-strong)]"
             >
               Email your CV
             </a>
             <Link
               href="/contact-us"
-              className="inline-flex rounded-full border border-black/10 bg-white px-6 py-3 text-base font-semibold transition hover:border-black/30"
+              className="inline-flex rounded-lg border border-black/10 bg-white px-6 py-3 text-base font-semibold transition hover:border-black/30"
             >
               Or send a message
             </Link>

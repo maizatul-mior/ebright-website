@@ -64,7 +64,7 @@ export default function WeeklyClasses() {
           <div className="mt-10 text-center">
             <Link
               href="/trial-class"
-              className="inline-flex rounded-full bg-[var(--brand)] px-6 py-3 text-base font-semibold text-white transition hover:bg-[var(--brand-strong)]"
+              className="inline-flex rounded-lg bg-[var(--brand)] px-6 py-3 text-base font-semibold text-white transition hover:bg-[var(--brand-strong)]"
             >
               Register for a trial class!
             </Link>

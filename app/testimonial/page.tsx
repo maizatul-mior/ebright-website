@@ -64,7 +64,7 @@ export default function Testimonials() {
           </p>
           <Link
             href="/contact-us"
-            className="mt-8 inline-flex rounded-full bg-[var(--brand)] px-6 py-3 text-base font-semibold text-white transition hover:bg-[var(--brand-strong)]"
+            className="mt-8 inline-flex rounded-lg bg-[var(--brand)] px-6 py-3 text-base font-semibold text-white transition hover:bg-[var(--brand-strong)]"
           >
             Get in touch
           </Link>

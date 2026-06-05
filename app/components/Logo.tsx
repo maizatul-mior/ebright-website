@@ -6,15 +6,17 @@ export default function Logo({
   width = 120,
   height = 40,
   className = "",
+  white = false,
 }: {
   href?: string | null;
   width?: number;
   height?: number;
   className?: string;
+  white?: boolean;
 }) {
   const img = (
     <Image
-      src="/ebright-logo.png"
+      src={white ? "/ebright-logo-white.png" : "/ebright-logo.png"}
       alt="Ebright"
       width={width}
       height={height}

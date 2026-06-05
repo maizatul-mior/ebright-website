@@ -1,132 +1,170 @@
-export const metadata = {
-  title: "Trial Class — Ebright",
-  description: "Register your child for a trial public speaking class with Ebright.",
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import TrialClassForm from "../components/TrialClassForm";
+import GrowingHistoryCta from "../components/GrowingHistoryCta";
+
+export const metadata: Metadata = {
+  title: "Trial Class — Ebright Public Speaking Academy",
+  description:
+    "Register your child for an Ebright public speaking trial class for only RM80. Fun, script-free, pressure-free learning that builds real confidence.",
 };
 
-const branches = [
-  "Subang Taipan HQ", "Setia Alam", "Putrajaya", "Kota Damansara", "Cyberjaya",
-  "Sri Petaling", "Denai Alam", "Ampang", "Klang", "Danau Kota",
-  "Bandar Baru Bangi", "Shah Alam", "Bandar Tun Hussein Onn", "Eco Grandeur",
-  "Bandar Seri Putra", "Bandar Rimbayu", "Taman Sri Gombak", "Kota Warisan",
-  "Kajang TTDI Grove", "Online (Zoom)",
+const videos = ["/home/video-1.png", "/home/video-2.png", "/home/video-3.png"];
+
+const reasons = [
+  {
+    icon: "🎲",
+    title: "Fun, Script-Free Learning",
+    body: "Interactive games that teach kids to think fast and speak naturally without memorizing scripts.",
+  },
+  {
+    icon: "🎓",
+    title: "Trinity-Approved Curriculum",
+    body: "A rigorous, internationally recognized Trinity College London framework delivered in a fun, age-appropriate way.",
+  },
+  {
+    icon: "🎤",
+    title: "Real-Stage Experience",
+    body: "Regular live showcases at malls and auditoriums give students genuine, real-world speaking confidence.",
+  },
+  {
+    icon: "📈",
+    title: "Weekly Progress Updates",
+    body: "Video updates, report cards, and Parent-Coach meetups so you can watch your child grow every step of the way.",
+  },
+];
+
+const faqs = [
+  {
+    q: "What Are Your Coaches' Qualifications?",
+    a: "Our coaches hold backgrounds in TESL and English Literature with strong command of the language. Many also have Toastmasters qualifications and World Scholar's Cup experience, and our online classes are led by UK native-speaking coaches.",
+  },
+  {
+    q: "Can I See My Kids Improve Within 3 Months?",
+    a: "Positive changes typically begin to emerge after 2 grades (around 6 months), though many parents notice improvements in confidence and willingness to speak even sooner. Full mastery develops with continued practice.",
+  },
+  {
+    q: "Are Online Classes Effective When It Comes To Overcoming Shyness?",
+    a: "Yes. Our online classes are small, interactive, and led by experienced coaches — including UK native speakers — creating a safe, supportive space where shy children gradually open up and build confidence.",
+  },
+  {
+    q: "How Can We Monitor Our Kids' Progress?",
+    a: "We provide weekly video updates and Parents-Coach Meetups so parents can monitor their kid's learning progress. The report card also contains feedback and tools for parents to further assist the kid's learning. Parents who would like to play a more active role can witness their child shine on stage through our monthly showcase. (You might want to prepare some tissue paper around as many parents tear up when seeing their once shy kid express themselves on camera.)",
+  },
+  {
+    q: "My Child Is Very Young, Will This Work For Him/Her?",
+    a: "Our programmes are designed for ages 7–16 and organized by grade, so younger children start with age-appropriate, play-based lessons that meet them exactly where they are.",
+  },
+  {
+    q: "My Child Is Extremely Shy, Will This Work For Him/Her?",
+    a: "Absolutely — many of our students start out very shy. Our pressure-free, game-based approach and small class sizes (1 coach to 6 students) gently build confidence at a comfortable pace.",
+  },
+  {
+    q: "My Child Requires More Attention? Is This Program Suitable?",
+    a: "Our small-group ratio of one coach to six students ensures every child receives meaningful individual guidance. Speak to our team about your child's needs and we'll advise the best fit.",
+  },
+  {
+    q: "My Child Is Not Very Proficient In English, Can He/She Be Able To Handle Class?",
+    a: "Yes. Coaches adapt to each student's level and use interactive, supportive methods so children build both their English and their speaking confidence together over time.",
+  },
+  {
+    q: "Can I Register Later?",
+    a: "Enrollment is batchless — students can start anytime, since each weekly class features an independent topic. That said, slots fill up quickly, so we recommend securing your trial early.",
+  },
 ];
 
 export default function TrialClass() {
   return (
     <>
-      <section className="bg-[var(--cream)] py-20">
-        <div className="mx-auto max-w-4xl px-6 text-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-[var(--brand)]">Trial Class</p>
-          <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">
-            Book your child&apos;s first class
-          </h1>
-          <p className="mt-6 text-lg text-[var(--ink-soft)]">
-            Fill in the form below and our team will reach out within one working day to confirm
-            your trial session at the branch you select.
-          </p>
-        </div>
-      </section>
-
-      <section className="bg-white py-20">
-        <div className="mx-auto max-w-2xl px-6">
-          <form className="space-y-5 rounded-3xl bg-[var(--cream)] p-8 ring-1 ring-black/5">
-            <Field label="Parent's Full Name" name="parent" type="text" required />
-            <Field label="Email" name="email" type="email" required />
-            <Field label="Parent's Phone (with WhatsApp)" name="phone" type="tel" required />
-            <div>
-              <label htmlFor="branch" className="block text-sm font-semibold text-[var(--foreground)]">
-                Preferred Location
-              </label>
-              <select
-                id="branch"
-                name="branch"
-                className="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-base focus:border-[var(--brand)] focus:outline-none"
-                defaultValue=""
-              >
-                <option value="" disabled>Select a branch…</option>
-                {branches.map((b) => (
-                  <option key={b} value={b}>{b}</option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label htmlFor="source" className="block text-sm font-semibold text-[var(--foreground)]">
-                How did you find out about us?
-              </label>
-              <select
-                id="source"
-                name="source"
-                className="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-base focus:border-[var(--brand)] focus:outline-none"
-                defaultValue=""
-              >
-                <option value="" disabled>Select…</option>
-                <option>Friend / Family referral</option>
-                <option>Google search</option>
-                <option>Facebook / Instagram</option>
-                <option>TikTok</option>
-                <option>School event</option>
-                <option>News / Media</option>
-                <option>Other</option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="message" className="block text-sm font-semibold text-[var(--foreground)]">
-                Anything else? (optional)
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                rows={4}
-                className="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-base focus:border-[var(--brand)] focus:outline-none"
-                placeholder="Tell us about your child's age, interests, or any questions you have."
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full rounded-full bg-[var(--brand)] px-6 py-3 text-base font-semibold text-white shadow-sm transition hover:bg-[var(--brand-strong)]"
-            >
-              I want my child to shine on stage!
-            </button>
-            <p className="text-center text-xs text-[var(--ink-soft)]">
-              Form submissions aren&apos;t wired up yet. Contact us directly at{" "}
-              <a className="font-semibold text-[var(--brand)] hover:underline" href="mailto:sales@ebright.my">
-                sales@ebright.my
-              </a>{" "}
-              or{" "}
-              <a className="font-semibold text-[var(--brand)] hover:underline" href="https://wa.me/60169698351">
-                WhatsApp 016-9698351
-              </a>.
+      {/* Hero + form */}
+      <section className="bg-[var(--cream)]">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-16 lg:grid-cols-2 lg:py-20">
+          <div>
+            <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl">
+              Your Child, Too, Can Be Our Next <span className="text-[var(--brand)]">Success Story</span>
+            </h1>
+            <p className="mt-6 max-w-xl text-lg leading-8 text-[var(--ink-soft)]">
+              We don&apos;t just practice in closed classrooms. Our students build real-world
+              confidence by performing at live public venues.
             </p>
-          </form>
+            <div className="mt-8 grid grid-cols-3 gap-3">
+              {videos.map((src, i) => (
+                <Link key={i} href="/testimonial" className="group relative block">
+                  <div className="relative aspect-video overflow-hidden rounded-xl ring-1 ring-black/5">
+                    <Image src={src} alt={`Parent testimonial ${i + 1}`} fill className="object-cover" sizes="30vw" />
+                    <div className="absolute inset-0 grid place-items-center bg-black/10 transition group-hover:bg-black/20">
+                      <span className="grid h-9 w-9 place-items-center rounded-full bg-white/90 text-[var(--brand)] shadow">
+                        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            <p className="mt-3 text-sm italic text-[var(--ink-soft)]">
+              &ldquo;Absolutely phenomenal public speaking class for kids!&rdquo;
+            </p>
+          </div>
+
+          <TrialClassForm />
         </div>
       </section>
-    </>
-  );
-}
 
-function Field({
-  label,
-  name,
-  type,
-  required,
-}: {
-  label: string;
-  name: string;
-  type: string;
-  required?: boolean;
-}) {
-  return (
-    <div>
-      <label htmlFor={name} className="block text-sm font-semibold text-[var(--foreground)]">
-        {label} {required && <span className="text-[var(--brand)]">*</span>}
-      </label>
-      <input
-        id={name}
-        name={name}
-        type={type}
-        required={required}
-        className="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-base focus:border-[var(--brand)] focus:outline-none"
-      />
-    </div>
+      {/* Why Parents Trust Ebright */}
+      <section className="bg-white py-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mx-auto max-w-2xl text-center">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              Why Parents <span className="text-[var(--brand)]">Trust Ebright?</span>
+            </h2>
+            <p className="mt-4 text-lg text-[var(--ink-soft)]">
+              We ditch the dry academic lectures and replace them with immersive, pressure-free
+              learning.
+            </p>
+          </div>
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {reasons.map((r) => (
+              <article key={r.title} className="rounded-3xl bg-[var(--cream)] p-6 ring-1 ring-black/5">
+                <span className="text-3xl">{r.icon}</span>
+                <h3 className="mt-4 text-lg font-bold">{r.title}</h3>
+                <p className="mt-2 text-sm leading-6 text-[var(--ink-soft)]">{r.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="bg-[var(--cream)] py-20">
+        <div className="mx-auto max-w-3xl px-6">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Frequently Asked Question</h2>
+            <p className="mt-4 text-lg text-[var(--ink-soft)]">
+              We ditch the dry academic lectures and replace them with immersive, pressure-free
+              learning.
+            </p>
+          </div>
+          <div className="mt-10 space-y-4">
+            {faqs.map((f, i) => (
+              <details
+                key={i}
+                className="group rounded-2xl bg-white p-6 ring-1 ring-black/5 [&_summary::-webkit-details-marker]:hidden"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 text-left text-base font-semibold">
+                  {f.q}
+                  <span className="grid h-7 w-7 flex-shrink-0 place-items-center rounded-full bg-[var(--brand)] text-white transition group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-4 text-base leading-7 text-[var(--ink-soft)]">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <GrowingHistoryCta />
+    </>
   );
 }

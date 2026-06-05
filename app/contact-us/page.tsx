@@ -1,150 +1,97 @@
-export const metadata = {
-  title: "Contact Us — Ebright",
-  description: "Get in touch with Ebright Public Speaking. Email, WhatsApp, or visit our HQ in Subang Jaya.",
+import type { Metadata } from "next";
+import ContactForm from "../components/ContactForm";
+import FindAClass from "../components/FindAClass";
+import GrowingHistoryCta from "../components/GrowingHistoryCta";
+
+export const metadata: Metadata = {
+  title: "Contact Us — Ebright Public Speaking Academy",
+  description:
+    "Have a question about our classes, schedules, or locations? Get in touch with Ebright's friendly team via phone, email, or our contact form.",
 };
 
-export default function Contact() {
+export default function ContactUs() {
   return (
     <>
-      <section className="bg-[var(--cream)] py-20">
-        <div className="mx-auto max-w-4xl px-6 text-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-[var(--brand)]">Contact Us</p>
-          <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">
-            We&apos;d love to hear from you
-          </h1>
-          <p className="mt-4 text-lg text-[var(--ink-soft)]">
-            Questions, partnership ideas, or just want to chat about how we can help your child
-            shine on stage? Reach out below.
-          </p>
-        </div>
-      </section>
+      {/* Contact + form */}
+      <section className="bg-[var(--cream)]">
+        <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 lg:grid-cols-2 lg:py-20">
+          <div>
+            <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl">
+              We&apos;re Here <span className="text-[var(--brand)]">To Help</span>
+            </h1>
+            <p className="mt-5 max-w-md text-lg leading-8 text-[var(--ink-soft)]">
+              Have a question about our classes, schedules, or locations? Get in touch with our
+              friendly team today.
+            </p>
 
-      <section className="bg-white py-20">
-        <div className="mx-auto grid max-w-6xl gap-10 px-6 md:grid-cols-2">
-          <div className="space-y-8">
-            <ContactBlock
-              title="Headquarters"
-              lines={[
-                "No. 21-2, Jalan USJ 10/1D",
-                "Taipan Business Centre",
-                "47620 Subang Jaya, Selangor D.E",
-                "Malaysia",
-              ]}
-            />
-            <ContactBlock
-              title="New York Liaison Office"
-              lines={[
-                "71-45 160 Street Apt 1A",
-                "Fresh Meadows, NY 11365",
-                "United States",
-              ]}
-            />
-            <div className="rounded-3xl bg-[var(--cream)] p-7 ring-1 ring-black/5">
-              <h2 className="text-lg font-bold">Get in touch</h2>
-              <dl className="mt-4 space-y-3 text-sm">
-                <div>
-                  <dt className="font-semibold uppercase tracking-wider text-[var(--brand)]">Phone</dt>
-                  <dd className="mt-1">
-                    <a href="tel:+60169698351" className="text-base font-semibold hover:underline">016-9698351</a>
-                  </dd>
-                </div>
-                <div>
-                  <dt className="font-semibold uppercase tracking-wider text-[var(--brand)]">WhatsApp</dt>
-                  <dd className="mt-1">
-                    <a href="https://wa.me/60169698351" target="_blank" rel="noopener noreferrer" className="text-base font-semibold hover:underline">
-                      +60 16-969 8351
-                    </a>
-                  </dd>
-                </div>
-                <div>
-                  <dt className="font-semibold uppercase tracking-wider text-[var(--brand)]">Email</dt>
-                  <dd className="mt-1">
-                    <a href="mailto:sales@ebright.my" className="text-base font-semibold hover:underline">sales@ebright.my</a>
-                  </dd>
-                </div>
-              </dl>
-            </div>
+            <ul className="mt-10 space-y-6">
+              <ContactRow icon={<PhoneIcon />} label="Phone Number">
+                <a href="tel:+60169698351" className="hover:text-[var(--brand)]">016-9698351</a>
+              </ContactRow>
+              <ContactRow icon={<MailIcon />} label="Email">
+                <a href="mailto:sales@ebright.my" className="hover:text-[var(--brand)]">sales@ebright.my</a>
+              </ContactRow>
+              <ContactRow icon={<PinIcon />} label="Main Office (Headquarter)">
+                No. 21-2, Jalan USJ 10/1D, Taipan Business Centre, 47620 Subang Jaya, Selangor D.E,
+                Malaysia.
+              </ContactRow>
+            </ul>
           </div>
 
-          <form className="space-y-5 rounded-3xl bg-[var(--cream)] p-8 ring-1 ring-black/5">
-            <h2 className="text-2xl font-bold">Send us a message</h2>
-            <Field label="Parent's Full Name" name="parent" type="text" required />
-            <Field label="Email" name="email" type="email" required />
-            <Field label="Phone (with WhatsApp)" name="phone" type="tel" required />
-            <div>
-              <label htmlFor="inquiry" className="block text-sm font-semibold">
-                Inquiry type
-              </label>
-              <select
-                id="inquiry"
-                name="inquiry"
-                className="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-base focus:border-[var(--brand)] focus:outline-none"
-                defaultValue=""
-              >
-                <option value="" disabled>Select…</option>
-                <option>Book a trial class</option>
-                <option>Programme questions</option>
-                <option>School workshop / collaboration</option>
-                <option>Franchising</option>
-                <option>Careers</option>
-                <option>Media / partnership</option>
-                <option>Other</option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="message" className="block text-sm font-semibold">Message</label>
-              <textarea
-                id="message"
-                name="message"
-                rows={5}
-                className="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-base focus:border-[var(--brand)] focus:outline-none"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full rounded-full bg-[var(--brand)] px-6 py-3 text-base font-semibold text-white transition hover:bg-[var(--brand-strong)]"
-            >
-              Send message
-            </button>
-            <p className="text-center text-xs text-[var(--ink-soft)]">
-              Form submissions aren&apos;t wired up yet — please email or WhatsApp us directly.
-            </p>
-          </form>
+          <div className="rounded-3xl bg-white p-7 shadow-xl ring-1 ring-black/5 sm:p-8">
+            <ContactForm />
+          </div>
         </div>
       </section>
+
+      <FindAClass />
+      <GrowingHistoryCta />
     </>
   );
 }
 
-function ContactBlock({ title, lines }: { title: string; lines: string[] }) {
+function ContactRow({
+  icon,
+  label,
+  children,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  children: React.ReactNode;
+}) {
   return (
-    <div className="rounded-3xl bg-[var(--cream)] p-7 ring-1 ring-black/5">
-      <h2 className="text-lg font-bold">{title}</h2>
-      <address className="mt-3 not-italic text-base leading-7 text-[var(--ink-soft)]">
-        {lines.map((l, i) => (
-          <span key={i}>
-            {l}
-            {i < lines.length - 1 && <br />}
-          </span>
-        ))}
-      </address>
-    </div>
+    <li className="flex items-start gap-4">
+      <span className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-[var(--brand)] text-white">
+        {icon}
+      </span>
+      <div>
+        <p className="text-sm font-bold uppercase tracking-wider text-[var(--ink-soft)]">{label}</p>
+        <p className="mt-1 text-base font-medium text-[var(--foreground)]">{children}</p>
+      </div>
+    </li>
   );
 }
 
-function Field({ label, name, type, required }: { label: string; name: string; type: string; required?: boolean }) {
+function PhoneIcon() {
   return (
-    <div>
-      <label htmlFor={name} className="block text-sm font-semibold">
-        {label} {required && <span className="text-[var(--brand)]">*</span>}
-      </label>
-      <input
-        id={name}
-        name={name}
-        type={type}
-        required={required}
-        className="mt-2 w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-base focus:border-[var(--brand)] focus:outline-none"
-      />
-    </div>
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+function MailIcon() {
+  return (
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+      <rect x="2" y="4" width="20" height="16" rx="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="m22 7-10 6L2 7" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+function PinIcon() {
+  return (
+    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx="12" cy="10" r="3" />
+    </svg>
   );
 }

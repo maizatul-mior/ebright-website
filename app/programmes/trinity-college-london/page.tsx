@@ -63,7 +63,7 @@ export default function Trinity() {
           <div className="mt-10 text-center">
             <Link
               href="/trial-class"
-              className="inline-flex rounded-full bg-[var(--brand)] px-6 py-3 text-base font-semibold text-white transition hover:bg-[var(--brand-strong)]"
+              className="inline-flex rounded-lg bg-[var(--brand)] px-6 py-3 text-base font-semibold text-white transition hover:bg-[var(--brand-strong)]"
             >
               Start your child&apos;s Trinity journey
             </Link>

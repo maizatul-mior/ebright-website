@@ -42,3 +42,6 @@ next-env.d.ts
 
 # claude code local config
 .claude/
+
+# figma design source files (large SVG exports — kept locally, not deployed)
+/design-source/
