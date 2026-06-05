@@ -183,7 +183,7 @@ function Programs() {
       <div className="mx-auto max-w-7xl px-6">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Programs Designed to <span className="text-[var(--brand)]">Unlock Your Child&apos;s Potential</span>
+            Programs Designed to <span className="text-[var(--brand)]">Unlocking Your Child&apos;s Potential</span>
           </h2>
           <p className="mt-4 text-lg text-[var(--ink-soft)]">
             From weekly foundational growth to high-energy holiday camps, find the perfect fit for

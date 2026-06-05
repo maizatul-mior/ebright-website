@@ -5,14 +5,9 @@ import { useState } from "react";
 import Logo from "./Logo";
 
 const nav = [
-  {
-    label: "About Us",
-    href: "/our-story",
-    children: [
-      { label: "Our Story", href: "/our-story" },
-      { label: "Our Team", href: "/our-team" },
-    ],
-  },
+  { label: "Our Story", href: "/our-story" },
+  { label: "Our Branches", href: "/our-branches" },
+  { label: "Trial Class", href: "/trial-class" },
   {
     label: "Programmes",
     href: "/programmes",
@@ -22,21 +17,24 @@ const nav = [
       { label: "Trinity College London", href: "/programmes/trinity-college-london" },
     ],
   },
-  { label: "Our Branches", href: "/our-branches" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Media Exposure", href: "/media-exposure" },
+  { label: "Testimonial", href: "/testimonial" },
+  { label: "Contact Us", href: "/contact-us" },
   {
-    label: "Success",
-    href: "/hall-of-excellence",
+    label: "More",
+    href: "#",
     children: [
+      { label: "Our Team", href: "/our-team" },
       { label: "Hall Of Excellence", href: "/hall-of-excellence" },
-      { label: "Testimonials", href: "/testimonial" },
-      { label: "Media Exposure", href: "/media-exposure" },
-      { label: "Gallery", href: "/gallery" },
       { label: "Annual Showcase 2025", href: "/annual-showcase-2025" },
       { label: "Annual Showcase 2024", href: "/annual-showcase-2024" },
       { label: "Annual Showcase 2023", href: "/annual-showcase-2023" },
+      { label: "FAQ", href: "/faq" },
+      { label: "Franchising Opportunity", href: "/franchising-opportunity" },
+      { label: "Join The Team", href: "/join-the-team" },
     ],
   },
-  { label: "Contact Us", href: "/contact-us" },
 ];
 
 export default function Navbar() {
@@ -48,12 +46,12 @@ export default function Navbar() {
       <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 lg:px-6">
         <Logo white width={130} height={44} className="h-9 w-auto" />
 
-        <nav className="hidden items-center gap-0.5 lg:flex">
+        <nav className="hidden items-center gap-0.5 xl:flex">
           {nav.map((item) => (
             <div key={item.label} className="group relative">
               {item.children ? (
                 <>
-                  <button className="inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-white/90 transition hover:bg-white/10 hover:text-white">
+                  <button className="inline-flex items-center gap-1 rounded-full px-2.5 py-2 text-sm font-medium text-white/90 transition hover:bg-white/10 hover:text-white">
                     {item.label}
                     <svg className="h-3 w-3" viewBox="0 0 12 12" fill="currentColor">
                       <path d="M6 8L2 4h8z" />
@@ -74,7 +72,7 @@ export default function Navbar() {
               ) : (
                 <Link
                   href={item.href}
-                  className="inline-block rounded-full px-3 py-2 text-sm font-medium text-white/90 transition hover:bg-white/10 hover:text-white"
+                  className="inline-block rounded-full px-2.5 py-2 text-sm font-medium text-white/90 transition hover:bg-white/10 hover:text-white"
                 >
                   {item.label}
                 </Link>
@@ -85,14 +83,14 @@ export default function Navbar() {
 
         <Link
           href="/trial-class"
-          className="hidden items-center gap-2 rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-bold text-[var(--foreground)] shadow-sm transition hover:brightness-95 lg:inline-flex"
+          className="hidden items-center gap-2 rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-bold text-[var(--foreground)] shadow-sm transition hover:brightness-95 xl:inline-flex"
         >
           Book A Trial Class
         </Link>
 
         <button
           aria-label="Toggle menu"
-          className="rounded-lg p-2 text-white lg:hidden"
+          className="rounded-lg p-2 text-white xl:hidden"
           onClick={() => setMobileOpen((v) => !v)}
         >
           <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -102,7 +100,7 @@ export default function Navbar() {
       </div>
 
       {mobileOpen && (
-        <nav className="border-t border-white/10 bg-[var(--brand-strong)] lg:hidden">
+        <nav className="border-t border-white/10 bg-[var(--brand-strong)] xl:hidden">
           <div className="space-y-1 px-4 py-3">
             {nav.map((item) =>
               item.children ? (

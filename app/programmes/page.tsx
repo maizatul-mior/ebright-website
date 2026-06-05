@@ -9,29 +9,6 @@ export const metadata: Metadata = {
     "Explore Ebright's core communication tracks — Weekly Classes, Interactive Online Classes, Holiday Camps, and Live Showcases — designed for individual students and school-wide partnerships.",
 };
 
-const cards = [
-  {
-    title: "Weekly Classes",
-    body: "Flagship physical campus public speaking training tailored for steady, long-term confidence building.",
-    href: "/programmes/weekly-classes",
-  },
-  {
-    title: "Interactive Online Classes (Zoom)",
-    body: "High-energy public speaking programs delivered live on Zoom, led by experienced and native-speaking coaches.",
-    href: "/programmes/online-classes",
-  },
-  {
-    title: "Holiday Camps",
-    body: "Fast-paced, intensive school break programs covering debate, emceeing, and leadership.",
-    href: "/programmes/weekly-classes",
-  },
-  {
-    title: "Live Showcases",
-    body: "Regular opportunities for students to speak on real stages in front of live audiences.",
-    href: "/gallery",
-  },
-];
-
 const details = [
   {
     title: "Weekly Core Classes (Physical Classes)",
@@ -62,11 +39,20 @@ const details = [
 export default function Programmes() {
   return (
     <>
-      {/* Hero */}
-      <section className="bg-[var(--foreground)] text-white">
+      {/* Hero — photo background with dark overlay */}
+      <section className="relative isolate overflow-hidden bg-[var(--foreground)] text-white">
+        <Image
+          src="/home/cta-bg.png"
+          alt=""
+          fill
+          priority
+          className="-z-10 object-cover opacity-40"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 -z-10 bg-[var(--foreground)]/75" />
         <div className="mx-auto max-w-3xl px-6 py-20 text-center md:py-28">
           <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl">
-            Pathways to <span className="text-[var(--accent)]">Unstoppable Confidence</span>
+            Pathways to Unstoppable Confidence
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/80">
             Explore our 4 core communication tracks, designed for individual students and
@@ -75,29 +61,36 @@ export default function Programmes() {
         </div>
       </section>
 
-      {/* Program cards grid */}
+      {/* Program cards — bento grid */}
       <section className="bg-white py-20">
         <div className="mx-auto max-w-7xl px-6">
-          <h2 className="text-center text-3xl font-bold tracking-tight sm:text-4xl">Our Programs</h2>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {cards.map((c) => (
-              <article
-                key={c.title}
-                className="flex flex-col rounded-3xl bg-[var(--cream)] p-6 ring-1 ring-black/5 transition hover:shadow-md hover:ring-[var(--brand)]/30"
-              >
-                <h3 className="text-lg font-bold">{c.title}</h3>
-                <p className="mt-2 flex-1 text-sm leading-6 text-[var(--ink-soft)]">{c.body}</p>
-                <Link
-                  href={c.href}
-                  className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-[var(--brand)] hover:underline"
-                >
-                  Learn More
-                  <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
-                    <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </Link>
-              </article>
-            ))}
+          <div className="grid gap-5 lg:grid-cols-3 lg:grid-rows-2">
+            <BentoCard
+              className="lg:row-span-2 lg:min-h-[460px]"
+              img="/home/prog-weekly.png"
+              title="Weekly Classes"
+              body="Flagship physical campus public speaking training tailored for steady, long-term confidence building."
+              href="/programmes/weekly-classes"
+            />
+            <BentoCard
+              dark
+              title="Interactive Online Classes (Zoom)"
+              body="High-energy public speaking programs delivered live on Zoom, led by experienced and native-speaking coaches."
+              href="/programmes/online-classes"
+            />
+            <BentoCard
+              img="/home/prog-camps.png"
+              title="Holiday Camps"
+              body="Fast-paced, intensive school break programs covering debate, emceeing, and leadership."
+              href="/programmes/weekly-classes"
+            />
+            <BentoCard
+              className="lg:col-span-2"
+              img="/home/prog-showcases.jpg"
+              title="Live Showcases"
+              body="Regular opportunities for students to speak on real stages in front of live audiences."
+              href="/gallery"
+            />
           </div>
         </div>
       </section>
@@ -133,5 +126,53 @@ export default function Programmes() {
 
       <GrowingHistoryCta />
     </>
+  );
+}
+
+function BentoCard({
+  img,
+  title,
+  body,
+  href,
+  dark,
+  className,
+}: {
+  img?: string;
+  title: string;
+  body: string;
+  href: string;
+  dark?: boolean;
+  className?: string;
+}) {
+  return (
+    <Link
+      href={href}
+      className={`group relative flex min-h-[220px] flex-col justify-end overflow-hidden rounded-3xl p-6 text-white ring-1 ring-black/5 ${
+        dark ? "bg-[var(--foreground)]" : ""
+      } ${className ?? ""}`}
+    >
+      {img && (
+        <>
+          <Image
+            src={img}
+            alt={title}
+            fill
+            className="object-cover transition duration-500 group-hover:scale-105"
+            sizes="(max-width:1024px) 100vw, 50vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
+        </>
+      )}
+      <div className="relative">
+        <h3 className="text-xl font-bold">{title}</h3>
+        <p className="mt-1 max-w-sm text-sm leading-5 text-white/85">{body}</p>
+        <span className="mt-3 inline-flex items-center gap-1 rounded-md border border-white/40 px-3 py-1 text-xs font-semibold transition group-hover:bg-white/15">
+          Learn More
+          <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
+            <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
+      </div>
+    </Link>
   );
 }
