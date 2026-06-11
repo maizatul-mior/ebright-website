@@ -48,7 +48,7 @@ const socials: { label: string; href: string; icon: React.ReactNode }[] = [
 
 export default function Footer() {
   return (
-    <footer className="bg-[var(--brand)] text-white">
+    <footer id="site-footer" className="bg-[var(--brand)] text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-12">
         <div className="md:col-span-5">
           <Logo href={null} white width={150} height={50} className="h-10 w-auto" />

@@ -1,8 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import Logo from "./Logo";
+
+// Routes that ship their own navigation chrome and should NOT render the global
+// site navbar. The marketing trial-class landing page has its own red navbar.
+const NO_NAVBAR_ROUTES = ["/trial-class"];
 
 const nav = [
   { label: "Our Story", href: "/our-story" },
@@ -38,8 +43,11 @@ const nav = [
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openSub, setOpenSub] = useState<string | null>(null);
+
+  if (NO_NAVBAR_ROUTES.includes(pathname)) return null;
 
   return (
     <header className="sticky top-0 z-50 bg-[var(--brand)] text-white shadow-sm">

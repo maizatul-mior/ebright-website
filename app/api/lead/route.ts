@@ -39,6 +39,13 @@ export async function POST(req: NextRequest) {
   const email = str(body.email ?? body["parent-email"]);
   const branch = str(body.preferred_branch ?? body.branch);
   const token = str(body["cf-turnstile-response"] ?? body.token);
+  // Which page the lead came from -> new_website_form.source. Allowlisted so the
+  // public payload can't write arbitrary values; anything else (including the
+  // legacy form, which sends nothing) falls back to the default.
+  const source =
+    str(body.source) === "marketing_trial_form"
+      ? "marketing_trial_form"
+      : "website_trial_form";
 
   if (!parent || !child || !whatsapp || !email || !branch) {
     return NextResponse.json({ ok: false, error: "Missing required fields." }, { status: 400 });
@@ -61,10 +68,10 @@ export async function POST(req: NextRequest) {
     await ensureTable();
     const result = await getPool().query(
       `INSERT INTO public.new_website_form
-         (parent_name, child_name, child_age, whatsapp_no, email, preferred_branch)
-       VALUES ($1, $2, $3, $4, $5, $6)
+         (parent_name, child_name, child_age, whatsapp_no, email, preferred_branch, source)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
        RETURNING id`,
-      [parent, child, Number.isNaN(age) ? null : age, whatsapp, email, branch]
+      [parent, child, Number.isNaN(age) ? null : age, whatsapp, email, branch, source]
     );
     return NextResponse.json({ ok: true, id: result.rows[0].id });
   } catch (e) {
