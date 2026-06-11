@@ -13,7 +13,7 @@ const TURNSTILE_SITEKEY = "0x4AAAAAADicbI-35VBGGjoo";
 // "website_trial_form"). The /api/lead route validates this against an allowlist.
 const LEAD_SOURCE = "marketing_trial_form";
 
-const AGE_RANGES = ["6-9", "10-12", "13-16"];
+const AGE_RANGES = ["6-9 years old", "10-12 years old", "13-16 years old"];
 
 type TurnstileApi = { getResponse?: () => string; reset?: () => void };
 type Status = "idle" | "submitting" | "done";
