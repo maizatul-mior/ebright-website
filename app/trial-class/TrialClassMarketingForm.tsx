@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Script from "next/script";
-import { branches } from "../data/branches";
+import { BRANCH_OPTIONS } from "../data/branchOptions";
 
 // Public Cloudflare Turnstile site key (safe to ship to the client) — same key
 // the legacy /trial-class-2 form uses, so verification works on the live domain.
@@ -14,9 +14,6 @@ const TURNSTILE_SITEKEY = "0x4AAAAAADicbI-35VBGGjoo";
 const LEAD_SOURCE = "marketing_trial_form";
 
 const AGES = Array.from({ length: 10 }, (_, i) => i + 7); // 7–16
-const BRANCH_OPTIONS = branches.map((b) =>
-  b.name.replace(/^Ebright Public Speaking Academy - /, ""),
-);
 
 type TurnstileApi = { getResponse?: () => string; reset?: () => void };
 type Status = "idle" | "submitting" | "done";

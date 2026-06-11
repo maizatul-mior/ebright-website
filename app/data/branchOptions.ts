@@ -1,0 +1,33 @@
+// Branch options for the trial-class registration dropdown.
+// Exact list from the official "Ebright Dept & Branch List" (27 branches),
+// sorted alphabetically. Kept separate from data/branches.ts (which carries
+// addresses for the Our Branches page) so this stays an exact, simple list.
+export const BRANCH_OPTIONS: string[] = [
+  "Ampang",
+  "Anggun City Rawang",
+  "Bandar Baru Bangi",
+  "Bandar Rimbayu",
+  "Bandar Seri Putra",
+  "Bandar Tun Hussein Onn",
+  "Cyberjaya",
+  "Danau Kota",
+  "Dataran Puchong Utama",
+  "Denai Alam",
+  "Desa Sri Hartamas",
+  "Eco Grandeur",
+  "Kajang TTDI Grove",
+  "Klang",
+  "Kota Damansara",
+  "Kota Warisan",
+  "Online",
+  "Putrajaya",
+  "Selayang",
+  "Senawang Taipan",
+  "Seremban",
+  "Setia Alam",
+  "Shah Alam",
+  "Sri Petaling",
+  "Subang Taipan",
+  "Sungai Buloh",
+  "Taman Sri Gombak",
+];
