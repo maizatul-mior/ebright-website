@@ -13,7 +13,7 @@ const TURNSTILE_SITEKEY = "0x4AAAAAADicbI-35VBGGjoo";
 // "website_trial_form"). The /api/lead route validates this against an allowlist.
 const LEAD_SOURCE = "marketing_trial_form";
 
-const AGES = Array.from({ length: 10 }, (_, i) => i + 7); // 7–16
+const AGE_RANGES = ["6-9", "10-12", "13-16"];
 
 type TurnstileApi = { getResponse?: () => string; reset?: () => void };
 type Status = "idle" | "submitting" | "done";
@@ -146,7 +146,7 @@ export default function TrialClassMarketingForm() {
                   <option value="" disabled>
                     Select age
                   </option>
-                  {AGES.map((a) => (
+                  {AGE_RANGES.map((a) => (
                     <option key={a} value={a}>
                       {a}
                     </option>

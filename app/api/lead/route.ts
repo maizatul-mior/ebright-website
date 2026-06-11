@@ -63,7 +63,6 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const age = parseInt(ageRaw, 10);
   try {
     await ensureTable();
     const result = await getPool().query(
@@ -71,7 +70,7 @@ export async function POST(req: NextRequest) {
          (parent_name, child_name, child_age, whatsapp_no, email, preferred_branch, source)
        VALUES ($1, $2, $3, $4, $5, $6, $7)
        RETURNING id`,
-      [parent, child, Number.isNaN(age) ? null : age, whatsapp, email, branch, source]
+      [parent, child, ageRaw || null, whatsapp, email, branch, source]
     );
     return NextResponse.json({ ok: true, id: result.rows[0].id });
   } catch (e) {

@@ -34,7 +34,7 @@ export async function ensureTable(): Promise<void> {
       id               BIGSERIAL PRIMARY KEY,
       parent_name      TEXT        NOT NULL,
       child_name       TEXT        NOT NULL,
-      child_age        INTEGER,
+      child_age        TEXT,
       whatsapp_no      TEXT        NOT NULL,
       email            TEXT        NOT NULL,
       preferred_branch TEXT        NOT NULL,
