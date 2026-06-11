@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getPool, ensureTable } from "../../lib/db";
+import { isValidWhatsapp } from "../../lib/phone";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -49,6 +50,13 @@ export async function POST(req: NextRequest) {
 
   if (!parent || !child || !whatsapp || !email || !branch) {
     return NextResponse.json({ ok: false, error: "Missing required fields." }, { status: 400 });
+  }
+
+  if (!isValidWhatsapp(whatsapp)) {
+    return NextResponse.json(
+      { ok: false, error: "Please enter a valid WhatsApp number (10–13 digits)." },
+      { status: 400 }
+    );
   }
 
   const ip =

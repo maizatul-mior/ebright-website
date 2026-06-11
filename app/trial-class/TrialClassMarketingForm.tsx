@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Script from "next/script";
 import { BRANCH_OPTIONS } from "../data/branchOptions";
+import { isValidWhatsapp } from "../lib/phone";
 
 // Public Cloudflare Turnstile site key (safe to ship to the client) — same key
 // the legacy /trial-class-2 form uses, so verification works on the live domain.
@@ -21,6 +22,9 @@ type Status = "idle" | "submitting" | "done";
 export default function TrialClassMarketingForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
+  const [whatsapp, setWhatsapp] = useState("");
+  const [whatsappTouched, setWhatsappTouched] = useState(false);
+  const whatsappValid = isValidWhatsapp(whatsapp);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -166,7 +170,16 @@ export default function TrialClassMarketingForm() {
                   autoComplete="tel"
                   placeholder="012-345 6789"
                   required
+                  value={whatsapp}
+                  onChange={(e) => setWhatsapp(e.target.value)}
+                  onBlur={() => setWhatsappTouched(true)}
+                  aria-invalid={whatsappTouched && !whatsappValid}
                 />
+                {whatsappTouched && !whatsappValid && (
+                  <p className="mkt-field-hint">
+                    Enter a valid number (10–13 digits).
+                  </p>
+                )}
               </div>
 
               <div className="mkt-field mkt-field--full">
@@ -212,7 +225,7 @@ export default function TrialClassMarketingForm() {
             <button
               className="mkt-form-submit"
               type="submit"
-              disabled={status === "submitting"}
+              disabled={status === "submitting" || !whatsappValid}
             >
               {status === "submitting" ? "Submitting…" : "Grab My RM80 Trial Seat!"}
             </button>

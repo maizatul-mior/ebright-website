@@ -206,6 +206,12 @@
   color: var(--mkt-red);
   margin-left: 3px;
 }
+.mkt-field-hint {
+  margin: 6px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mkt-red);
+}
 .mkt-field input,
 .mkt-field select {
   width: 100%;

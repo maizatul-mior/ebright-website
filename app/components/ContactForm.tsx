@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { branches } from "../data/branches";
+import { isValidWhatsapp } from "../lib/phone";
 
 const WHATSAPP_NUMBER = "60169698351";
 
@@ -24,6 +25,9 @@ export default function ContactForm() {
     location: "",
     message: "",
   });
+
+  const [contactTouched, setContactTouched] = useState(false);
+  const contactValid = isValidWhatsapp(form.contact);
 
   function update(key: keyof typeof form) {
     return (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
@@ -55,7 +59,10 @@ export default function ContactForm() {
         <input type="email" required value={form.email} onChange={update("email")} placeholder="Example: ebright@gmail.com" className={inputCls} />
       </Field>
       <Field label="Parent's Contact (With WhatsApp)" required>
-        <input type="tel" required value={form.contact} onChange={update("contact")} placeholder="Example: 60123456789" className={inputCls} />
+        <input type="tel" required value={form.contact} onChange={update("contact")} onBlur={() => setContactTouched(true)} aria-invalid={contactTouched && !contactValid} placeholder="Example: 60123456789" className={inputCls} />
+        {contactTouched && !contactValid && (
+          <p className="mt-1.5 text-xs font-semibold text-[var(--brand)]">Enter a valid number (10–13 digits).</p>
+        )}
       </Field>
       <Field label="How did you find out about us?" required>
         <select required value={form.source} onChange={update("source")} className={inputCls}>
@@ -72,7 +79,7 @@ export default function ContactForm() {
       <Field label="Message" required>
         <textarea required rows={4} value={form.message} onChange={update("message")} placeholder="How can our team help you today?" className={inputCls} />
       </Field>
-      <button type="submit" className="w-full rounded-lg bg-[var(--brand)] px-6 py-3.5 text-base font-bold text-white transition hover:bg-[var(--brand-strong)]">
+      <button type="submit" disabled={!contactValid} className="w-full rounded-lg bg-[var(--brand)] px-6 py-3.5 text-base font-bold text-white transition hover:bg-[var(--brand-strong)] disabled:cursor-default disabled:opacity-60">
         Send Us Message
       </button>
     </form>

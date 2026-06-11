@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { branches } from "../data/branches";
+import { isValidWhatsapp } from "../lib/phone";
 
 // Public Cloudflare Turnstile site key (safe to ship to the client).
 const TURNSTILE_SITEKEY = "0x4AAAAAADicbI-35VBGGjoo";
@@ -27,6 +28,8 @@ export default function TrialClassForm() {
   });
   const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [whatsappTouched, setWhatsappTouched] = useState(false);
+  const whatsappValid = isValidWhatsapp(form.whatsapp);
 
   function update(key: keyof typeof form) {
     return (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
@@ -114,7 +117,10 @@ export default function TrialClassForm() {
           </select>
         </Field>
         <Field label="WhatsApp No.">
-          <input type="tel" required value={form.whatsapp} onChange={update("whatsapp")} placeholder="012-345 6789" className={inputCls} />
+          <input type="tel" required value={form.whatsapp} onChange={update("whatsapp")} onBlur={() => setWhatsappTouched(true)} aria-invalid={whatsappTouched && !whatsappValid} placeholder="012-345 6789" className={inputCls} />
+          {whatsappTouched && !whatsappValid && (
+            <p className="mt-1.5 text-xs font-semibold text-[var(--brand)]">Enter a valid number (10–13 digits).</p>
+          )}
         </Field>
 
         <Field label="Email Address" full>
@@ -138,8 +144,8 @@ export default function TrialClassForm() {
 
         <button
           type="submit"
-          disabled={status === "submitting"}
-          className="col-span-2 mt-1 w-full rounded-2xl bg-gradient-to-b from-[#ffd84a] to-[#f2bd17] px-6 py-4 text-lg font-extrabold text-[#1a1d20] shadow-lg transition hover:brightness-105 disabled:opacity-70"
+          disabled={status === "submitting" || !whatsappValid}
+          className="col-span-2 mt-1 w-full rounded-2xl bg-gradient-to-b from-[#ffd84a] to-[#f2bd17] px-6 py-4 text-lg font-extrabold text-[#1a1d20] shadow-lg transition hover:brightness-105 disabled:opacity-70 disabled:cursor-default"
         >
           {status === "submitting" ? "Submitting…" : "Grab My RM80 Trial Seat →"}
         </button>
