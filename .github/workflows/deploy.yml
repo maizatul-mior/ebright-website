@@ -24,5 +24,6 @@ jobs:
             docker run -d \
               --name ebright-form \
               --restart unless-stopped \
+              --env-file /home/deploy-form/apps/form-ebright/.env \
               -p 3006:3000 \
               ebright-form
