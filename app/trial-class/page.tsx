@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
+import Script from "next/script";
 import TrialClassForm from "../components/TrialClassForm";
 import GrowingHistoryCta from "../components/GrowingHistoryCta";
 
@@ -10,7 +9,11 @@ export const metadata: Metadata = {
     "Register your child for an Ebright public speaking trial class for only RM80. Fun, script-free, pressure-free learning that builds real confidence.",
 };
 
-const videos = ["/home/video-1.png", "/home/video-2.png", "/home/video-3.png"];
+const benefits = [
+  "Real confidence in front of a live audience",
+  "Fun & interactive — zero boring memorising",
+  "Coached by UK-trained speaking mentors",
+];
 
 const reasons = [
   {
@@ -77,6 +80,7 @@ const faqs = [
 export default function TrialClass() {
   return (
     <>
+      <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" strategy="afterInteractive" />
       {/* Hero + form */}
       <section className="bg-[var(--cream)]">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-16 lg:grid-cols-2 lg:py-20">
@@ -88,23 +92,31 @@ export default function TrialClass() {
               We don&apos;t just practice in closed classrooms. Our students build real-world
               confidence by performing at live public venues.
             </p>
-            <div className="mt-8 grid grid-cols-3 gap-3">
-              {videos.map((src, i) => (
-                <Link key={i} href="/testimonial" className="group relative block">
-                  <div className="relative aspect-video overflow-hidden rounded-xl ring-1 ring-black/5">
-                    <Image src={src} alt={`Parent testimonial ${i + 1}`} fill className="object-cover" sizes="30vw" />
-                    <div className="absolute inset-0 grid place-items-center bg-black/10 transition group-hover:bg-black/20">
-                      <span className="grid h-9 w-9 place-items-center rounded-full bg-white/90 text-[var(--brand)] shadow">
-                        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
+            {/* RM80 price card */}
+            <div className="mt-8 inline-flex items-center gap-4 rounded-2xl border-2 border-dashed border-white/70 bg-[var(--brand)] px-7 py-4">
+              <div className="flex items-start font-extrabold leading-none text-[var(--accent)]">
+                <span className="mt-1 mr-0.5 text-lg">RM</span>
+                <span className="text-4xl">80</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-bold text-white">Trial Class</span>
+                <span className="text-sm text-white/70 line-through">Worth RM150</span>
+              </div>
             </div>
-            <p className="mt-3 text-sm italic text-[var(--ink-soft)]">
-              &ldquo;Absolutely phenomenal public speaking class for kids!&rdquo;
-            </p>
+
+            {/* Benefits checklist */}
+            <ul className="mt-7 space-y-4">
+              {benefits.map((b) => (
+                <li key={b} className="flex items-center gap-3 font-bold">
+                  <span className="grid h-6 w-6 flex-shrink-0 place-items-center rounded-full bg-[var(--accent)]">
+                    <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none">
+                      <path d="M5 12.5l4.5 4.5L19 7.5" stroke="#1a1d20" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                  {b}
+                </li>
+              ))}
+            </ul>
           </div>
 
           <TrialClassForm />
