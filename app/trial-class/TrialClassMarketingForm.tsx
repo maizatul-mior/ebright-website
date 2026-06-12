@@ -71,7 +71,8 @@ export default function TrialClassMarketingForm() {
       if (!res.ok || !result.ok) {
         throw new Error(result.error || "Submission failed.");
       }
-      setStatus("done");
+      // Lead saved — send them to the dedicated thank-you page.
+      window.location.assign("/thankyou");
     } catch (ex) {
       setStatus("idle");
       setError(

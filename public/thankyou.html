@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thank You — Ebright Trial Class</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --color-primary:       #1A1A2E;
+      --color-accent:        #F5A623;
+      --color-accent-light:  #FFD580;
+      --color-bg:            #FFFDF7;
+      --color-card:          #FFFFFF;
+      --color-text-dark:     #1A1A2E;
+      --color-text-muted:    #6B7280;
+      --color-success:       #22C55E;
+
+      --font-family:         'Nunito', sans-serif;
+      --font-size-hero:      2.4rem;
+      --font-size-sub:       1.15rem;
+      --font-size-body:      1rem;
+
+      --card-radius:         24px;
+      --card-shadow:         0 8px 40px rgba(26,26,46,0.10);
+      --max-width:           520px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-family);
+      background: var(--color-bg);
+      color: var(--color-text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+      overflow-x: hidden;
+    }
+
+    .bg-blobs { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+
+    .card {
+      position: relative;
+      z-index: 1;
+      background: var(--color-card);
+      border-radius: var(--card-radius);
+      box-shadow: var(--card-shadow);
+      max-width: var(--max-width);
+      width: 100%;
+      padding: 48px 40px 40px;
+      text-align: center;
+    }
+
+    .logo-wrap { margin-bottom: 32px; display: flex; justify-content: center; }
+    .logo-wrap img { height: 40px; object-fit: contain; }
+    .logo-fallback { font-size: 1.6rem; font-weight: 900; color: var(--color-primary); letter-spacing: -1px; }
+    .logo-fallback span { color: var(--color-accent); }
+
+    .check-wrap { margin: 0 auto 28px; width: 88px; height: 88px; }
+
+    .confetti-wrap { position: absolute; top: -20px; left: 0; right: 0; display: flex; justify-content: center; pointer-events: none; }
+
+    .headline { font-size: var(--font-size-hero); font-weight: 900; line-height: 1.2; color: var(--color-primary); margin-bottom: 12px; }
+    .headline em { font-style: normal; color: var(--color-accent); }
+
+    .subheadline { font-size: var(--font-size-sub); color: var(--color-text-muted); font-weight: 600; margin-bottom: 28px; line-height: 1.6; }
+
+    .divider { height: 2px; background: linear-gradient(90deg, transparent, var(--color-accent-light), transparent); border: none; margin: 0 0 28px; }
+
+    .steps-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--color-text-muted); font-weight: 700; margin-bottom: 16px; }
+    .steps { display: flex; flex-direction: column; gap: 12px; margin-bottom: 32px; text-align: left; }
+    .step { display: flex; align-items: flex-start; gap: 14px; background: #F9F9FF; border-radius: 14px; padding: 14px 16px; }
+    .step-icon { flex-shrink: 0; width: 36px; height: 36px; }
+    .step-text strong { display: block; font-weight: 800; font-size: 0.95rem; color: var(--color-primary); }
+    .step-text span { font-size: 0.875rem; color: var(--color-text-muted); }
+
+    .footer-note { font-size: 0.8rem; color: var(--color-text-muted); line-height: 1.6; }
+    .footer-note a { color: var(--color-accent); font-weight: 700; text-decoration: none; }
+
+    .stars { display: flex; justify-content: center; gap: 4px; margin-bottom: 8px; }
+
+    @media (max-width: 480px) {
+      .card { padding: 36px 24px 32px; }
+      .headline { font-size: 1.9rem; }
+    }
+
+    @keyframes popIn { 0% { transform: scale(0.6); opacity: 0; } 70% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+    .check-wrap  { animation: popIn  0.5s cubic-bezier(.34,1.56,.64,1) both; }
+    .headline    { animation: fadeUp 0.5s 0.15s ease both; }
+    .subheadline { animation: fadeUp 0.5s 0.25s ease both; }
+    .steps       { animation: fadeUp 0.5s 0.35s ease both; }
+    .footer-note { animation: fadeUp 0.5s 0.45s ease both; }
+  </style>
+</head>
+<body>
+
+  <div class="bg-blobs" aria-hidden="true">
+    <svg width="100%" height="100%" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="1300" cy="80" rx="320" ry="260" fill="#FFD580" opacity="0.28" />
+      <ellipse cx="120" cy="820" rx="280" ry="220" fill="#F5A623" opacity="0.18" />
+      <ellipse cx="700" cy="500" rx="380" ry="280" fill="#1A1A2E" opacity="0.04" />
+    </svg>
+  </div>
+
+  <div class="card">
+
+    <div class="confetti-wrap" aria-hidden="true">
+      <svg width="360" height="60" viewBox="0 0 360 60" xmlns="http://www.w3.org/2000/svg">
+        <rect x="30"  y="10" width="8" height="8"  rx="2" fill="#F5A623" opacity="0.9" transform="rotate(20,34,14)" />
+        <rect x="80"  y="4"  width="6" height="6"  rx="1" fill="#22C55E" opacity="0.8" transform="rotate(-15,83,7)" />
+        <rect x="140" y="12" width="9" height="5"  rx="2" fill="#1A1A2E" opacity="0.7" transform="rotate(35,144,14)" />
+        <rect x="200" y="5"  width="7" height="7"  rx="2" fill="#F5A623" opacity="0.9" transform="rotate(-25,203,8)" />
+        <rect x="260" y="8"  width="6" height="10" rx="2" fill="#EF4444" opacity="0.7" transform="rotate(10,263,13)" />
+        <rect x="315" y="3"  width="8" height="6"  rx="1" fill="#3B82F6" opacity="0.8" transform="rotate(-30,319,6)" />
+        <circle cx="60"  cy="25" r="4" fill="#F5A623" opacity="0.6" />
+        <circle cx="170" cy="20" r="3" fill="#22C55E" opacity="0.7" />
+        <circle cx="290" cy="22" r="4" fill="#1A1A2E" opacity="0.5" />
+        <circle cx="340" cy="18" r="3" fill="#F5A623" opacity="0.8" />
+      </svg>
+    </div>
+
+    <div class="logo-wrap">
+      <img
+        src="https://form.ebright.my/ebright-logo.png"
+        alt="Ebright"
+        onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';"
+      />
+      <div class="logo-fallback" id="logo-fallback" style="display:none;">eb<span>right</span></div>
+    </div>
+
+    <div class="check-wrap" aria-hidden="true">
+      <svg viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="44" cy="44" r="44" fill="#22C55E" opacity="0.12"/>
+        <circle cx="44" cy="44" r="36" fill="#22C55E" opacity="0.18"/>
+        <circle cx="44" cy="44" r="28" fill="#22C55E"/>
+        <polyline points="28,44 39,55 60,33" stroke="white" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <div class="stars" aria-label="5 stars">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><polygon points="11,2 13.9,8.3 21,9.3 16,14.1 17.2,21 11,17.8 4.8,21 6,14.1 1,9.3 8.1,8.3" fill="#F5A623"/></svg>
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><polygon points="11,2 13.9,8.3 21,9.3 16,14.1 17.2,21 11,17.8 4.8,21 6,14.1 1,9.3 8.1,8.3" fill="#F5A623"/></svg>
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><polygon points="11,2 13.9,8.3 21,9.3 16,14.1 17.2,21 11,17.8 4.8,21 6,14.1 1,9.3 8.1,8.3" fill="#F5A623"/></svg>
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><polygon points="11,2 13.9,8.3 21,9.3 16,14.1 17.2,21 11,17.8 4.8,21 6,14.1 1,9.3 8.1,8.3" fill="#F5A623"/></svg>
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><polygon points="11,2 13.9,8.3 21,9.3 16,14.1 17.2,21 11,17.8 4.8,21 6,14.1 1,9.3 8.1,8.3" fill="#F5A623"/></svg>
+    </div>
+
+    <h1 class="headline">Yeay! You're <em>In!</em> 🎉</h1>
+
+    <p class="subheadline">
+      Thank you for signing up for the <strong>Ebright Trial Class</strong>.<br>
+      Our team will reach out to you within <strong>24 hours</strong>.
+    </p>
+
+    <hr class="divider" />
+
+    <p class="steps-title">What happens next?</p>
+
+    <div class="steps">
+      <div class="step">
+        <svg class="step-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="18" cy="18" r="18" fill="#FFF4DD"/>
+          <text x="18" y="24" text-anchor="middle" font-size="17">📞</text>
+        </svg>
+        <div class="step-text">
+          <strong>We will call / WhatsApp you</strong>
+          <span>To confirm your child's trial class slot.</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <svg class="step-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="18" cy="18" r="18" fill="#F0FFF4"/>
+          <text x="18" y="24" text-anchor="middle" font-size="17">📅</text>
+        </svg>
+        <div class="step-text">
+          <strong>Pick a date &amp; time that works for you</strong>
+          <span>Limited slots — first come, first served!</span>
+        </div>
+      </div>
+
+      <div class="step">
+        <svg class="step-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="18" cy="18" r="18" fill="#EFF6FF"/>
+          <text x="18" y="24" text-anchor="middle" font-size="17">🎉</text>
+        </svg>
+        <div class="step-text">
+          <strong>Attend &amp; experience Ebright</strong>
+          <span>Your child will have fun and grow more confident!</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="footer-note">
+      Got questions? Reach us at <a href="mailto:sales@ebright.my">sales@ebright.my</a><br>
+      or visit <a href="https://ebright.my" target="_blank" rel="noopener">ebright.my</a>
+    </p>
+
+  </div>
+</body>
+</html>
