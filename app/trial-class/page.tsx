@@ -119,16 +119,6 @@ export default function TrialClass() {
       <header className="mkt-nav">
         <div className="mkt-nav-inner">
           <Logo white width={140} height={46} className="h-9 w-auto" />
-          <nav className="mkt-nav-links">
-            <a href="#testimonials">Testimonial</a>
-            <a href="#experience">What Your Child Get</a>
-            <a href="#how-it-works">How It Works</a>
-            <a href="#awards">Awards</a>
-            <a href="#site-footer">Contact Us</a>
-          </nav>
-          <a className="mkt-nav-cta" href="#register">
-            Register Now
-          </a>
         </div>
       </header>
 
