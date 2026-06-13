@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Fragment } from "react";
 import Image from "next/image";
 import Logo from "../components/Logo";
 import TrialClassMarketingForm from "./TrialClassMarketingForm";
@@ -75,18 +74,6 @@ const EXPERIENCE = [
   },
 ];
 
-const AWARDS = [
-  { src: "/trial-class/award-soba.png", alt: "SOBA Award", w: 520, h: 202 },
-  { src: "/trial-class/award-toym.png", alt: "JCI TOYM 2025 Award", w: 360, h: 226 },
-  { src: "/trial-class/award-parents-choice.png", alt: "Parents' Choice Award", w: 320, h: 320 },
-  {
-    src: "/trial-class/award-parents-choice-2025.png",
-    alt: "Parents' Choice Award 2025 Winner",
-    w: 360,
-    h: 322,
-  },
-];
-
 const STAR_PATH = (
   <path d="M12 17.27l5.18 3.13-1.37-5.9 4.58-3.96-6.04-.52L12 4.5 9.65 9.02l-6.04.52 4.58 3.96-1.37 5.9z" />
 );
@@ -95,22 +82,6 @@ const STAR = (
     {STAR_PATH}
   </svg>
 );
-
-const STEPS = [
-  {
-    label: "Fill the form",
-    icon: (
-      <path d="M19 3h-4.18A3 3 0 009 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-7 0a1 1 0 110 2 1 1 0 010-2zm-2 14l-3-3 1.4-1.4L10 14.2l4.6-4.6L16 11l-6 6z" />
-    ),
-  },
-  {
-    label: "We WhatsApp you",
-    icon: (
-      <path d="M12.04 2c-5.46 0-9.9 4.44-9.9 9.9 0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.86 9.86 0 0 0 4.79 1.22c5.46 0 9.9-4.44 9.9-9.9S17.5 2 12.04 2zm4.52 13.86c-.25.7-1.46 1.34-2.02 1.42-.54.08-1.21.11-1.95-.12-.45-.14-1.03-.33-1.77-.65-3.12-1.35-5.16-4.49-5.31-4.7-.16-.21-1.27-1.69-1.27-3.22 0-1.53.8-2.28 1.09-2.59.28-.31.62-.39.82-.39h.59c.19 0 .45-.07.7.53.25.62.85 2.13.92 2.28.08.16.13.34.02.55-.1.21-.16.34-.31.52-.16.18-.33.4-.47.54-.16.16-.32.33-.14.64.18.31.8 1.32 1.72 2.14 1.18 1.05 2.18 1.38 2.49 1.53.31.16.49.13.67-.08.18-.21.77-.9.98-1.21.21-.31.41-.26.7-.16.28.11 1.79.85 2.1 1 .31.16.51.23.59.36.08.13.08.74-.17 1.45z" />
-    ),
-  },
-  { label: "Watch them shine!", icon: STAR_PATH },
-];
 
 export default function TrialClass() {
   return (
@@ -235,56 +206,6 @@ export default function TrialClass() {
                 <h3>{c.title}</h3>
                 <p>{c.body}</p>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works */}
-      <section className="mkt-how" id="how-it-works">
-        <div className="mkt-section-inner">
-          <div className="mkt-section-head">
-            <h2>
-              How It <span className="mkt-hl">Works</span>
-            </h2>
-            <p>From sign-up to standing ovation — here&apos;s what happens next.</p>
-          </div>
-          <div className="mkt-steps">
-            {STEPS.map((step, i) => (
-              <Fragment key={step.label}>
-                <div className="mkt-step">
-                  <div className="mkt-step-circle">
-                    <span className="mkt-step-num" aria-hidden="true">
-                      {i + 1}
-                    </span>
-                    <svg width="58" height="58" viewBox="0 0 24 24" fill="#fff" aria-hidden="true">
-                      {step.icon}
-                    </svg>
-                  </div>
-                  <div className="mkt-step-label">{step.label}</div>
-                </div>
-                {i < STEPS.length - 1 && <div className="mkt-step-line" aria-hidden="true" />}
-              </Fragment>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Our Awards */}
-      <section className="mkt-awards" id="awards">
-        <div className="mkt-section-inner">
-          <div className="mkt-section-head">
-            <h2>
-              Our <span className="mkt-hl">Awards</span>
-            </h2>
-            <p>
-              Award-winning public speaking education, trusted by leading institutions
-              across Malaysia.
-            </p>
-          </div>
-          <div className="mkt-awards-logos">
-            {AWARDS.map((a) => (
-              <Image key={a.src} src={a.src} alt={a.alt} width={a.w} height={a.h} />
             ))}
           </div>
         </div>

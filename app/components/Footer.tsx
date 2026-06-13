@@ -1,3 +1,6 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Logo from "./Logo";
 
@@ -46,7 +49,13 @@ const socials: { label: string; href: string; icon: React.ReactNode }[] = [
   },
 ];
 
+// The marketing trial-class landing page has no footer.
+const NO_FOOTER_ROUTES = ["/trial-class"];
+
 export default function Footer() {
+  const pathname = usePathname();
+  if (NO_FOOTER_ROUTES.includes(pathname)) return null;
+
   return (
     <footer id="site-footer" className="bg-[var(--brand)] text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 md:grid-cols-12">
