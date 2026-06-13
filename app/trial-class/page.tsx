@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Script from "next/script";
 import Logo from "../components/Logo";
 import TrialClassMarketingForm from "./TrialClassMarketingForm";
 import "./marketing.css";
+
+// Google Tag Manager container — scoped to this marketing page only (mirrors how
+// the Meta Pixel is limited to the thank-you page). Loaded via next/script so it
+// only runs on /trial-class, not site-wide.
+const GTM_ID = "GTM-NG56JV9F";
 
 export const metadata: Metadata = {
   title: "Improve Your Child's Confidence in 12 Weeks — Ebright Trial Class (RM80)",
@@ -86,6 +92,24 @@ const STAR = (
 export default function TrialClass() {
   return (
     <div className="mkt">
+      {/* Google Tag Manager (this page only) */}
+      <Script id="gtm-base" strategy="afterInteractive">
+        {`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${GTM_ID}');`}
+      </Script>
+      {/* Google Tag Manager (noscript) */}
+      <noscript>
+        <iframe
+          src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+          height="0"
+          width="0"
+          style={{ display: "none", visibility: "hidden" }}
+        />
+      </noscript>
+
       {/* Landing-page navbar (the global site navbar is hidden on this route) */}
       <header className="mkt-nav">
         <div className="mkt-nav-inner">
