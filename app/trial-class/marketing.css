@@ -254,6 +254,15 @@
   display: flex;
   justify-content: center;
 }
+/* Cloudflare Turnstile (flexible size) must fill the card width on mobile,
+   never overflow or get squished. */
+.mkt-form-captcha .cf-turnstile {
+  width: 100%;
+}
+.mkt-form-captcha iframe {
+  width: 100% !important;
+  max-width: 100%;
+}
 .mkt-form-err {
   margin: 10px 0 0;
   text-align: center;
@@ -743,7 +752,7 @@
     grid-template-columns: 1fr;
   }
   .mkt-form-card {
-    padding: 30px 20px 24px;
+    padding: 30px 16px 24px;
   }
   .mkt-stat {
     padding: 6px 10px;

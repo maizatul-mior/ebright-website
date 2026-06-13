@@ -219,6 +219,7 @@ export default function TrialClassMarketingForm() {
                 className="cf-turnstile"
                 data-sitekey={TURNSTILE_SITEKEY}
                 data-theme="light"
+                data-size="flexible"
               />
             </div>
             {error && <p className="mkt-form-err">{error}</p>}
