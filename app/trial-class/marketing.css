@@ -688,7 +688,7 @@
 /* ---------- Final CTA ---------- */
 .mkt-cta {
   position: relative;
-  background: linear-gradient(rgba(26, 29, 32, 0.78), rgba(26, 29, 32, 0.78)),
+  background: linear-gradient(rgba(230, 36, 39, 0.88), rgba(230, 36, 39, 0.88)),
     url("/trial-class/cta-bg.jpg") center / cover no-repeat;
 }
 .mkt-cta-inner {
@@ -1203,13 +1203,13 @@
   font-family: var(--font-display), system-ui, sans-serif;
   font-weight: 800;
   font-size: 72px;
-  color: var(--mkt-gold);
+  color: #fff;
 }
 .mkt-cta-rm {
   font-size: 22px;
   font-weight: 800;
   margin: 10px 4px 0 0;
-  color: var(--mkt-gold);
+  color: #fff;
 }
 .mkt-cta-orig {
   font-family: var(--font-display), system-ui, sans-serif;

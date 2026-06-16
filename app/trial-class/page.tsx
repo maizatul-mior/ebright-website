@@ -468,7 +468,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             Register Now →
           </a>
           <p className="mkt-cta-note">
-            No long-term commitment &bull; Loved by 3,000+ Malaysian families
+            No long-term commitment &bull; Loved by 5,000+ Malaysian families
           </p>
         </div>
       </section>
