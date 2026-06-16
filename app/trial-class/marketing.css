@@ -827,8 +827,11 @@
 
 /* ---------- Why Ebright Trial Class ---------- */
 .mkt-why {
-  background: #fff;
+  background: var(--mkt-pink);
   scroll-margin-top: 80px;
+}
+.mkt-why .mkt-section-head p {
+  color: var(--mkt-ink);
 }
 .mkt-why-cards {
   display: flex;
