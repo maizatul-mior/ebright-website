@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useCallback } from "react";
 import Script from "next/script";
 import { BRANCH_OPTIONS } from "../data/branchOptions";
 import { isValidWhatsapp } from "../lib/phone";
@@ -9,19 +9,19 @@ const TURNSTILE_SITEKEY = "0x4AAAAAADicbI-35VBGGjoo";
 const LEAD_SOURCE = "marketing_trial_form";
 const AGE_RANGES = ["6-9 years old", "10-12 years old", "13-16 years old"];
 
+type Status = "idle" | "verifying" | "submitting" | "done";
 type TurnstileApi = {
-  render?: (container: HTMLElement, options: Record<string, unknown>) => string;
+  render?: (container: HTMLElement, opts: Record<string, unknown>) => string;
   remove?: (widgetId: string) => void;
 };
-type Status = "idle" | "verifying" | "submitting" | "done";
 
 export default function TrialClassMarketingForm() {
   const [status, setStatus] = useState<Status>("idle");
+  const [showCaptcha, setShowCaptcha] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [whatsapp, setWhatsapp] = useState("");
   const [whatsappTouched, setWhatsappTouched] = useState(false);
-  const captchaContainerRef = useRef<HTMLDivElement>(null);
-  const widgetIdRef = useRef<string | null>(null);
+  const pendingPayloadRef = useRef<Record<string, string> | null>(null);
   const whatsappValid = isValidWhatsapp(whatsapp);
 
   async function doSubmit(payload: Record<string, string>, token: string) {
@@ -36,53 +36,61 @@ export default function TrialClassMarketingForm() {
         ok?: boolean;
         error?: string;
       };
-      if (!res.ok || !result.ok) {
-        throw new Error(result.error || "Submission failed.");
-      }
+      if (!res.ok || !result.ok) throw new Error(result.error || "Submission failed.");
       window.location.assign("/thankyou");
     } catch (ex) {
+      // Remove captcha from DOM entirely so it doesn't persist
+      setShowCaptcha(false);
+      pendingPayloadRef.current = null;
       setStatus("idle");
-      setError(
-        ex instanceof Error ? ex.message : "Something went wrong. Please try again.",
-      );
-      // Clean up the widget so the user can retry
-      const ts = (window as Record<string, unknown>).turnstile as TurnstileApi | undefined;
-      if (widgetIdRef.current) {
-        ts?.remove?.(widgetIdRef.current);
-        widgetIdRef.current = null;
-      }
+      setError(ex instanceof Error ? ex.message : "Something went wrong. Please try again.");
     }
   }
 
-  function renderAndVerify(payload: Record<string, string>) {
-    const ts = (window as Record<string, unknown>).turnstile as TurnstileApi | undefined;
-    const container = captchaContainerRef.current;
-    if (!container || !ts?.render) {
-      setStatus("idle");
-      setError("Verification unavailable. Please refresh and try again.");
-      return;
-    }
-    // Remove any leftover widget from a previous attempt
-    if (widgetIdRef.current) {
-      ts.remove?.(widgetIdRef.current);
-      widgetIdRef.current = null;
-    }
-    widgetIdRef.current =
-      ts.render(container, {
+  // Callback ref — fires the moment the captcha div is mounted in the DOM.
+  // Empty deps array is intentional: setters are stable and doSubmit only
+  // closes over stable setters + refs, so stale closure is not a concern.
+  const captchaRefCallback = useCallback((node: HTMLDivElement | null) => {
+    if (!node) return;
+
+    function mount(ts: TurnstileApi) {
+      const payload = pendingPayloadRef.current;
+      if (!payload || !ts.render) return;
+      ts.render(node, {
         sitekey: TURNSTILE_SITEKEY,
         theme: "light",
         size: "flexible",
         callback: (token: string) => doSubmit(payload, token),
         "error-callback": () => {
+          setShowCaptcha(false);
           setStatus("idle");
           setError("Verification failed. Please try again.");
         },
         "expired-callback": () => {
+          setShowCaptcha(false);
           setStatus("idle");
           setError("Verification expired. Please try again.");
         },
-      }) ?? null;
-  }
+      });
+    }
+
+    const ts = (window as unknown as { turnstile?: TurnstileApi }).turnstile;
+    if (ts?.render) {
+      mount(ts);
+    } else {
+      // Script still loading — retry after a short delay
+      setTimeout(() => {
+        const tsRetry = (window as unknown as { turnstile?: TurnstileApi }).turnstile;
+        if (tsRetry?.render) {
+          mount(tsRetry);
+        } else {
+          setShowCaptcha(false);
+          setStatus("idle");
+          setError("Verification unavailable. Please refresh and try again.");
+        }
+      }, 1500);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -93,7 +101,7 @@ export default function TrialClassMarketingForm() {
     }
 
     const data = new FormData(form);
-    const payload: Record<string, string> = {
+    pendingPayloadRef.current = {
       parent_name: String(data.get("parent-name") ?? ""),
       child_name: String(data.get("child-name") ?? ""),
       child_age: String(data.get("child-age") ?? ""),
@@ -102,22 +110,14 @@ export default function TrialClassMarketingForm() {
       preferred_branch: String(data.get("branch") ?? ""),
       source: LEAD_SOURCE,
     };
-
     setError(null);
     setStatus("verifying");
-
-    const ts = (window as Record<string, unknown>).turnstile as TurnstileApi | undefined;
-    if (ts?.render) {
-      renderAndVerify(payload);
-    } else {
-      // Script still loading — wait then retry once
-      setTimeout(() => renderAndVerify(payload), 1500);
-    }
+    setShowCaptcha(true); // mounts the captcha div → captchaRefCallback fires
   }
 
   return (
     <div className="mkt-form-shell" id="register">
-      {/* Turnstile script — loaded once, no auto-scan widget in the DOM */}
+      {/* ?render=explicit prevents Turnstile from auto-scanning the DOM */}
       <Script
         src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
         strategy="afterInteractive"
@@ -186,13 +186,9 @@ export default function TrialClassMarketingForm() {
                   Child&apos;s Age <span className="mkt-req" aria-hidden="true">*</span>
                 </label>
                 <select id="m-child-age" name="child-age" defaultValue="" required>
-                  <option value="" disabled>
-                    Select age
-                  </option>
+                  <option value="" disabled>Select age</option>
                   {AGE_RANGES.map((a) => (
-                    <option key={a} value={a}>
-                      {a}
-                    </option>
+                    <option key={a} value={a}>{a}</option>
                   ))}
                 </select>
               </div>
@@ -215,9 +211,7 @@ export default function TrialClassMarketingForm() {
                   aria-invalid={whatsappTouched && !whatsappValid}
                 />
                 {whatsappTouched && !whatsappValid && (
-                  <p className="mkt-field-hint">
-                    Enter a valid number (10–13 digits).
-                  </p>
+                  <p className="mkt-field-hint">Enter a valid number (10–13 digits).</p>
                 )}
               </div>
 
@@ -240,39 +234,29 @@ export default function TrialClassMarketingForm() {
                   Preferred location <span className="mkt-req" aria-hidden="true">*</span>
                 </label>
                 <select id="m-branch" name="branch" defaultValue="" required>
-                  <option value="" disabled>
-                    Select an option
-                  </option>
+                  <option value="" disabled>Select an option</option>
                   {BRANCH_OPTIONS.map((b) => (
-                    <option key={b} value={b}>
-                      {b}
-                    </option>
+                    <option key={b} value={b}>{b}</option>
                   ))}
                 </select>
               </div>
             </div>
 
-            {/* Empty container — Turnstile widget is injected here only on submit */}
-            <div
-              className="mkt-form-captcha"
-              style={{
-                display:
-                  status === "verifying" || status === "submitting" ? "flex" : "none",
-              }}
-            >
-              <div ref={captchaContainerRef} style={{ width: "100%" }} />
-            </div>
+            {/* Captcha container is conditionally MOUNTED — not just hidden.
+                When showCaptcha is false the div doesn't exist in the DOM at all,
+                so Turnstile has nothing to auto-verify. */}
+            {showCaptcha && (
+              <div className="mkt-form-captcha">
+                <div ref={captchaRefCallback} style={{ width: "100%" }} />
+              </div>
+            )}
 
             {error && <p className="mkt-form-err">{error}</p>}
 
             <button
               className="mkt-form-submit"
               type="submit"
-              disabled={
-                status === "submitting" ||
-                status === "verifying" ||
-                !whatsappValid
-              }
+              disabled={status === "submitting" || status === "verifying" || !whatsappValid}
             >
               {status === "submitting"
                 ? "Submitting…"
