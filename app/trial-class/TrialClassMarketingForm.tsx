@@ -98,7 +98,6 @@ export default function TrialClassMarketingForm() {
           sitekey: TURNSTILE_SITEKEY,
           theme: "light",
           size: "flexible",
-          appearance: "interaction-only",
           callback: (token: string) => doSubmit(payload, token),
           "error-callback": () => {
             setShowCaptcha(false);
