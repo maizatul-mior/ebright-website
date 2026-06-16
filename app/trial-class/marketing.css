@@ -475,11 +475,11 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: stretch;
   gap: 16px;
 }
 .mkt-pill {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 12px;
   background: var(--mkt-red);
@@ -494,12 +494,6 @@
 .mkt-pill .mkt-emoji {
   font-size: 22px;
   line-height: 1;
-}
-.mkt-pill:nth-child(2) {
-  margin-right: 44px;
-}
-.mkt-pill:nth-child(4) {
-  margin-right: 22px;
 }
 
 /* ---------- Testimonials ---------- */
@@ -885,11 +879,7 @@
     max-width: none;
   }
   .mkt-pills {
-    align-items: center;
-  }
-  .mkt-pill:nth-child(2),
-  .mkt-pill:nth-child(4) {
-    margin-right: 0;
+    align-items: stretch;
   }
 }
 
