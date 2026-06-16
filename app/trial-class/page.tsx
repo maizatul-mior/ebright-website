@@ -395,63 +395,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
       </section>
 
-      {/* How It Works */}
-      <section className="mkt-how">
-        <div className="mkt-section-inner">
-          <div className="mkt-section-head">
-            <h2>How It <span className="mkt-hl">Works</span></h2>
-            <p>
-              From sign-up to standing ovation — here&apos;s what happens
-              next.
-            </p>
-          </div>
-          <div className="mkt-steps">
-            {STEPS.map((step, i) => (
-              <Fragment key={step.label}>
-                <div className="mkt-step">
-                  <div className="mkt-step-circle">
-                    <svg
-                      width="36"
-                      height="36"
-                      viewBox="0 0 24 24"
-                      fill="#fff"
-                      aria-hidden="true"
-                    >
-                      {step.icon}
-                    </svg>
-                    <span className="mkt-step-num">{i + 1}</span>
-                  </div>
-                  <div className="mkt-step-label">{step.label}</div>
-                </div>
-                {i < STEPS.length - 1 && (
-                  <div className="mkt-step-line" aria-hidden="true" />
-                )}
-              </Fragment>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="mkt-faq">
-        <div className="mkt-section-inner">
-          <div className="mkt-section-head">
-            <h2>Frequently Asked Question</h2>
-          </div>
-          <div className="mkt-faq-list">
-            {FAQS.map((f) => (
-              <details className="mkt-faq-item" key={f.q}>
-                <summary className="mkt-faq-q">
-                  {f.q}
-                  <span className="mkt-faq-icon" aria-hidden="true">+</span>
-                </summary>
-                <p className="mkt-faq-a">{f.a}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Final CTA */}
       <section className="mkt-cta" aria-label="Register for RM80 trial class">
         <div className="mkt-cta-inner">
