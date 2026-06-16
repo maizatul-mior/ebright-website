@@ -89,10 +89,10 @@ export default function TrialClassMarketingForm() {
         strategy="afterInteractive"
       />
       <div className="mkt-form-card">
-        <span className="mkt-form-badge">
-          ONLY RM80{" "}
-          <span aria-hidden="true">🎯</span>
-        </span>
+        <div className="mkt-form-badge">
+          <span className="mkt-form-badge-text">🔥 Only a few seats left this week</span>
+          <span className="mkt-form-badge-price">ONLY <s>RM150</s> RM 80!</span>
+        </div>
         <h2 className="mkt-form-title">Register For A Trial Class</h2>
         <p className="mkt-form-intro">
           Fill in below — we&apos;ll WhatsApp you within 24 hours!

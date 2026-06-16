@@ -212,18 +212,37 @@
 }
 .mkt-form-badge {
   position: absolute;
-  top: -16px;
-  right: 26px;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: stretch;
+  background: #f4f4f4;
+  border-radius: 999px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+  overflow: hidden;
+  white-space: nowrap;
+}
+.mkt-form-badge-text {
+  padding: 8px 16px;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--mkt-ink);
+}
+.mkt-form-badge-price {
   background: var(--mkt-red);
   color: #fff;
+  padding: 8px 16px;
   font-family: var(--font-display), system-ui, sans-serif;
   font-weight: 800;
   font-size: 13px;
-  letter-spacing: 0.3px;
-  padding: 8px 16px;
-  border-radius: 999px;
-  box-shadow: 0 8px 16px rgba(230, 36, 39, 0.4);
-  white-space: nowrap;
+  border-radius: 0 999px 999px 0;
+}
+.mkt-form-badge-price s {
+  opacity: 0.75;
+  font-weight: 600;
+  margin-right: 2px;
 }
 .mkt-form-body {
   padding: 0;
