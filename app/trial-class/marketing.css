@@ -812,20 +812,6 @@
   padding: 8px 10px;
   border-radius: 0 14px 14px 0;
 }
-/* Ticket punch-outs at the junction between body and label */
-.mkt-ribbon-tag::before,
-.mkt-ribbon-tag::after {
-  content: '';
-  position: absolute;
-  left: -14px;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: var(--mkt-red);
-  z-index: 1;
-}
-.mkt-ribbon-tag::before { top: -14px; }
-.mkt-ribbon-tag::after  { bottom: -14px; }
 
 /* ---------- Form title + intro ---------- */
 .mkt-form-title {
