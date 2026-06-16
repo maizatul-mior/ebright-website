@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Script from "next/script";
 import { BRANCH_OPTIONS } from "../data/branchOptions";
 import { isValidWhatsapp } from "../lib/phone";
@@ -10,9 +10,8 @@ const LEAD_SOURCE = "marketing_trial_form";
 const AGE_RANGES = ["6-9 years old", "10-12 years old", "13-16 years old"];
 
 type TurnstileApi = {
-  getResponse?: () => string;
-  reset?: () => void;
-  execute?: (container: HTMLElement) => void;
+  render?: (container: HTMLElement, options: Record<string, unknown>) => string;
+  remove?: (widgetId: string) => void;
 };
 type Status = "idle" | "verifying" | "submitting" | "done";
 
@@ -21,46 +20,69 @@ export default function TrialClassMarketingForm() {
   const [error, setError] = useState<string | null>(null);
   const [whatsapp, setWhatsapp] = useState("");
   const [whatsappTouched, setWhatsappTouched] = useState(false);
-  const pendingPayloadRef = useRef<Record<string, string> | null>(null);
-  const captchaRef = useRef<HTMLDivElement>(null);
+  const captchaContainerRef = useRef<HTMLDivElement>(null);
+  const widgetIdRef = useRef<string | null>(null);
   const whatsappValid = isValidWhatsapp(whatsapp);
 
-  useEffect(() => {
-    // Global callback Turnstile calls once verification succeeds
-    (window as Record<string, unknown>).__mktTsCallback = async (token: string) => {
-      const payload = pendingPayloadRef.current;
-      if (!payload) return;
-      setStatus("submitting");
-      try {
-        const res = await fetch("/api/lead", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...payload, "cf-turnstile-response": token }),
-        });
-        const result = (await res.json().catch(() => ({}))) as {
-          ok?: boolean;
-          error?: string;
-        };
-        if (!res.ok || !result.ok) {
-          throw new Error(result.error || "Submission failed.");
-        }
-        window.location.assign("/thankyou");
-      } catch (ex) {
-        setStatus("idle");
-        pendingPayloadRef.current = null;
-        setError(
-          ex instanceof Error ? ex.message : "Something went wrong. Please try again.",
-        );
-        const ts = (window as Record<string, unknown>).turnstile as
-          | TurnstileApi
-          | undefined;
-        ts?.reset?.();
+  async function doSubmit(payload: Record<string, string>, token: string) {
+    setStatus("submitting");
+    try {
+      const res = await fetch("/api/lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...payload, "cf-turnstile-response": token }),
+      });
+      const result = (await res.json().catch(() => ({}))) as {
+        ok?: boolean;
+        error?: string;
+      };
+      if (!res.ok || !result.ok) {
+        throw new Error(result.error || "Submission failed.");
       }
-    };
-    return () => {
-      delete (window as Record<string, unknown>).__mktTsCallback;
-    };
-  }, []);
+      window.location.assign("/thankyou");
+    } catch (ex) {
+      setStatus("idle");
+      setError(
+        ex instanceof Error ? ex.message : "Something went wrong. Please try again.",
+      );
+      // Clean up the widget so the user can retry
+      const ts = (window as Record<string, unknown>).turnstile as TurnstileApi | undefined;
+      if (widgetIdRef.current) {
+        ts?.remove?.(widgetIdRef.current);
+        widgetIdRef.current = null;
+      }
+    }
+  }
+
+  function renderAndVerify(payload: Record<string, string>) {
+    const ts = (window as Record<string, unknown>).turnstile as TurnstileApi | undefined;
+    const container = captchaContainerRef.current;
+    if (!container || !ts?.render) {
+      setStatus("idle");
+      setError("Verification unavailable. Please refresh and try again.");
+      return;
+    }
+    // Remove any leftover widget from a previous attempt
+    if (widgetIdRef.current) {
+      ts.remove?.(widgetIdRef.current);
+      widgetIdRef.current = null;
+    }
+    widgetIdRef.current =
+      ts.render(container, {
+        sitekey: TURNSTILE_SITEKEY,
+        theme: "light",
+        size: "flexible",
+        callback: (token: string) => doSubmit(payload, token),
+        "error-callback": () => {
+          setStatus("idle");
+          setError("Verification failed. Please try again.");
+        },
+        "expired-callback": () => {
+          setStatus("idle");
+          setError("Verification expired. Please try again.");
+        },
+      }) ?? null;
+  }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -71,7 +93,7 @@ export default function TrialClassMarketingForm() {
     }
 
     const data = new FormData(form);
-    pendingPayloadRef.current = {
+    const payload: Record<string, string> = {
       parent_name: String(data.get("parent-name") ?? ""),
       child_name: String(data.get("child-name") ?? ""),
       child_age: String(data.get("child-age") ?? ""),
@@ -84,31 +106,20 @@ export default function TrialClassMarketingForm() {
     setError(null);
     setStatus("verifying");
 
-    const ts = (window as Record<string, unknown>).turnstile as
-      | TurnstileApi
-      | undefined;
-    if (captchaRef.current && ts?.execute) {
-      ts.execute(captchaRef.current);
+    const ts = (window as Record<string, unknown>).turnstile as TurnstileApi | undefined;
+    if (ts?.render) {
+      renderAndVerify(payload);
     } else {
-      // Turnstile script not yet loaded — wait briefly then retry
-      setTimeout(() => {
-        const tsRetry = (window as Record<string, unknown>).turnstile as
-          | TurnstileApi
-          | undefined;
-        if (captchaRef.current && tsRetry?.execute) {
-          tsRetry.execute(captchaRef.current);
-        } else {
-          setStatus("idle");
-          setError("Verification unavailable. Please refresh and try again.");
-        }
-      }, 1500);
+      // Script still loading — wait then retry once
+      setTimeout(() => renderAndVerify(payload), 1500);
     }
   }
 
   return (
     <div className="mkt-form-shell" id="register">
+      {/* Turnstile script — loaded once, no auto-scan widget in the DOM */}
       <Script
-        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
         strategy="afterInteractive"
       />
       <div className="mkt-form-card">
@@ -241,7 +252,7 @@ export default function TrialClassMarketingForm() {
               </div>
             </div>
 
-            {/* Turnstile — hidden until submit is clicked, execute mode */}
+            {/* Empty container — Turnstile widget is injected here only on submit */}
             <div
               className="mkt-form-captcha"
               style={{
@@ -249,15 +260,7 @@ export default function TrialClassMarketingForm() {
                   status === "verifying" || status === "submitting" ? "flex" : "none",
               }}
             >
-              <div
-                ref={captchaRef}
-                className="cf-turnstile"
-                data-sitekey={TURNSTILE_SITEKEY}
-                data-theme="light"
-                data-size="flexible"
-                data-execution="execute"
-                data-callback="__mktTsCallback"
-              />
+              <div ref={captchaContainerRef} style={{ width: "100%" }} />
             </div>
 
             {error && <p className="mkt-form-err">{error}</p>}
