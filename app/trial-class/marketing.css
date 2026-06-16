@@ -985,11 +985,11 @@
 .mkt-offer-card {
   max-width: 680px;
   margin: 0 auto;
-  background: #fff;
-  border: 1px solid #eef0f2;
-  border-radius: 20px;
+  background: var(--mkt-red);
+  border: none;
+  border-radius: 24px;
   padding: 36px 40px 40px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.07);
+  box-shadow: 0 20px 50px rgba(230, 36, 39, 0.35);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -997,8 +997,9 @@
 }
 .mkt-offer-pill {
   display: inline-block;
-  border: 2px solid var(--mkt-red);
-  color: var(--mkt-red);
+  background: #fff;
+  border: none;
+  color: var(--mkt-ink);
   font-family: var(--font-display), system-ui, sans-serif;
   font-weight: 700;
   font-size: 15px;
@@ -1022,7 +1023,7 @@
   gap: 12px;
   font-size: 16px;
   line-height: 1.5;
-  color: var(--mkt-ink);
+  color: #fff;
 }
 .mkt-offer-list li::before {
   content: "";
@@ -1038,7 +1039,7 @@
 .mkt-offer-divider {
   width: 100%;
   border: none;
-  border-top: 1px solid #eef0f2;
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
   margin: 4px 0 24px;
 }
 .mkt-offer-pricing {
@@ -1055,19 +1056,19 @@
 }
 .mkt-offer-label {
   font-size: 16px;
-  color: var(--mkt-ink);
+  color: #fff;
 }
 .mkt-offer-orig {
   font-size: 18px;
   font-weight: 700;
-  color: var(--mkt-muted);
+  color: rgba(255, 255, 255, 0.7);
   text-decoration: line-through;
 }
 .mkt-offer-price {
   display: flex;
   align-items: flex-start;
   line-height: 1;
-  color: var(--mkt-ink);
+  color: #fff;
 }
 .mkt-offer-rm {
   font-family: var(--font-display), system-ui, sans-serif;

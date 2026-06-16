@@ -338,7 +338,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <section className="mkt-offer">
         <div className="mkt-section-inner">
           <div className="mkt-section-head">
-            <h2>What Your Child Will Get In This RM 80 Trial</h2>
+            <h2><span className="mkt-hl">What Your Child Will Get</span> In This RM 80 Trial</h2>
           </div>
           <div className="mkt-offer-card">
             <span className="mkt-offer-pill">
