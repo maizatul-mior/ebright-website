@@ -90,9 +90,13 @@ export default function TrialClassMarketingForm() {
       />
       <div className="mkt-form-card">
         <span className="mkt-form-badge">
-          LIMITED SLOTS!{" "}
-          <span aria-hidden="true">⏰</span>
+          ONLY RM80{" "}
+          <span aria-hidden="true">🎯</span>
         </span>
+        <h2 className="mkt-form-title">Register For A Trial Class</h2>
+        <p className="mkt-form-intro">
+          Fill in below — we&apos;ll WhatsApp you within 24 hours!
+        </p>
 
         {status === "done" ? (
           <div className="mkt-form-done" role="status">

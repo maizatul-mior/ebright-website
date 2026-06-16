@@ -3,17 +3,15 @@ import Image from "next/image";
 import Script from "next/script";
 import Logo from "../components/Logo";
 import TrialClassMarketingForm from "./TrialClassMarketingForm";
+import CountdownBar from "./CountdownBar";
 import "./marketing.css";
 
-// Google Tag Manager container — scoped to this marketing page only (mirrors how
-// the Meta Pixel is limited to the thank-you page). Loaded via next/script so it
-// only runs on /trial-class, not site-wide.
 const GTM_ID = "GTM-NG56JV9F";
 
 export const metadata: Metadata = {
-  title: "Improve Your Child's Confidence in 12 Weeks — Ebright Trial Class (RM80)",
+  title: "Book A Trial Class (RM80) | Ebright Public Speaking",
   description:
-    "Shy and quiet, or talkative but all over the place? Book your child's Ebright public speaking trial class for just RM80. Real speaking practice, structured confidence training, fun and interactive lessons.",
+    "Turn shyness into self-assurance. Book your child's Ebright public speaking trial class for just RM80. Real speaking practice, structured confidence training, fun and interactive lessons.",
 };
 
 const STATS = [
@@ -54,37 +52,17 @@ const PILLS = [
   { text: "Gets nervous when attention is on them", emoji: "😟" },
 ];
 
-const TESTIMONIALS = [
-  {
-    photo: "/trial-class/testimonial-1.jpg",
-    text: "My son has been joining Ebright Online since pandemic. He looks forward to his online lesson where he meets new friends and support one another. Coach is also very encouraging and engaging students in a positive manner!",
-  },
-  {
-    photo: "/trial-class/testimonial-2.jpg",
-    text: "Absolutely phenomenal public speaking class for kids! My little one has transformed from a shy speaker to a confident communicator, all thanks to this fantastic programme!",
-  },
-];
-
-const EXPERIENCE = [
-  {
-    title: "Real Speaking Practice",
-    body: "Your child will speak, present, and build confidence in every session.",
-  },
-  {
-    title: "Structured Confidence Training",
-    body: "Step-by-step guidance designed to develop clarity and self expression.",
-  },
-  {
-    title: "Fun & Interactive Learning",
-    body: "Engaging activities that make kids enjoying learning and participating.",
-  },
-];
-
 const STAR_PATH = (
   <path d="M12 17.27l5.18 3.13-1.37-5.9 4.58-3.96-6.04-.52L12 4.5 9.65 9.02l-6.04.52 4.58 3.96-1.37 5.9z" />
 );
 const STAR = (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    aria-hidden="true"
+  >
     {STAR_PATH}
   </svg>
 );
@@ -100,7 +78,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','${GTM_ID}');`}
       </Script>
-      {/* Google Tag Manager (noscript) */}
       <noscript>
         <iframe
           src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
@@ -110,10 +87,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         />
       </noscript>
 
-      {/* Landing-page navbar (the global site navbar is hidden on this route) */}
+      {/* Announcement bar with live countdown */}
+      <CountdownBar />
+
+      {/* Landing-page navbar */}
       <header className="mkt-nav">
         <div className="mkt-nav-inner">
-          <Logo white width={140} height={46} className="h-9 w-auto" />
+          <Logo width={140} height={46} className="h-9 w-auto" />
+          <a href="#register" className="mkt-nav-cta">
+            Register Now →
+          </a>
         </div>
       </header>
 
@@ -122,12 +105,35 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div className="mkt-hero-inner">
           <div className="mkt-hero-left">
             <h1 className="mkt-hero-title">
-              Improve Your Child Confidence in 12 Weeks!
+              Help Your Child Speak With Confidence
             </h1>
             <p className="mkt-hero-sub">
-              Shy and quiet? Or talkative but all over the place? Our trial class
-              shows you what your child can do — in just one fun session.
+              Turn shyness into self-assurance. Book an Ebright public speaking
+              trial class (worth RM150) and watch your child find their voice.
             </p>
+
+            <div className="mkt-hero-photo-wrap">
+              <Image
+                src="/trial-class/hero-photo.png"
+                alt="Young student speaking confidently with a microphone"
+                width={480}
+                height={380}
+                className="mkt-hero-photo"
+                priority
+              />
+              <div
+                className="mkt-ribbon"
+                aria-label="Special Offer RM80 Trial Class"
+              >
+                <span className="mkt-ribbon-tag">SPECIAL OFFER</span>
+                <div className="mkt-ribbon-price">
+                  <span className="mkt-ribbon-rm">RM</span>
+                  <span className="mkt-ribbon-num">80</span>
+                </div>
+                <span className="mkt-ribbon-sub">Trial Class</span>
+              </div>
+            </div>
+
             <div className="mkt-hero-trust">
               <span className="mkt-stars" aria-hidden="true">
                 {STAR}
@@ -136,7 +142,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 {STAR}
                 {STAR}
               </span>
-              <span>Trusted by 20,000+ parents</span>
+              <span>
+                Trusted by <strong>20,000+</strong> parents
+              </span>
             </div>
           </div>
 
@@ -168,7 +176,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <div className="mkt-sound-inner">
           <div className="mkt-sound-left">
             <h2>Does This Sound Like Your Child?</h2>
-            <p>If either of these is your child, the RM80 trial is the perfect first step.</p>
+            <p>
+              If you recognised your child in any of these, the RM80 trial is
+              the perfect first step.
+            </p>
           </div>
           <div className="mkt-pills">
             {PILLS.map((p) => (
@@ -183,65 +194,42 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         </div>
       </section>
 
-      {/* Real Stories, Real Impact */}
-      <section className="mkt-testimonials" id="testimonials">
+      {/* Why Ebright Trial Class */}
+      <section className="mkt-why" id="why-ebright">
         <div className="mkt-section-inner">
           <div className="mkt-section-head">
             <h2>
-              Real Stories, <span className="mkt-hl">Real Impact</span>
+              Why <span className="mkt-hl">Ebright</span> Trial Class?
             </h2>
             <p>
-              Hear directly from everyday parents who watched their children beat stage
-              fright, unlock original thoughts, and build authentic life-long confidence.
+              Your child won&apos;t simply &lsquo;sit and listen&rsquo;.
+              They&apos;ll experience how Ebright builds confidence through
+              engaging activities and guided coaching.
             </p>
           </div>
-          <div className="mkt-tcards">
-            {TESTIMONIALS.map((t, i) => (
-              <div className="mkt-tcard" key={i}>
-                <Image
-                  className="mkt-tcard-photo"
-                  src={t.photo}
-                  alt="Ebright parent"
-                  width={116}
-                  height={116}
-                />
-                <div className="mkt-tcard-body">
-                  <div className="mkt-tcard-quote" aria-hidden="true">
-                    &ldquo;
-                  </div>
-                  <p className="mkt-tcard-text">{t.text}</p>
-                  <div className="mkt-tcard-by">— Ebright Parents —</div>
-                </div>
-              </div>
-            ))}
+          <div className="mkt-why-cards">
+            <Image
+              src="/trial-class/why-speaking.png"
+              alt="Real Speaking Practice — your child will speak, present, and build confidence in every session."
+              width={420}
+              height={520}
+              className="mkt-why-card"
+            />
+            <Image
+              src="/trial-class/why-training.png"
+              alt="Structured Confidence Training — step-by-step guidance designed to develop clarity and self expression."
+              width={420}
+              height={520}
+              className="mkt-why-card"
+            />
+            <Image
+              src="/trial-class/why-interactive.png"
+              alt="Fun & Interactive Learning — engaging activities that make kids enjoy learning and participating."
+              width={420}
+              height={520}
+              className="mkt-why-card"
+            />
           </div>
-        </div>
-      </section>
-
-      {/* What Your Child Will Experience */}
-      <section className="mkt-experience" id="experience">
-        <div className="mkt-section-inner">
-          <div className="mkt-section-head">
-            <h2>What Your Child Will Experience</h2>
-          </div>
-          <div className="mkt-xcards">
-            {EXPERIENCE.map((c) => (
-              <div className="mkt-xcard" key={c.title}>
-                <h3>{c.title}</h3>
-                <p>{c.body}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Final CTA */}
-      <section className="mkt-cta">
-        <div className="mkt-cta-inner">
-          <h2>READY TO WATCH YOUR CHILD SHINE ON STAGE?</h2>
-          <a className="mkt-cta-btn" href="#register">
-            Claim Trial Class Only <strong>RM80!</strong>
-          </a>
         </div>
       </section>
     </div>
