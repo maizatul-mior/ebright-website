@@ -919,3 +919,298 @@
     width: 100%;
   }
 }
+
+/* ---------- Announcement bar: boxed countdown ---------- */
+.mkt-announce-boxes {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.mkt-announce-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  padding: 3px 6px;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 5px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+.mkt-announce-sep {
+  opacity: 0.7;
+  font-weight: 800;
+}
+
+/* ---------- What Your Child Will Get (offer) ---------- */
+.mkt-offer {
+  background: #fff;
+  scroll-margin-top: 80px;
+}
+.mkt-offer-card {
+  max-width: 680px;
+  margin: 0 auto;
+  background: #fff;
+  border: 1px solid #eef0f2;
+  border-radius: 20px;
+  padding: 36px 40px 40px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.07);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.mkt-offer-pill {
+  display: inline-block;
+  border: 2px solid var(--mkt-red);
+  color: var(--mkt-red);
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 8px 22px;
+  border-radius: 999px;
+  margin-bottom: 28px;
+  text-align: center;
+}
+.mkt-offer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.mkt-offer-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--mkt-ink);
+}
+.mkt-offer-list li::before {
+  content: "";
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  border-radius: 50%;
+  background: #22c55e
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+    center / 13px no-repeat;
+}
+.mkt-offer-divider {
+  width: 100%;
+  border: none;
+  border-top: 1px solid #eef0f2;
+  margin: 4px 0 24px;
+}
+.mkt-offer-pricing {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.mkt-offer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.mkt-offer-label {
+  font-size: 16px;
+  color: var(--mkt-ink);
+}
+.mkt-offer-orig {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--mkt-muted);
+  text-decoration: line-through;
+}
+.mkt-offer-price {
+  display: flex;
+  align-items: flex-start;
+  line-height: 1;
+  color: var(--mkt-ink);
+}
+.mkt-offer-rm {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  margin: 6px 3px 0 0;
+}
+.mkt-offer-amount {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 52px;
+  line-height: 1;
+}
+.mkt-offer-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 17px;
+  background: var(--mkt-gold);
+  color: var(--mkt-ink);
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 18px;
+  border-radius: 12px;
+  text-decoration: none;
+  box-shadow: 0 10px 20px rgba(245, 203, 75, 0.35);
+  transition: filter 0.15s, transform 0.05s;
+}
+.mkt-offer-cta:hover { filter: brightness(1.04); }
+.mkt-offer-cta:active { transform: translateY(1px); }
+
+/* ---------- Testimonials: 3-column plain variant ---------- */
+.mkt-tcards--3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.mkt-tcard--plain {
+  flex-direction: column;
+  gap: 0;
+  background: #fff;
+  border: 1px solid #eef0f2;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+}
+.mkt-tcard--plain .mkt-tcard-quote {
+  margin-bottom: 8px;
+}
+
+/* ---------- How It Works (override background to white) ---------- */
+.mkt-how {
+  background: #fff;
+}
+
+/* ---------- FAQ ---------- */
+.mkt-faq {
+  background: var(--mkt-pink);
+  scroll-margin-top: 80px;
+}
+.mkt-faq-list {
+  max-width: 780px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.mkt-faq-item {
+  background: #fff;
+  border-radius: 14px;
+  padding: 0;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+.mkt-faq-item[open] .mkt-faq-icon {
+  transform: rotate(45deg);
+}
+.mkt-faq-q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  cursor: pointer;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--mkt-ink);
+  list-style: none;
+  user-select: none;
+}
+.mkt-faq-q::-webkit-details-marker {
+  display: none;
+}
+.mkt-faq-icon {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--mkt-red);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: transform 0.2s;
+}
+.mkt-faq-a {
+  margin: 0;
+  padding: 16px 24px 20px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--mkt-muted);
+  border-top: 1px solid #f0f0f0;
+}
+
+/* ---------- Final CTA: pricing display ---------- */
+.mkt-cta-pricing {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.mkt-cta-price {
+  display: flex;
+  align-items: flex-start;
+  line-height: 1;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 72px;
+  color: var(--mkt-gold);
+}
+.mkt-cta-rm {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 10px 4px 0 0;
+  color: var(--mkt-gold);
+}
+.mkt-cta-orig {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  color: rgba(255, 255, 255, 0.5);
+  text-decoration: line-through;
+}
+.mkt-cta-note {
+  margin: 20px 0 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* ---------- Responsive: new sections ---------- */
+@media (max-width: 860px) {
+  .mkt-tcards--3 {
+    grid-template-columns: 1fr;
+  }
+  .mkt-offer-card {
+    padding: 28px 24px 32px;
+  }
+}
+@media (max-width: 560px) {
+  .mkt-offer-card {
+    padding: 24px 16px 28px;
+  }
+  .mkt-cta-price {
+    font-size: 56px;
+  }
+  .mkt-cta-rm {
+    font-size: 18px;
+  }
+  .mkt-cta-orig {
+    font-size: 22px;
+  }
+  .mkt-faq-q {
+    font-size: 15px;
+    padding: 16px 18px;
+  }
+  .mkt-faq-a {
+    padding: 12px 18px 18px;
+  }
+}

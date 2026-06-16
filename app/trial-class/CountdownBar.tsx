@@ -7,7 +7,9 @@ function pad(n: number) {
 }
 
 export default function CountdownBar() {
-  const [display, setDisplay] = useState("00:00:00");
+  const [h, setH] = useState("00");
+  const [m, setM] = useState("00");
+  const [s, setS] = useState("00");
 
   useEffect(() => {
     const KEY = "bt_deadline";
@@ -26,10 +28,9 @@ export default function CountdownBar() {
         localStorage.setItem(KEY, String(deadline));
         diff = 0;
       }
-      const h = Math.floor(diff / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-      setDisplay(`${pad(h)}:${pad(m)}:${pad(s)}`);
+      setH(pad(Math.floor(diff / 3600000)));
+      setM(pad(Math.floor((diff % 3600000) / 60000)));
+      setS(pad(Math.floor((diff % 60000) / 1000)));
     }
     tick();
     const id = setInterval(tick, 1000);
@@ -39,13 +40,17 @@ export default function CountdownBar() {
   return (
     <div className="mkt-announce" role="banner" aria-label="Limited time offer">
       <p className="mkt-announce-text">
-        <strong>LIMITED OFFER:</strong> TRIAL CLASS RM80 (WORTH RM150) — SAVE
-        46%!
+        <strong>LIMITED OFFER:</strong> TRIAL CLASS RM 80 (WORTH RM 150) —
+        SAVE 46%!
       </p>
       <p className="mkt-announce-timer">
-        ENDS IN:{" "}
-        <span className="mkt-announce-count" aria-live="off">
-          {display}
+        ENDS IN{" "}
+        <span className="mkt-announce-boxes" aria-live="off" aria-label={`${h} hours ${m} minutes ${s} seconds`}>
+          <span className="mkt-announce-box">{h}</span>
+          <span className="mkt-announce-sep">:</span>
+          <span className="mkt-announce-box">{m}</span>
+          <span className="mkt-announce-sep">:</span>
+          <span className="mkt-announce-box">{s}</span>
         </span>
       </p>
       <a href="#register" className="mkt-announce-cta">

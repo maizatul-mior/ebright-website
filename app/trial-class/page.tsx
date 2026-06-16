@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Fragment } from "react";
 import Image from "next/image";
 import Script from "next/script";
 import Logo from "../components/Logo";
@@ -50,6 +51,81 @@ const PILLS = [
   { text: "Avoids speaking in class", emoji: "😶" },
   { text: "Talks… but struggles to express clearly", emoji: "😵" },
   { text: "Gets nervous when attention is on them", emoji: "😟" },
+];
+
+const TESTIMONIALS = [
+  {
+    text: "My son has been joining Ebright and he really looks forward to the online lessons where he made new friends and supports one another. Coach is also very encouraging and engaging students to participate.",
+    by: "– Ebright Parents –",
+  },
+  {
+    text: "Absolutely phenomenal public speaking class for kids! My little one was transformed from a shy speaker to a confident communicator, all thanks to this fantastic programme!",
+    by: "– Ebright Parents –",
+  },
+  {
+    text: "Such an amazing place, the tutors are brilliant and amazing. Keep up the good work and I hope this class also runs after school holiday programs.",
+    by: "– Siti Marikar, Baru Bangi –",
+  },
+];
+
+const STEPS = [
+  {
+    label: "Fill the form",
+    icon: (
+      <path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z" />
+    ),
+  },
+  {
+    label: "We WhatsApp you",
+    icon: (
+      <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+    ),
+  },
+  {
+    label: "Watch them shine!",
+    icon: (
+      <path d="M12 2a5 5 0 100 10A5 5 0 0012 2zm0 12c-5.33 0-8 2.67-8 4v2h16v-2c0-1.33-2.67-4-8-4z" />
+    ),
+  },
+];
+
+const FAQS = [
+  {
+    q: "What Are Your Coaches' Qualifications?",
+    a: "Our coaches hold backgrounds in TESL and English Literature with strong command of the language. Many also have Toastmasters qualifications and World Scholar's Cup experience, and our online classes are led by UK native-speaking coaches.",
+  },
+  {
+    q: "Can I See My Kids Improve Within 3 Months?",
+    a: "Positive changes typically begin to emerge after 2 grades (around 6 months), though many parents notice improvements in confidence and willingness to speak even sooner. Full mastery develops with continued practice.",
+  },
+  {
+    q: "Are Online Classes Effective When It Comes To Overcoming Shyness?",
+    a: "Yes. Our online classes are small, interactive, and led by experienced coaches — including UK native speakers — creating a safe, supportive space where shy children gradually open up and build confidence.",
+  },
+  {
+    q: "How Can We Monitor Our Kids' Progress?",
+    a: "We provide weekly video updates and Parents-Coach Meetups so parents can monitor their kids' learning progress. The report card also contains feedback and tools for parents to further assist the kids' learning. Parents who would like to play a more active role can witness their child shine on stage through our monthly showcase. (You might want to prepare some tissue paper around as many parents tear up when seeing their once shy kid express themselves on camera.)",
+  },
+  {
+    q: "My Child Is Very Young, Will This Work For Him/Her?",
+    a: "Our programmes are designed for ages 7–16 and organized by grade, so younger children start with age-appropriate, play-based lessons that meet them exactly where they are.",
+  },
+  {
+    q: "My Child Is Extremely Shy, Will This Work For Him/Her?",
+    a: "Absolutely — many of our students start out very shy. Our pressure-free, game-based approach and small class sizes (1 coach to 6 students) gently build confidence at a comfortable pace.",
+  },
+  {
+    q: "My Child Requires More Attention? Is This Program Suitable?",
+    a: "Our small-group ratio of one coach to six students ensures every child receives meaningful individual guidance. Speak to our team about your child's needs and we'll advise the best fit.",
+  },
+  {
+    q: "My Child Is Not Very Proficient In English, Can He/She Be Able To Handle Class?",
+    a: "Yes. Coaches adapt to each student's level and use interactive, supportive methods so children build both their English and their speaking confidence together over time.",
+  },
+  {
+    q: "Can I Register Later?",
+    a: "Enrollment is batchless — students can start anytime, since each weekly class features an independent topic. That said, slots fill up quickly, so we recommend securing your trial early.",
+  },
 ];
 
 const STAR_PATH = (
@@ -230,6 +306,145 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               className="mkt-why-card"
             />
           </div>
+        </div>
+      </section>
+
+      {/* What Your Child Will Get */}
+      <section className="mkt-offer">
+        <div className="mkt-section-inner">
+          <div className="mkt-section-head">
+            <h2>What Your Child Will Get In This RM 80 Trial</h2>
+          </div>
+          <div className="mkt-offer-card">
+            <span className="mkt-offer-pill">
+              A Complete Confidence-Building Experience
+            </span>
+            <ul className="mkt-offer-list">
+              <li>Small classes for student to have better personalized coaching</li>
+              <li>Detailed program feedback and learning roadmap</li>
+              <li>1 to 1 parents coach consultation</li>
+            </ul>
+            <hr className="mkt-offer-divider" />
+            <div className="mkt-offer-pricing">
+              <div className="mkt-offer-row">
+                <span className="mkt-offer-label">Total Real Value</span>
+                <span className="mkt-offer-orig">RM 150</span>
+              </div>
+              <div className="mkt-offer-row">
+                <span className="mkt-offer-label">You Pay Only</span>
+                <div className="mkt-offer-price">
+                  <span className="mkt-offer-rm">RM</span>
+                  <span className="mkt-offer-amount">80</span>
+                </div>
+              </div>
+            </div>
+            <a href="#register" className="mkt-offer-cta">
+              Claim This Deal!
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Real Stories, Real Impact */}
+      <section className="mkt-testimonials">
+        <div className="mkt-section-inner">
+          <div className="mkt-section-head">
+            <h2>
+              Real Stories, <span className="mkt-hl">Real Impact</span>
+            </h2>
+            <p>
+              Hear directly from everyday parents who watched their children
+              beat stage fright, unlock original thoughts, and build
+              life-long confidence.
+            </p>
+          </div>
+          <div className="mkt-tcards mkt-tcards--3">
+            {TESTIMONIALS.map((t) => (
+              <div className="mkt-tcard mkt-tcard--plain" key={t.by}>
+                <div className="mkt-tcard-quote">&ldquo;</div>
+                <p className="mkt-tcard-text">{t.text}</p>
+                <div className="mkt-tcard-by">{t.by}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works */}
+      <section className="mkt-how">
+        <div className="mkt-section-inner">
+          <div className="mkt-section-head">
+            <h2>How It Works</h2>
+            <p>
+              From sign-up to standing ovation — here&apos;s what happens
+              next.
+            </p>
+          </div>
+          <div className="mkt-steps">
+            {STEPS.map((step, i) => (
+              <Fragment key={step.label}>
+                <div className="mkt-step">
+                  <div className="mkt-step-circle">
+                    <svg
+                      width="36"
+                      height="36"
+                      viewBox="0 0 24 24"
+                      fill="#fff"
+                      aria-hidden="true"
+                    >
+                      {step.icon}
+                    </svg>
+                    <span className="mkt-step-num">{i + 1}</span>
+                  </div>
+                  <div className="mkt-step-label">{step.label}</div>
+                </div>
+                {i < STEPS.length - 1 && (
+                  <div className="mkt-step-line" aria-hidden="true" />
+                )}
+              </Fragment>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="mkt-faq">
+        <div className="mkt-section-inner">
+          <div className="mkt-section-head">
+            <h2>Frequently Asked Question</h2>
+          </div>
+          <div className="mkt-faq-list">
+            {FAQS.map((f) => (
+              <details className="mkt-faq-item" key={f.q}>
+                <summary className="mkt-faq-q">
+                  {f.q}
+                  <span className="mkt-faq-icon" aria-hidden="true">+</span>
+                </summary>
+                <p className="mkt-faq-a">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="mkt-cta" aria-label="Register for RM80 trial class">
+        <div className="mkt-cta-inner">
+          <h2>
+            Your Child&apos;s Confidence Starts Here
+          </h2>
+          <div className="mkt-cta-pricing">
+            <span className="mkt-cta-price">
+              <span className="mkt-cta-rm">RM</span>80
+            </span>
+            <span className="mkt-cta-orig">RM150</span>
+          </div>
+          <a href="#register" className="mkt-cta-btn">
+            Register Now →
+          </a>
+          <p className="mkt-cta-note">
+            No long-term commitment &bull; Loved by 3,000+ Malaysian families
+          </p>
         </div>
       </section>
     </div>
