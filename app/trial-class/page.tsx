@@ -206,9 +206,34 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 <span className="mkt-ribbon-rm">RM</span>
                 <span className="mkt-ribbon-num">80</span>
               </div>
-              <span className="mkt-ribbon-sub">Trial Class</span>
+              <span className="mkt-ribbon-sub">
+                <s>Worth RM 150</s>
+              </span>
             </div>
             <div className="mkt-hero-trust">
+              <div className="mkt-trust-avatars" aria-hidden="true">
+                <Image
+                  src="/trial-class/testimonial-1.jpg"
+                  alt=""
+                  width={34}
+                  height={34}
+                  className="mkt-trust-avatar"
+                />
+                <Image
+                  src="/trial-class/testimonial-2.jpg"
+                  alt=""
+                  width={34}
+                  height={34}
+                  className="mkt-trust-avatar"
+                />
+                <Image
+                  src="/trial-class/testimonial-1.jpg"
+                  alt=""
+                  width={34}
+                  height={34}
+                  className="mkt-trust-avatar"
+                />
+              </div>
               <span className="mkt-stars" aria-hidden="true">
                 {STAR}
                 {STAR}
