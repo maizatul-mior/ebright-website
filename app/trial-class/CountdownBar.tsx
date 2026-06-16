@@ -39,8 +39,8 @@ export default function CountdownBar() {
   return (
     <div className="mkt-announce" role="banner" aria-label="Limited time offer">
       <p className="mkt-announce-text">
-        <strong>LIMITED OFFER:</strong> TRIAL CLASS RM80{" "}
-        <s aria-hidden="true">RM150</s> — SAVE 46%
+        <strong>LIMITED OFFER:</strong> TRIAL CLASS RM80 (WORTH RM150) — SAVE
+        46%!
       </p>
       <p className="mkt-announce-timer">
         ENDS IN:{" "}
