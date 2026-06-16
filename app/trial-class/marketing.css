@@ -498,7 +498,7 @@
 
 /* ---------- Testimonials ---------- */
 .mkt-testimonials {
-  background: #fff;
+  background: var(--mkt-pink);
   scroll-margin-top: 80px;
 }
 .mkt-section-inner {
@@ -1109,11 +1109,12 @@
   flex-direction: column;
   gap: 0;
   background: #fff;
-  border: 1px solid #eef0f2;
+  border: none;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
 }
 .mkt-tcard--plain .mkt-tcard-quote {
   margin-bottom: 8px;
+  color: rgba(230, 36, 39, 0.18);
 }
 
 /* ---------- How It Works (override background to white) ---------- */
