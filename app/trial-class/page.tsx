@@ -163,18 +163,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         />
       </noscript>
 
-      {/* Announcement bar with live countdown */}
-      <CountdownBar />
-
       {/* Landing-page navbar */}
       <header className="mkt-nav">
         <div className="mkt-nav-inner">
-          <Logo width={140} height={46} className="h-9 w-auto" />
+          <Logo width={140} height={46} className="h-9 w-auto" white />
           <a href="#register" className="mkt-nav-cta">
             Register Now →
           </a>
         </div>
       </header>
+
+      {/* Announcement bar with live countdown */}
+      <CountdownBar />
 
       {/* Hero */}
       <section className="mkt-hero">

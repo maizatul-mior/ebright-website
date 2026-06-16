@@ -35,7 +35,7 @@
 
 /* ---------- Announcement bar ---------- */
 .mkt-announce {
-  background: #1a1d20;
+  background: var(--mkt-red-dark);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -46,11 +46,11 @@
 .mkt-announce-text {
   margin: 0;
   font-size: 13px;
-  color: #fff;
+  color: var(--mkt-gold);
+  font-weight: 600;
   letter-spacing: 0.2px;
 }
-.mkt-announce-text strong { font-weight: 700; }
-.mkt-announce-text s { opacity: 0.7; }
+.mkt-announce-text strong { font-weight: 700; color: var(--mkt-gold); }
 .mkt-announce-timer {
   margin: 0;
   font-family: var(--font-display), system-ui, sans-serif;
@@ -63,29 +63,14 @@
   font-variant-numeric: tabular-nums;
   letter-spacing: 1px;
 }
-.mkt-announce-cta {
-  flex: 0 0 auto;
-  padding: 7px 16px;
-  background: var(--mkt-gold);
-  color: var(--mkt-ink);
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-weight: 700;
-  font-size: 13px;
-  border-radius: 6px;
-  text-decoration: none;
-  white-space: nowrap;
-}
-.mkt-announce-cta:hover { filter: brightness(1.05); }
 
 /* ---------- Navbar (the landing page's own, replaces global nav here) ---------- */
 .mkt-nav {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: #fff;
-  color: var(--mkt-ink);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  border-bottom: 1px solid #f0eded;
+  background: var(--mkt-red);
+  color: #fff;
 }
 .mkt-nav-inner {
   max-width: 1240px;
@@ -930,16 +915,19 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 32px;
+  min-width: 28px;
   padding: 3px 6px;
-  background: rgba(255, 255, 255, 0.14);
-  border-radius: 5px;
+  background: rgba(0, 0, 0, 0.22);
+  border-radius: 4px;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0;
+  color: var(--mkt-gold);
+  font-weight: 700;
 }
 .mkt-announce-sep {
-  opacity: 0.7;
+  color: var(--mkt-gold);
   font-weight: 800;
+  opacity: 0.8;
 }
 
 /* ---------- What Your Child Will Get (offer) ---------- */

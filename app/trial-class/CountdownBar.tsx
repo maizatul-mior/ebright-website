@@ -53,9 +53,6 @@ export default function CountdownBar() {
           <span className="mkt-announce-box">{s}</span>
         </span>
       </p>
-      <a href="#register" className="mkt-announce-cta">
-        Register Now →
-      </a>
     </div>
   );
 }
