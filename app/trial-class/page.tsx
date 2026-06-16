@@ -178,6 +178,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
       {/* Hero */}
       <section className="mkt-hero">
+        {/* Boy photo — decorative background, not part of content flow */}
+        <Image
+          src="/trial-class/hero-photo.png"
+          alt=""
+          aria-hidden="true"
+          width={480}
+          height={640}
+          className="mkt-hero-bg-photo"
+          priority
+        />
         <div className="mkt-hero-inner">
           <div className="mkt-hero-left">
             <h1 className="mkt-hero-title">
@@ -187,6 +197,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               Turn shyness into self-assurance. Book an Ebright public speaking
               trial class (worth RM150) and watch your child find their voice.
             </p>
+            <div
+              className="mkt-ribbon"
+              aria-label="Special Offer RM80 Trial Class"
+            >
+              <span className="mkt-ribbon-tag">SPECIAL OFFER</span>
+              <div className="mkt-ribbon-price">
+                <span className="mkt-ribbon-rm">RM</span>
+                <span className="mkt-ribbon-num">80</span>
+              </div>
+              <span className="mkt-ribbon-sub">Trial Class</span>
+            </div>
             <div className="mkt-hero-trust">
               <span className="mkt-stars" aria-hidden="true">
                 {STAR}
@@ -198,28 +219,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               <span>
                 Trusted by <strong>20,000+</strong> parents
               </span>
-            </div>
-          </div>
-
-          <div className="mkt-hero-photo-wrap">
-            <Image
-              src="/trial-class/hero-photo.png"
-              alt="Young student speaking confidently with a microphone"
-              width={480}
-              height={480}
-              className="mkt-hero-photo"
-              priority
-            />
-            <div
-              className="mkt-ribbon"
-              aria-label="Special Offer RM80 Trial Class"
-            >
-              <span className="mkt-ribbon-tag">SPECIAL OFFER</span>
-              <div className="mkt-ribbon-price">
-                <span className="mkt-ribbon-rm">RM</span>
-                <span className="mkt-ribbon-num">80</span>
-              </div>
-              <span className="mkt-ribbon-sub">Trial Class</span>
             </div>
           </div>
 

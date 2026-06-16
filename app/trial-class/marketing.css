@@ -699,25 +699,30 @@
   transform: translateY(1px);
 }
 
-/* ---------- Hero photo + ribbon ---------- */
-.mkt-hero-photo-wrap {
-  position: relative;
-  flex: 0 0 auto;
-  width: clamp(220px, 26vw, 380px);
-  align-self: flex-end;
-}
-.mkt-hero-photo {
-  display: block;
-  width: 100%;
-  height: auto;
-  border-radius: 20px 20px 0 0;
-  object-fit: cover;
-  object-position: center top;
-}
-.mkt-ribbon {
+/* ---------- Hero background photo (decorative, not in content flow) ---------- */
+.mkt-hero-bg-photo {
   position: absolute;
-  bottom: 18px;
-  left: -12px;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-20%);
+  height: 100%;
+  width: auto;
+  max-width: 45%;
+  object-fit: contain;
+  object-position: bottom center;
+  pointer-events: none;
+  z-index: 0;
+}
+.mkt-hero-inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- RM80 ribbon — standalone in left column ---------- */
+.mkt-ribbon {
+  display: inline-block;
+  align-self: flex-start;
+  margin: 24px 0 20px;
   background: var(--mkt-gold);
   border-radius: 14px;
   padding: 10px 18px 12px;
@@ -812,7 +817,7 @@
   .mkt-hero-trust {
     justify-content: center;
   }
-  .mkt-hero-photo-wrap {
+  .mkt-hero-bg-photo {
     display: none;
   }
   .mkt-form-shell {
