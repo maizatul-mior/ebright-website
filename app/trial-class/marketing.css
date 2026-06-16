@@ -951,11 +951,11 @@
   border-radius: 4px;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0;
-  color: var(--mkt-gold);
+  color: #fff;
   font-weight: 700;
 }
 .mkt-announce-sep {
-  color: var(--mkt-gold);
+  color: #fff;
   font-weight: 800;
   opacity: 0.8;
 }
