@@ -399,7 +399,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       <section className="mkt-how">
         <div className="mkt-section-inner">
           <div className="mkt-section-head">
-            <h2>How It Works</h2>
+            <h2>How It <span className="mkt-hl">Works</span></h2>
             <p>
               From sign-up to standing ovation — here&apos;s what happens
               next.

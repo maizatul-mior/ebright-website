@@ -1121,6 +1121,9 @@
 .mkt-how {
   background: #fff;
 }
+.mkt-how .mkt-section-head p {
+  color: var(--mkt-ink);
+}
 
 /* ---------- FAQ ---------- */
 .mkt-faq {
