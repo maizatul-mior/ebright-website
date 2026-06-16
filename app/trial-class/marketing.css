@@ -127,10 +127,12 @@
 .mkt-hero {
   position: relative;
   background: linear-gradient(
-      104deg,
+      to right,
       rgba(230, 36, 39, 0.97) 0%,
-      rgba(230, 36, 39, 0.88) 38%,
-      rgba(70, 70, 72, 0.52) 100%
+      rgba(230, 36, 39, 0.97) 25%,
+      rgba(230, 36, 39, 0.55) 48%,
+      rgba(230, 36, 39, 0.08) 68%,
+      transparent 85%
     ),
     url("/trial-class/hero-bg.jpg") center / cover no-repeat;
 }
