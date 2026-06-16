@@ -201,14 +201,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
               className="mkt-ribbon"
               aria-label="Special Offer RM80 Trial Class"
             >
-              <span className="mkt-ribbon-tag">SPECIAL OFFER</span>
-              <div className="mkt-ribbon-price">
-                <span className="mkt-ribbon-rm">RM</span>
-                <span className="mkt-ribbon-num">80</span>
+              <div className="mkt-ribbon-body">
+                <div className="mkt-ribbon-price">
+                  <span className="mkt-ribbon-rm">RM</span>
+                  <span className="mkt-ribbon-num">80</span>
+                </div>
+                <span className="mkt-ribbon-sub">
+                  <s>Worth RM 150</s>
+                </span>
               </div>
-              <span className="mkt-ribbon-sub">
-                <s>Worth RM 150</s>
-              </span>
+              <span className="mkt-ribbon-tag">SPECIAL OFFER</span>
             </div>
             <div className="mkt-hero-trust">
               <div className="mkt-trust-avatars" aria-hidden="true">
@@ -276,8 +278,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           <div className="mkt-sound-left">
             <h2>Does This Sound Like Your Child?</h2>
             <p>
-              If you recognised your child in any of these, the RM80 trial is
-              the perfect first step.
+              If you recognised your child in any of these situations, this
+              trial class could be the first step towards positive change.
             </p>
           </div>
           <div className="mkt-pills">

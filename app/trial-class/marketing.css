@@ -734,33 +734,24 @@
   z-index: 1;
 }
 
-/* ---------- RM80 ribbon — standalone in left column ---------- */
+/* ---------- RM80 ribbon — horizontal ticket in left column ---------- */
 .mkt-ribbon {
-  display: inline-block;
-  align-self: flex-start;
-  margin: 24px 0 20px;
+  display: inline-flex;
+  align-items: stretch;
+  margin: 16px 0 20px;
   background: var(--mkt-gold);
   border-radius: 14px;
-  padding: 10px 18px 12px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
-  transform: rotate(-4deg);
-  text-align: center;
-  min-width: 104px;
+  overflow: hidden;
 }
-.mkt-ribbon-tag {
-  display: block;
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-weight: 700;
-  font-size: 9px;
-  letter-spacing: 1.2px;
-  color: #c51f22;
-  text-transform: uppercase;
-  margin-bottom: 2px;
+.mkt-ribbon-body {
+  padding: 10px 16px 12px;
+  display: flex;
+  flex-direction: column;
 }
 .mkt-ribbon-price {
   display: flex;
   align-items: flex-start;
-  justify-content: center;
   line-height: 1;
   color: var(--mkt-ink);
 }
@@ -784,6 +775,20 @@
 }
 .mkt-ribbon-sub s {
   text-decoration-color: #c51f22;
+}
+.mkt-ribbon-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  writing-mode: vertical-rl;
+  background: #c51f22;
+  color: #fff;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 8px 9px;
 }
 
 /* ---------- Form title + intro ---------- */
