@@ -1,32 +1,68 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Script from "next/script";
 import { BRANCH_OPTIONS } from "../data/branchOptions";
 import { isValidWhatsapp } from "../lib/phone";
 
-// Public Cloudflare Turnstile site key (safe to ship to the client) — same key
-// the legacy /trial-class-2 form uses, so verification works on the live domain.
 const TURNSTILE_SITEKEY = "0x4AAAAAADicbI-35VBGGjoo";
-
-// Tags this page's leads in new_website_form.source so marketing-page sign-ups
-// can be told apart from the legacy form (which sends no source -> defaults to
-// "website_trial_form"). The /api/lead route validates this against an allowlist.
 const LEAD_SOURCE = "marketing_trial_form";
-
 const AGE_RANGES = ["6-9 years old", "10-12 years old", "13-16 years old"];
 
-type TurnstileApi = { getResponse?: () => string; reset?: () => void };
-type Status = "idle" | "submitting" | "done";
+type TurnstileApi = {
+  getResponse?: () => string;
+  reset?: () => void;
+  execute?: (container: HTMLElement) => void;
+};
+type Status = "idle" | "verifying" | "submitting" | "done";
 
 export default function TrialClassMarketingForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
   const [whatsapp, setWhatsapp] = useState("");
   const [whatsappTouched, setWhatsappTouched] = useState(false);
+  const pendingPayloadRef = useRef<Record<string, string> | null>(null);
+  const captchaRef = useRef<HTMLDivElement>(null);
   const whatsappValid = isValidWhatsapp(whatsapp);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  useEffect(() => {
+    // Global callback Turnstile calls once verification succeeds
+    (window as Record<string, unknown>).__mktTsCallback = async (token: string) => {
+      const payload = pendingPayloadRef.current;
+      if (!payload) return;
+      setStatus("submitting");
+      try {
+        const res = await fetch("/api/lead", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...payload, "cf-turnstile-response": token }),
+        });
+        const result = (await res.json().catch(() => ({}))) as {
+          ok?: boolean;
+          error?: string;
+        };
+        if (!res.ok || !result.ok) {
+          throw new Error(result.error || "Submission failed.");
+        }
+        window.location.assign("/thankyou");
+      } catch (ex) {
+        setStatus("idle");
+        pendingPayloadRef.current = null;
+        setError(
+          ex instanceof Error ? ex.message : "Something went wrong. Please try again.",
+        );
+        const ts = (window as Record<string, unknown>).turnstile as
+          | TurnstileApi
+          | undefined;
+        ts?.reset?.();
+      }
+    };
+    return () => {
+      delete (window as Record<string, unknown>).__mktTsCallback;
+    };
+  }, []);
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
     if (!form.checkValidity()) {
@@ -34,20 +70,8 @@ export default function TrialClassMarketingForm() {
       return;
     }
 
-    const tokenEl = document.querySelector<HTMLInputElement>(
-      '[name="cf-turnstile-response"]',
-    );
-    const ts = (window as unknown as { turnstile?: TurnstileApi }).turnstile;
-    const token = (ts?.getResponse?.() || tokenEl?.value || "").trim();
-    if (!token) {
-      setError("Please complete the verification.");
-      return;
-    }
-    setError(null);
-    setStatus("submitting");
-
     const data = new FormData(form);
-    const payload = {
+    pendingPayloadRef.current = {
       parent_name: String(data.get("parent-name") ?? ""),
       child_name: String(data.get("child-name") ?? ""),
       child_age: String(data.get("child-age") ?? ""),
@@ -55,30 +79,29 @@ export default function TrialClassMarketingForm() {
       email: String(data.get("parent-email") ?? ""),
       preferred_branch: String(data.get("branch") ?? ""),
       source: LEAD_SOURCE,
-      "cf-turnstile-response": token,
     };
 
-    try {
-      const res = await fetch("/api/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const result = (await res.json().catch(() => ({}))) as {
-        ok?: boolean;
-        error?: string;
-      };
-      if (!res.ok || !result.ok) {
-        throw new Error(result.error || "Submission failed.");
-      }
-      // Lead saved — send them to the dedicated thank-you page.
-      window.location.assign("/thankyou");
-    } catch (ex) {
-      setStatus("idle");
-      setError(
-        ex instanceof Error ? ex.message : "Something went wrong. Please try again.",
-      );
-      (window as unknown as { turnstile?: TurnstileApi }).turnstile?.reset?.();
+    setError(null);
+    setStatus("verifying");
+
+    const ts = (window as Record<string, unknown>).turnstile as
+      | TurnstileApi
+      | undefined;
+    if (captchaRef.current && ts?.execute) {
+      ts.execute(captchaRef.current);
+    } else {
+      // Turnstile script not yet loaded — wait briefly then retry
+      setTimeout(() => {
+        const tsRetry = (window as Record<string, unknown>).turnstile as
+          | TurnstileApi
+          | undefined;
+        if (captchaRef.current && tsRetry?.execute) {
+          tsRetry.execute(captchaRef.current);
+        } else {
+          setStatus("idle");
+          setError("Verification unavailable. Please refresh and try again.");
+        }
+      }, 1500);
     }
   }
 
@@ -218,22 +241,41 @@ export default function TrialClassMarketingForm() {
               </div>
             </div>
 
-            <div className="mkt-form-captcha">
+            {/* Turnstile — hidden until submit is clicked, execute mode */}
+            <div
+              className="mkt-form-captcha"
+              style={{
+                display:
+                  status === "verifying" || status === "submitting" ? "flex" : "none",
+              }}
+            >
               <div
+                ref={captchaRef}
                 className="cf-turnstile"
                 data-sitekey={TURNSTILE_SITEKEY}
                 data-theme="light"
                 data-size="flexible"
+                data-execution="execute"
+                data-callback="__mktTsCallback"
               />
             </div>
+
             {error && <p className="mkt-form-err">{error}</p>}
 
             <button
               className="mkt-form-submit"
               type="submit"
-              disabled={status === "submitting" || !whatsappValid}
+              disabled={
+                status === "submitting" ||
+                status === "verifying" ||
+                !whatsappValid
+              }
             >
-              {status === "submitting" ? "Submitting…" : "Grab My RM80 Trial Seat!"}
+              {status === "submitting"
+                ? "Submitting…"
+                : status === "verifying"
+                ? "Verifying…"
+                : "Grab My RM80 Trial Seat!"}
             </button>
           </form>
         )}
