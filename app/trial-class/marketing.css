@@ -46,7 +46,7 @@
 .mkt-announce-text {
   margin: 0;
   font-size: 13px;
-  color: var(--mkt-gold);
+  color: #fff;
   font-weight: 600;
   letter-spacing: 0.2px;
 }
