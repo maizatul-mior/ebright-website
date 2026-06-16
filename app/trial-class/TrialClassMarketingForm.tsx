@@ -1,19 +1,56 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
-import Script from "next/script";
 import { BRANCH_OPTIONS } from "../data/branchOptions";
 import { isValidWhatsapp } from "../lib/phone";
 
 const TURNSTILE_SITEKEY = "0x4AAAAAADicbI-35VBGGjoo";
 const LEAD_SOURCE = "marketing_trial_form";
 const AGE_RANGES = ["6-9 years old", "10-12 years old", "13-16 years old"];
+const TURNSTILE_SRC =
+  "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
 
 type Status = "idle" | "verifying" | "submitting" | "done";
 type TurnstileApi = {
   render?: (container: HTMLElement, opts: Record<string, unknown>) => string;
   remove?: (widgetId: string) => void;
 };
+
+function getTs(): TurnstileApi | undefined {
+  return (window as unknown as { turnstile?: TurnstileApi }).turnstile;
+}
+
+// Dynamically inject the Turnstile script the first time it's needed.
+// Subsequent calls reuse the same script tag.
+function loadTurnstile(): Promise<TurnstileApi> {
+  return new Promise((resolve, reject) => {
+    const existing = getTs();
+    if (existing?.render) { resolve(existing); return; }
+
+    const alreadyTag = document.querySelector<HTMLScriptElement>(
+      `script[src="${TURNSTILE_SRC}"]`,
+    );
+    if (alreadyTag) {
+      // Script tag exists but API not ready yet — poll
+      const t = setInterval(() => {
+        const ts = getTs();
+        if (ts?.render) { clearInterval(t); resolve(ts); }
+      }, 100);
+      setTimeout(() => { clearInterval(t); reject(new Error("Turnstile timeout")); }, 10000);
+      return;
+    }
+
+    const s = document.createElement("script");
+    s.src = TURNSTILE_SRC;
+    s.onload = () => {
+      const ts = getTs();
+      if (ts?.render) resolve(ts);
+      else reject(new Error("Turnstile API missing after load"));
+    };
+    s.onerror = () => reject(new Error("Turnstile script failed to load"));
+    document.head.appendChild(s);
+  });
+}
 
 export default function TrialClassMarketingForm() {
   const [status, setStatus] = useState<Status>("idle");
@@ -39,7 +76,6 @@ export default function TrialClassMarketingForm() {
       if (!res.ok || !result.ok) throw new Error(result.error || "Submission failed.");
       window.location.assign("/thankyou");
     } catch (ex) {
-      // Remove captcha from DOM entirely so it doesn't persist
       setShowCaptcha(false);
       pendingPayloadRef.current = null;
       setStatus("idle");
@@ -47,49 +83,40 @@ export default function TrialClassMarketingForm() {
     }
   }
 
-  // Callback ref — fires the moment the captcha div is mounted in the DOM.
-  // Empty deps array is intentional: setters are stable and doSubmit only
-  // closes over stable setters + refs, so stale closure is not a concern.
+  // Callback ref — fires when React mounts the captcha div (only after submit).
+  // At that point we inject the Turnstile script if not yet loaded, then render.
+  // appearance:'interaction-only' means no visible "Success!" badge — the widget
+  // is completely invisible unless Cloudflare needs manual user interaction.
   const captchaRefCallback = useCallback((node: HTMLDivElement | null) => {
     if (!node) return;
 
-    function mount(ts: TurnstileApi) {
-      const payload = pendingPayloadRef.current;
-      if (!payload || !ts.render) return;
-      ts.render(node, {
-        sitekey: TURNSTILE_SITEKEY,
-        theme: "light",
-        size: "flexible",
-        callback: (token: string) => doSubmit(payload, token),
-        "error-callback": () => {
-          setShowCaptcha(false);
-          setStatus("idle");
-          setError("Verification failed. Please try again.");
-        },
-        "expired-callback": () => {
-          setShowCaptcha(false);
-          setStatus("idle");
-          setError("Verification expired. Please try again.");
-        },
+    loadTurnstile()
+      .then((ts) => {
+        const payload = pendingPayloadRef.current;
+        if (!payload || !ts.render) return;
+        ts.render(node, {
+          sitekey: TURNSTILE_SITEKEY,
+          theme: "light",
+          size: "flexible",
+          appearance: "interaction-only",
+          callback: (token: string) => doSubmit(payload, token),
+          "error-callback": () => {
+            setShowCaptcha(false);
+            setStatus("idle");
+            setError("Verification failed. Please try again.");
+          },
+          "expired-callback": () => {
+            setShowCaptcha(false);
+            setStatus("idle");
+            setError("Verification expired. Please try again.");
+          },
+        });
+      })
+      .catch(() => {
+        setShowCaptcha(false);
+        setStatus("idle");
+        setError("Verification unavailable. Please refresh and try again.");
       });
-    }
-
-    const ts = (window as unknown as { turnstile?: TurnstileApi }).turnstile;
-    if (ts?.render) {
-      mount(ts);
-    } else {
-      // Script still loading — retry after a short delay
-      setTimeout(() => {
-        const tsRetry = (window as unknown as { turnstile?: TurnstileApi }).turnstile;
-        if (tsRetry?.render) {
-          mount(tsRetry);
-        } else {
-          setShowCaptcha(false);
-          setStatus("idle");
-          setError("Verification unavailable. Please refresh and try again.");
-        }
-      }, 1500);
-    }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -112,16 +139,12 @@ export default function TrialClassMarketingForm() {
     };
     setError(null);
     setStatus("verifying");
-    setShowCaptcha(true); // mounts the captcha div → captchaRefCallback fires
+    setShowCaptcha(true); // mounts the div → captchaRefCallback fires
   }
 
   return (
     <div className="mkt-form-shell" id="register">
-      {/* ?render=explicit prevents Turnstile from auto-scanning the DOM */}
-      <Script
-        src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
-        strategy="afterInteractive"
-      />
+      {/* Turnstile script is NOT preloaded — injected on demand in captchaRefCallback */}
       <div className="mkt-form-card">
         <div className="mkt-form-badge">
           <span className="mkt-form-badge-text">🔥 Only a few seats left this week</span>
@@ -242,9 +265,8 @@ export default function TrialClassMarketingForm() {
               </div>
             </div>
 
-            {/* Captcha container is conditionally MOUNTED — not just hidden.
-                When showCaptcha is false the div doesn't exist in the DOM at all,
-                so Turnstile has nothing to auto-verify. */}
+            {/* Only mounted when verifying — completely absent from DOM otherwise.
+                appearance:'interaction-only' means no visible Success badge ever. */}
             {showCaptcha && (
               <div className="mkt-form-captcha">
                 <div ref={captchaRefCallback} style={{ width: "100%" }} />
@@ -256,7 +278,9 @@ export default function TrialClassMarketingForm() {
             <button
               className="mkt-form-submit"
               type="submit"
-              disabled={status === "submitting" || status === "verifying" || !whatsappValid}
+              disabled={
+                status === "submitting" || status === "verifying" || !whatsappValid
+              }
             >
               {status === "submitting"
                 ? "Submitting…"
