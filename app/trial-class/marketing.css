@@ -1029,7 +1029,7 @@
     max-width: 100%;
   }
   .mkt-form-card {
-    padding: 20px 16px 24px;
+    padding: 40px 16px 24px;
   }
   .mkt-stat {
     padding: 6px 10px;
@@ -1066,7 +1066,7 @@
   .mkt-form-corner-price {
     font-size: 12px;
     padding: 6px 12px;
-    top: -14px;
+    top: -18px;
     right: 12px;
     transform: rotate(4deg);
     transform-origin: center center;
