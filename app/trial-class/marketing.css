@@ -215,8 +215,8 @@
 .mkt-form-badge {
   position: absolute;
   top: -20px;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 16px;
+  transform: none;
   display: inline-flex;
   align-items: stretch;
   background: #f4f4f4;
@@ -232,11 +232,11 @@
   font-size: 15px;
   color: var(--mkt-ink);
 }
-/* Corner price tag — right edge of card, below the heading on desktop */
+/* Corner price tag — top-right of card, same height as gray badge */
 .mkt-form-corner-price {
   position: absolute;
-  top: 90px;
-  right: -14px;
+  top: -20px;
+  right: 14px;
   background: var(--mkt-red);
   color: #fff;
   font-family: var(--font-display), system-ui, sans-serif;
