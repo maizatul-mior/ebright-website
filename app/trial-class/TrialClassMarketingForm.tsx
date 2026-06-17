@@ -269,9 +269,12 @@ export default function TrialClassMarketingForm() {
   return (
     <div className="mkt-form-shell" id="register">
       <div className="mkt-form-card">
+        {/* Price tag — top-right corner of the card */}
+        <div className="mkt-form-corner-price">
+          ONLY <s>RM150</s> RM 80!
+        </div>
         <div className="mkt-form-badge">
           <span className="mkt-form-badge-text">🔥 Only a few seats left this week</span>
-          <span className="mkt-form-badge-price">ONLY <s>RM150</s> RM 80!</span>
         </div>
         <h2 className="mkt-form-title">Register For A Trial Class</h2>
         <p className="mkt-form-intro">

@@ -228,21 +228,28 @@
 .mkt-form-badge-text {
   padding: 8px 16px;
   font-family: var(--font-display), system-ui, sans-serif;
-  font-weight: 600;
-  font-size: 13px;
+  font-weight: 700;
+  font-size: 15px;
   color: var(--mkt-ink);
 }
-.mkt-form-badge-price {
+/* Corner price tag — sticks out from the top-right edge of the card */
+.mkt-form-corner-price {
+  position: absolute;
+  top: 20px;
+  right: -1px;
   background: var(--mkt-red);
   color: #fff;
-  padding: 8px 16px;
   font-family: var(--font-display), system-ui, sans-serif;
   font-weight: 800;
-  font-size: 13px;
-  border-radius: 0 999px 999px 0;
+  font-size: 14px;
+  padding: 8px 18px 8px 16px;
+  border-radius: 999px 0 0 999px;
+  box-shadow: -4px 4px 14px rgba(230, 36, 39, 0.35);
+  white-space: nowrap;
+  z-index: 2;
 }
-.mkt-form-badge-price s {
-  opacity: 0.75;
+.mkt-form-corner-price s {
+  opacity: 0.7;
   font-weight: 600;
   margin-right: 2px;
 }
@@ -1051,13 +1058,15 @@
     justify-content: center;
     max-width: calc(100% - 24px);
   }
-  .mkt-form-badge-text,
-  .mkt-form-badge-price {
-    font-size: 12px;
+  .mkt-form-badge-text {
+    font-size: 13px;
     padding: 6px 12px;
   }
-  .mkt-form-badge-price {
-    border-radius: 999px;
+  /* Corner price tag stays small on mobile */
+  .mkt-form-corner-price {
+    font-size: 12px;
+    padding: 6px 14px 6px 12px;
+    top: 16px;
   }
 }
 
