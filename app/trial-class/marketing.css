@@ -232,13 +232,11 @@
   font-size: 15px;
   color: var(--mkt-ink);
 }
-/* Corner price tag — floats above the top-right corner, tilted right */
+/* Corner price tag — floats above the top-right corner */
 .mkt-form-corner-price {
   position: absolute;
   top: -16px;
   right: 14px;
-  transform: rotate(4deg);
-  transform-origin: center center;
   background: var(--mkt-red);
   color: #fff;
   font-family: var(--font-display), system-ui, sans-serif;
@@ -1064,12 +1062,14 @@
     font-size: 13px;
     padding: 6px 12px;
   }
-  /* Corner price tag stays small on mobile */
+  /* Corner price tag stays small and tilted on mobile */
   .mkt-form-corner-price {
     font-size: 12px;
     padding: 6px 12px;
     top: -14px;
     right: 12px;
+    transform: rotate(4deg);
+    transform-origin: center center;
   }
 }
 
