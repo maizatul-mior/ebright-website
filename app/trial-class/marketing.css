@@ -232,11 +232,11 @@
   font-size: 15px;
   color: var(--mkt-ink);
 }
-/* Corner price tag — inside top-right corner of card on desktop */
+/* Corner price tag — right edge of card, below the heading on desktop */
 .mkt-form-corner-price {
   position: absolute;
-  top: 14px;
-  right: 14px;
+  top: 90px;
+  right: -14px;
   background: var(--mkt-red);
   color: #fff;
   font-family: var(--font-display), system-ui, sans-serif;
