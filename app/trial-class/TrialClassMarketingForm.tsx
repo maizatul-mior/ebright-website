@@ -74,6 +74,12 @@ export default function TrialClassMarketingForm() {
         error?: string;
       };
       if (!res.ok || !result.ok) throw new Error(result.error || "Submission failed.");
+      // Fire GTM event before redirecting so it has time to flush
+      (window as unknown as { dataLayer?: unknown[] }).dataLayer?.push({
+        event: "trial_class_form_submit",
+        child_age: payload.child_age,
+        preferred_branch: payload.preferred_branch,
+      });
       window.location.assign("/thankyou");
     } catch (ex) {
       setShowCaptcha(false);
