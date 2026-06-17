@@ -923,10 +923,19 @@
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 768px) {
+  /* Single-column form on all phones */
   .mkt-form-grid {
     grid-template-columns: 1fr;
   }
+  .mkt-form-shell {
+    flex: 1 1 auto;
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
   .mkt-form-card {
     padding: 30px 16px 24px;
   }
@@ -949,6 +958,21 @@
   .mkt-why-card {
     max-width: 380px;
     width: 100%;
+  }
+  /* Badge text wraps on small screens instead of overflowing */
+  .mkt-form-badge {
+    white-space: normal;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: calc(100% - 24px);
+  }
+  .mkt-form-badge-text,
+  .mkt-form-badge-price {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+  .mkt-form-badge-price {
+    border-radius: 999px;
   }
 }
 
@@ -1252,5 +1276,16 @@
   }
   .mkt-faq-a {
     padding: 12px 18px 18px;
+  }
+  /* Testimonial photos smaller on very small screens */
+  .mkt-tcard-photo {
+    flex: 0 0 80px;
+    width: 80px;
+    height: 80px;
+  }
+  /* Tighter step circles on small screens */
+  .mkt-step-circle {
+    width: 100px;
+    height: 100px;
   }
 }
