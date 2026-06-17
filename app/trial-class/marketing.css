@@ -232,19 +232,21 @@
   font-size: 15px;
   color: var(--mkt-ink);
 }
-/* Corner price tag — sticks out from the top-right edge of the card */
+/* Corner price tag — floats above the top-right corner, tilted right */
 .mkt-form-corner-price {
   position: absolute;
-  top: 20px;
-  right: -1px;
+  top: -16px;
+  right: 14px;
+  transform: rotate(4deg);
+  transform-origin: center center;
   background: var(--mkt-red);
   color: #fff;
   font-family: var(--font-display), system-ui, sans-serif;
   font-weight: 800;
   font-size: 14px;
-  padding: 8px 18px 8px 16px;
-  border-radius: 999px 0 0 999px;
-  box-shadow: -4px 4px 14px rgba(230, 36, 39, 0.35);
+  padding: 8px 18px;
+  border-radius: 999px;
+  box-shadow: 0 6px 16px rgba(230, 36, 39, 0.4);
   white-space: nowrap;
   z-index: 2;
 }
@@ -1065,8 +1067,9 @@
   /* Corner price tag stays small on mobile */
   .mkt-form-corner-price {
     font-size: 12px;
-    padding: 6px 14px 6px 12px;
-    top: 16px;
+    padding: 6px 12px;
+    top: -14px;
+    right: 12px;
   }
 }
 
