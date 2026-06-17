@@ -10,7 +10,6 @@ const AGE_RANGES = ["6-9 years old", "10-12 years old", "13-16 years old"];
 const TURNSTILE_SRC =
   "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
 
-// UTM / click-id params we forward to /api/lead for attribution.
 const UTM_KEYS = [
   "utm_source",
   "utm_medium",
@@ -27,12 +26,102 @@ type TurnstileApi = {
   remove?: (widgetId: string) => void;
 };
 
+// ---------- Custom dropdown (consistent on Android / iOS / macOS) ----------
+function CustomSelect({
+  id,
+  options,
+  placeholder,
+  value,
+  onChange,
+  showError,
+}: {
+  id: string;
+  options: string[];
+  placeholder: string;
+  value: string;
+  onChange: (v: string) => void;
+  showError?: boolean;
+}) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function outside(e: MouseEvent | TouchEvent) {
+      if (rootRef.current && !rootRef.current.contains(e.target as Node))
+        setOpen(false);
+    }
+    document.addEventListener("mousedown", outside);
+    document.addEventListener("touchstart", outside);
+    return () => {
+      document.removeEventListener("mousedown", outside);
+      document.removeEventListener("touchstart", outside);
+    };
+  }, [open]);
+
+  return (
+    <div className="mkt-custom-select" ref={rootRef}>
+      <button
+        id={id}
+        type="button"
+        className={[
+          "mkt-custom-select-trigger",
+          !value ? "mkt-custom-select-empty" : "",
+          showError ? "mkt-custom-select-invalid" : "",
+        ]
+          .filter(Boolean)
+          .join(" ")}
+        onClick={() => setOpen((o) => !o)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+      >
+        <span>{value || placeholder}</span>
+        <svg
+          className={`mkt-custom-select-arrow${open ? " open" : ""}`}
+          width="12"
+          height="8"
+          viewBox="0 0 12 8"
+          aria-hidden="true"
+        >
+          <path
+            d="M1 1.5l5 5 5-5"
+            fill="none"
+            stroke="#9aa1a9"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
+
+      {open && (
+        <ul className="mkt-custom-select-list" role="listbox">
+          {options.map((opt) => (
+            <li
+              key={opt}
+              role="option"
+              aria-selected={value === opt}
+              className={`mkt-custom-select-option${value === opt ? " selected" : ""}`}
+              onMouseDown={(e) => e.preventDefault()}
+              onClick={() => {
+                onChange(opt);
+                setOpen(false);
+              }}
+            >
+              {opt}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+// ---------- Turnstile helpers ----------
 function getTs(): TurnstileApi | undefined {
   return (window as unknown as { turnstile?: TurnstileApi }).turnstile;
 }
 
-// Dynamically inject the Turnstile script the first time it's needed.
-// Subsequent calls reuse the same script tag.
 function loadTurnstile(): Promise<TurnstileApi> {
   return new Promise((resolve, reject) => {
     const existing = getTs();
@@ -42,7 +131,6 @@ function loadTurnstile(): Promise<TurnstileApi> {
       `script[src="${TURNSTILE_SRC}"]`,
     );
     if (alreadyTag) {
-      // Script tag exists but API not ready yet — poll
       const t = setInterval(() => {
         const ts = getTs();
         if (ts?.render) { clearInterval(t); resolve(ts); }
@@ -63,18 +151,25 @@ function loadTurnstile(): Promise<TurnstileApi> {
   });
 }
 
+// ---------- Main form ----------
 export default function TrialClassMarketingForm() {
   const [status, setStatus] = useState<Status>("idle");
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
   const [whatsapp, setWhatsapp] = useState("");
   const [whatsappTouched, setWhatsappTouched] = useState(false);
-  const pendingPayloadRef = useRef<Record<string, string> | null>(null);
-  const utmRef = useRef<Record<string, string>>({});
   const whatsappValid = isValidWhatsapp(whatsapp);
 
-  // Capture UTM / click-id params from the landing URL once on mount, so they
-  // survive even if the URL is cleaned up later. Empty/absent params are skipped.
+  const [childAge, setChildAge] = useState("");
+  const [childAgeTouched, setChildAgeTouched] = useState(false);
+
+  const [branch, setBranch] = useState("");
+  const [branchTouched, setBranchTouched] = useState(false);
+
+  const pendingPayloadRef = useRef<Record<string, string> | null>(null);
+  const utmRef = useRef<Record<string, string>>({});
+
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const utm: Record<string, string> = {};
@@ -98,7 +193,6 @@ export default function TrialClassMarketingForm() {
         error?: string;
       };
       if (!res.ok || !result.ok) throw new Error(result.error || "Submission failed.");
-      // Fire GTM event before redirecting so it has time to flush
       (window as unknown as { dataLayer?: unknown[] }).dataLayer?.push({
         event: "trial_class_form_submit",
         child_age: payload.child_age,
@@ -113,13 +207,8 @@ export default function TrialClassMarketingForm() {
     }
   }
 
-  // Callback ref — fires when React mounts the captcha div (only after submit).
-  // At that point we inject the Turnstile script if not yet loaded, then render.
-  // appearance:'interaction-only' means no visible "Success!" badge — the widget
-  // is completely invisible unless Cloudflare needs manual user interaction.
   const captchaRefCallback = useCallback((node: HTMLDivElement | null) => {
     if (!node) return;
-
     loadTurnstile()
       .then((ts) => {
         const payload = pendingPayloadRef.current;
@@ -151,7 +240,12 @@ export default function TrialClassMarketingForm() {
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
-    if (!form.checkValidity()) {
+
+    // Mark custom selects as touched so inline errors show
+    setChildAgeTouched(true);
+    setBranchTouched(true);
+
+    if (!form.checkValidity() || !childAge || !branch || !whatsappValid) {
       form.reportValidity();
       return;
     }
@@ -160,21 +254,20 @@ export default function TrialClassMarketingForm() {
     pendingPayloadRef.current = {
       parent_name: String(data.get("parent-name") ?? ""),
       child_name: String(data.get("child-name") ?? ""),
-      child_age: String(data.get("child-age") ?? ""),
+      child_age: childAge,
       whatsapp_no: String(data.get("whatsapp") ?? ""),
       email: String(data.get("parent-email") ?? ""),
-      preferred_branch: String(data.get("branch") ?? ""),
+      preferred_branch: branch,
       source: LEAD_SOURCE,
       ...utmRef.current,
     };
     setError(null);
     setStatus("verifying");
-    setShowCaptcha(true); // mounts the div → captchaRefCallback fires
+    setShowCaptcha(true);
   }
 
   return (
     <div className="mkt-form-shell" id="register">
-      {/* Turnstile script is NOT preloaded — injected on demand in captchaRefCallback */}
       <div className="mkt-form-card">
         <div className="mkt-form-badge">
           <span className="mkt-form-badge-text">🔥 Only a few seats left this week</span>
@@ -238,12 +331,17 @@ export default function TrialClassMarketingForm() {
                 <label htmlFor="m-child-age">
                   Child&apos;s Age <span className="mkt-req" aria-hidden="true">*</span>
                 </label>
-                <select id="m-child-age" name="child-age" defaultValue="" required>
-                  <option value="" disabled>Select age</option>
-                  {AGE_RANGES.map((a) => (
-                    <option key={a} value={a}>{a}</option>
-                  ))}
-                </select>
+                <CustomSelect
+                  id="m-child-age"
+                  options={AGE_RANGES}
+                  placeholder="Select age"
+                  value={childAge}
+                  onChange={setChildAge}
+                  showError={childAgeTouched && !childAge}
+                />
+                {childAgeTouched && !childAge && (
+                  <p className="mkt-field-hint">Please select an age range.</p>
+                )}
               </div>
 
               <div className="mkt-field">
@@ -286,17 +384,20 @@ export default function TrialClassMarketingForm() {
                 <label htmlFor="m-branch">
                   Preferred location <span className="mkt-req" aria-hidden="true">*</span>
                 </label>
-                <select id="m-branch" name="branch" defaultValue="" required>
-                  <option value="" disabled>Select an option</option>
-                  {BRANCH_OPTIONS.map((b) => (
-                    <option key={b} value={b}>{b}</option>
-                  ))}
-                </select>
+                <CustomSelect
+                  id="m-branch"
+                  options={BRANCH_OPTIONS}
+                  placeholder="Select an option"
+                  value={branch}
+                  onChange={setBranch}
+                  showError={branchTouched && !branch}
+                />
+                {branchTouched && !branch && (
+                  <p className="mkt-field-hint">Please select a location.</p>
+                )}
               </div>
             </div>
 
-            {/* Only mounted when verifying — completely absent from DOM otherwise.
-                appearance:'interaction-only' means no visible Success badge ever. */}
             {showCaptcha && (
               <div className="mkt-form-captcha">
                 <div ref={captchaRefCallback} style={{ width: "100%" }} />
@@ -308,9 +409,7 @@ export default function TrialClassMarketingForm() {
             <button
               className="mkt-form-submit"
               type="submit"
-              disabled={
-                status === "submitting" || status === "verifying" || !whatsappValid
-              }
+              disabled={status === "submitting" || status === "verifying" || !whatsappValid}
             >
               {status === "submitting"
                 ? "Submitting…"
