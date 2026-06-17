@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   description:
     "Turn shyness into self-assurance. Book your child's Ebright public speaking trial class for just RM80. Real speaking practice, structured confidence training, fun and interactive lessons.",
   icons: {
-    icon: "/ebright-logomark.png",
+    icon: "/ebright-logomark.ico",
     apple: "/ebright-logomark.png",
   },
 };
