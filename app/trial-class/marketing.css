@@ -1347,8 +1347,30 @@
 
 /* ---------- Responsive: new sections ---------- */
 @media (max-width: 860px) {
+  /* Horizontal snap carousel on mobile */
   .mkt-tcards--3 {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 16px;
+    /* Negative margin trick: let cards bleed to screen edge */
+    margin-left: calc(-1 * clamp(16px, 5vw, 64px));
+    margin-right: calc(-1 * clamp(16px, 5vw, 64px));
+    padding-left: clamp(16px, 5vw, 64px);
+    padding-right: clamp(16px, 5vw, 64px);
+    padding-bottom: 8px;
+    /* Hide scrollbar */
+    scrollbar-width: none;
+  }
+  .mkt-tcards--3::-webkit-scrollbar {
+    display: none;
+  }
+  .mkt-tcards--3 .mkt-tcard--plain {
+    /* 85% width so the next card peeks in, hinting scroll */
+    flex: 0 0 85%;
+    scroll-snap-align: start;
   }
   .mkt-offer-card {
     padding: 28px 24px 32px;
