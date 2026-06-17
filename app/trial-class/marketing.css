@@ -938,8 +938,15 @@
 }
 
 @media (max-width: 560px) {
+  /* Pull badge into normal flow so it never overlaps the title */
+  .mkt-form-badge {
+    position: static;
+    transform: none;
+    margin: 0 auto 14px;
+    max-width: 100%;
+  }
   .mkt-form-card {
-    padding: 30px 16px 24px;
+    padding: 20px 16px 24px;
   }
   .mkt-stat {
     padding: 6px 10px;
