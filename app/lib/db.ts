@@ -39,6 +39,13 @@ export async function ensureTable(): Promise<void> {
       email            TEXT        NOT NULL,
       preferred_branch TEXT        NOT NULL,
       source           TEXT        DEFAULT 'website_trial_form',
+      utm_source       TEXT,
+      utm_medium       TEXT,
+      utm_campaign     TEXT,
+      utm_id           TEXT,
+      utm_content      TEXT,
+      utm_term         TEXT,
+      fbclid           TEXT,
       created_at       TIMESTAMPTZ NOT NULL DEFAULT now()
     );
   `);

@@ -48,6 +48,15 @@ export async function POST(req: NextRequest) {
       ? "marketing_trial_form"
       : "website_trial_form";
 
+  // UTM / click attribution (optional — empty string -> NULL in DB)
+  const utmSource   = str(body.utm_source);
+  const utmMedium   = str(body.utm_medium);
+  const utmCampaign = str(body.utm_campaign);
+  const utmId       = str(body.utm_id);
+  const utmContent  = str(body.utm_content);
+  const utmTerm     = str(body.utm_term);
+  const fbclid      = str(body.fbclid);
+
   if (!parent || !child || !whatsapp || !email || !branch) {
     return NextResponse.json({ ok: false, error: "Missing required fields." }, { status: 400 });
   }
@@ -75,10 +84,13 @@ export async function POST(req: NextRequest) {
     await ensureTable();
     const result = await getPool().query(
       `INSERT INTO public.new_website_form
-         (parent_name, child_name, child_age, whatsapp_no, email, preferred_branch, source)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)
+         (parent_name, child_name, child_age, whatsapp_no, email, preferred_branch, source,
+          utm_source, utm_medium, utm_campaign, utm_id, utm_content, utm_term, fbclid)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
        RETURNING id`,
-      [parent, child, ageRaw || null, whatsapp, email, branch, source]
+      [parent, child, ageRaw || null, whatsapp, email, branch, source,
+       utmSource || null, utmMedium || null, utmCampaign || null, utmId || null,
+       utmContent || null, utmTerm || null, fbclid || null]
     );
     return NextResponse.json({ ok: true, id: result.rows[0].id });
   } catch (e) {

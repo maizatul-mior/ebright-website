@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { BRANCH_OPTIONS } from "../data/branchOptions";
 import { isValidWhatsapp } from "../lib/phone";
 
@@ -9,6 +9,17 @@ const LEAD_SOURCE = "marketing_trial_form";
 const AGE_RANGES = ["6-9 years old", "10-12 years old", "13-16 years old"];
 const TURNSTILE_SRC =
   "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit";
+
+// UTM / click-id params we forward to /api/lead for attribution.
+const UTM_KEYS = [
+  "utm_source",
+  "utm_medium",
+  "utm_campaign",
+  "utm_id",
+  "utm_content",
+  "utm_term",
+  "fbclid",
+] as const;
 
 type Status = "idle" | "verifying" | "submitting" | "done";
 type TurnstileApi = {
@@ -59,7 +70,20 @@ export default function TrialClassMarketingForm() {
   const [whatsapp, setWhatsapp] = useState("");
   const [whatsappTouched, setWhatsappTouched] = useState(false);
   const pendingPayloadRef = useRef<Record<string, string> | null>(null);
+  const utmRef = useRef<Record<string, string>>({});
   const whatsappValid = isValidWhatsapp(whatsapp);
+
+  // Capture UTM / click-id params from the landing URL once on mount, so they
+  // survive even if the URL is cleaned up later. Empty/absent params are skipped.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const utm: Record<string, string> = {};
+    for (const key of UTM_KEYS) {
+      const value = params.get(key);
+      if (value) utm[key] = value;
+    }
+    utmRef.current = utm;
+  }, []);
 
   async function doSubmit(payload: Record<string, string>, token: string) {
     setStatus("submitting");
@@ -141,6 +165,7 @@ export default function TrialClassMarketingForm() {
       email: String(data.get("parent-email") ?? ""),
       preferred_branch: String(data.get("branch") ?? ""),
       source: LEAD_SOURCE,
+      ...utmRef.current,
     };
     setError(null);
     setStatus("verifying");
