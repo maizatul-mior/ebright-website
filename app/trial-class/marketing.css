@@ -1347,30 +1347,40 @@
 
 /* ---------- Responsive: new sections ---------- */
 @media (max-width: 860px) {
-  /* Horizontal snap carousel on mobile */
+  /* Single scrollable card containing all three stories */
   .mkt-tcards--3 {
     display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
+    flex-direction: column;
+    gap: 0;
+    max-height: 400px;
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    gap: 16px;
-    /* Negative margin trick: let cards bleed to screen edge */
-    margin-left: calc(-1 * clamp(16px, 5vw, 64px));
-    margin-right: calc(-1 * clamp(16px, 5vw, 64px));
-    padding-left: clamp(16px, 5vw, 64px);
-    padding-right: clamp(16px, 5vw, 64px);
-    padding-bottom: 8px;
-    /* Hide scrollbar */
-    scrollbar-width: none;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    padding: 0 4px 4px;
+    /* Thin red scrollbar so user sees it's scrollable */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(230, 36, 39, 0.35) transparent;
   }
   .mkt-tcards--3::-webkit-scrollbar {
-    display: none;
+    width: 4px;
   }
+  .mkt-tcards--3::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .mkt-tcards--3::-webkit-scrollbar-thumb {
+    background: rgba(230, 36, 39, 0.35);
+    border-radius: 99px;
+  }
+  /* Individual stories inside — no separate shadow, separated by a line */
   .mkt-tcards--3 .mkt-tcard--plain {
-    /* 85% width so the next card peeks in, hinting scroll */
-    flex: 0 0 85%;
-    scroll-snap-align: start;
+    box-shadow: none;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  }
+  .mkt-tcards--3 .mkt-tcard--plain:last-child {
+    border-bottom: none;
   }
   .mkt-offer-card {
     padding: 28px 24px 32px;
