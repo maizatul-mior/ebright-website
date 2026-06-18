@@ -167,6 +167,9 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         />
       </noscript>
 
+      {/* GetResponse Analytics */}
+      <Script id="gr-analytics" strategy="afterInteractive" src="https://an.gr-wcon.com/script/ad259008-e2ff-4683-aee7-241ad2cd15dd/ga.js" crossOrigin="use-credentials" />
+
       {/* Landing-page navbar */}
       <header className="mkt-nav">
         <div className="mkt-nav-inner">
