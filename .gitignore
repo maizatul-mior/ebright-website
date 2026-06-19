@@ -46,3 +46,6 @@ next-env.d.ts
 
 # figma design source files (large SVG exports — kept locally, not deployed)
 /design-source/
+
+# Cloudflare Wrangler local state
+.wrangler/
