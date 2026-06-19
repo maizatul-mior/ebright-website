@@ -1,0 +1,12 @@
+{
+  "name": "ebright-website",
+  "compatibility_date": "2025-06-01",
+  "pages_build_output_dir": "out",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "ebright-leads",
+      "database_id": "PLACEHOLDER_FILLED_IN_TASK_6"
+    }
+  ]
+}
