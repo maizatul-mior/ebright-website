@@ -1,12 +1,5 @@
 {
   "name": "ebright-website",
   "compatibility_date": "2025-06-01",
-  "pages_build_output_dir": "out",
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "ebright-leads",
-      "database_id": "b2ef4279-20af-41a4-b974-dd2192fce95e"
-    }
-  ]
+  "pages_build_output_dir": "out"
 }
