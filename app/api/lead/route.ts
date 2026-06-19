@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { getPool, ensureTable } from "../../lib/db";
 import { isValidWhatsapp } from "../../lib/phone";
 
-export const runtime = "nodejs";
-export const dynamic = "force-dynamic";
 
 const str = (v: unknown): string => (typeof v === "string" ? v.trim() : "");
 
