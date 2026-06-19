@@ -173,7 +173,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       {/* Landing-page navbar */}
       <header className="mkt-nav">
         <div className="mkt-nav-inner">
-          <Logo width={140} height={46} className="h-9 w-auto" white />
+          <Logo href="https://v2.ebright.my" width={140} height={46} className="h-9 w-auto" white />
           <a href="#register" className="mkt-nav-cta">
             Register Now →
           </a>
