@@ -1,78 +1,74 @@
-export const metadata = {
-  title: "Privacy Policy — Ebright",
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy — Ebright Public Speaking Academy",
 };
 
 export default function Privacy() {
   return (
     <>
-      <section className="bg-[var(--cream)] py-16">
+      {/* ── Header ──────────────────────────────────────────────── */}
+      <section className="bg-[var(--cream)] py-12">
         <div className="mx-auto max-w-4xl px-6">
-          <p className="text-sm font-semibold uppercase tracking-wider text-[var(--brand)]">Legal</p>
-          <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">Privacy Policy</h1>
-          <p className="mt-4 text-sm text-[var(--ink-soft)]">Effective Date: February 7, 2023</p>
+          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl">
+            Privacy Policies
+          </h1>
+          <p className="mt-3 text-sm text-[var(--ink-soft)]">Last Update: 2026, June 6</p>
         </div>
       </section>
 
+      {/* ── Content ─────────────────────────────────────────────── */}
       <section className="bg-white py-16">
-        <div className="mx-auto max-w-3xl space-y-8 px-6 text-base leading-7 text-[var(--ink-soft)]">
+        <div className="mx-auto max-w-3xl space-y-6 px-6 text-base leading-8 text-[var(--foreground)]">
           <p>
-            <strong>Your privacy is important to us.</strong> Ebright operates under Ebright Sdn.
-            Bhd. and maintains this privacy policy for information collected across social media,
-            the website{" "}
-            <a className="text-[var(--brand)] hover:underline" href="https://www.ebright.my/">
+            Your privacy is important to us. Ebright is a branding under the name of Ebright
+            Sdn. Bhd. It is EBright&apos;s policy to respect your privacy regarding any
+            information we may collect from you across our social media platforms, website,{" "}
+            <a
+              href="https://www.ebright.my/"
+              className="text-[var(--brand)] hover:underline"
+            >
               https://www.ebright.my/
             </a>
-            , and related properties.
+            , and other sites we own and operate.
+          </p>
+          <p>
+            We only ask for personal information when we truly need it to provide a service to
+            you. We collect it by fair and lawful means, with your knowledge and consent. We
+            also let you know why we&apos;re collecting it and how it will be used.
           </p>
 
-          <Section title="Data Collection">
-            We only ask for personal information when we truly need it to provide a service to
-            you. We collect it by fair and lawful means, with your knowledge and consent.
-          </Section>
-
-          <Section title="Retention &amp; Protection">
-            We keep information only as long as necessary for service delivery. Data receives
-            protection within commercially acceptable means to prevent loss and theft, as well
-            as unauthorized access, disclosure, copying, use, or modification.
-          </Section>
-
-          <Section title="Data Sharing">
+          <p>
+            We only retain collected information for as long as necessary to provide you with
+            your requested service. What data we store, we&apos;ll protect within commercially
+            acceptable means to prevent loss &amp; theft, as well as unauthorized access,
+            disclosure, copying, use, or modification.
+          </p>
+          <p>
             We don&apos;t share any personally identifying information publicly or with third
             parties, except when required to by law.
-          </Section>
+          </p>
 
-          <Section title="External Links">
-            Our website may connect to outside sites beyond Ebright&apos;s control, and we
-            cannot accept responsibility for their privacy practices.
-          </Section>
+          <p>
+            Our website may link to external sites that are not operated by us. Please be
+            aware that we have no control over the content and practices of these sites, and
+            cannot accept responsibility or liability for their respective privacy policies.
+          </p>
 
-          <Section title="User Rights">
-            Individuals may decline providing personal information, though this may limit
-            available services.
-          </Section>
+          <p>
+            You are free to refuse our request for your personal information, with the
+            understanding that we may be unable to provide you with some of your desired
+            services.
+          </p>
+          <p>
+            Your continued use of our website will be regarded as an acceptance of our
+            practices around privacy and personal information. If you have any questions about
+            how we handle user data and personal information, feel free to contact us.
+          </p>
 
-          <Section title="Acceptance">
-            Continued website use indicates acceptance of these privacy practices.
-          </Section>
-
-          <Section title="Questions">
-            Users experiencing concerns should contact us directly at{" "}
-            <a className="text-[var(--brand)] hover:underline" href="mailto:sales@ebright.my">
-              sales@ebright.my
-            </a>
-            .
-          </Section>
+          <p>This policy is effective as of 7th February 2023.</p>
         </div>
       </section>
     </>
-  );
-}
-
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <h2 className="text-xl font-bold text-[var(--foreground)]">{title}</h2>
-      <p className="mt-3">{children}</p>
-    </div>
   );
 }

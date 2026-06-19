@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ContactForm from "../components/ContactForm";
+import Image from "next/image";
 import FindAClass from "../components/FindAClass";
 import GrowingHistoryCta from "../components/GrowingHistoryCta";
 
@@ -12,9 +12,22 @@ export const metadata: Metadata = {
 export default function ContactUs() {
   return (
     <>
-      {/* Contact + form */}
+      {/* Hero */}
       <section className="bg-[var(--cream)]">
-        <div className="mx-auto grid max-w-7xl gap-12 px-6 py-16 lg:grid-cols-2 lg:py-20">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-16 lg:grid-cols-2 lg:py-20">
+          {/* Telephone image */}
+          <div className="flex items-center justify-center">
+            <Image
+              src="/contact-us/img-01.png"
+              alt="Contact Ebright"
+              width={460}
+              height={560}
+              className="h-auto w-full max-w-xs lg:max-w-sm"
+              priority
+            />
+          </div>
+
+          {/* Contact info */}
           <div>
             <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl">
               We&apos;re Here <span className="text-[var(--brand)]">To Help</span>
@@ -36,10 +49,6 @@ export default function ContactUs() {
                 Malaysia.
               </ContactRow>
             </ul>
-          </div>
-
-          <div className="rounded-3xl bg-white p-7 shadow-xl ring-1 ring-black/5 sm:p-8">
-            <ContactForm />
           </div>
         </div>
       </section>

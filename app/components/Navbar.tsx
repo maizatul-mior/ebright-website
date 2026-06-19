@@ -7,7 +7,7 @@ import Logo from "./Logo";
 
 // Routes that ship their own navigation chrome and should NOT render the global
 // site navbar. The marketing trial-class landing page has its own red navbar.
-const NO_NAVBAR_ROUTES = ["/trial-class"];
+const NO_NAVBAR_ROUTES = ["/trial-class", "/trial-class-2"];
 
 const nav = [
   {
@@ -44,7 +44,7 @@ const nav = [
     label: "More",
     href: "#",
     children: [
-      { label: "Ebright Referral", href: "#" },
+      { label: "Ebright Referral", href: "/ebright-referral" },
       { label: "Franchising Opportunity", href: "/franchising-opportunity" },
       { label: "FAQ", href: "/faq" },
     ],

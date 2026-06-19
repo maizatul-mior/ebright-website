@@ -1,85 +1,139 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
+import GrowingHistoryCta from "../components/GrowingHistoryCta";
+import StoriesFilter from "./StoriesFilter";
 
 export const metadata: Metadata = {
   title: "Hall of Excellence — Ebright Public Speaking Academy",
   description:
-    "Celebrating Ebright students in the spotlight — media appearances, competition wins, and proud moments on national stages.",
+    "Celebrating the outstanding milestones, academic distinctions, and real-world triumphs of our brilliant students who use the power of speech to lead.",
 };
 
-const features = [
+// ── Student spotlight data ───────────────────────────────────────────────
+
+const students = [
   {
-    title: "Zaza's Appearance on RTV",
+    name: "Alyssa Derek",
+    achievement: "Singer-songwriter",
+    image: "/hall-of-excellence/img-00.png",
+  },
+  {
+    name: "Nur Ayesha Azzalea",
+    achievement: "Distinction in Trinity Communication Skills",
     image: "/hall-of-excellence/img-01.png",
-    body: "On the 8th of November, Nur Ayeesha Azzaleea A.K.A Zaza makes an appearance in RTV channel! In conjunction of 'Bulan Keluarga Kebangsaan', her mother speaks of Zaza's progress in becoming the brilliant speaker she is today and the dedication she holds just for her child. This truly shows the importance of our family members' support to become a better version of ourself.",
+  },
+  {
+    name: "Ara Aziz",
+    achievement: "Kids TV Host",
+    image: "/Hall%20of%20Excellence/ebright-brand-ambassador-1.png",
+  },
+  {
+    name: "Olivia Janna",
+    achievement: "Distinction in Trinity Grade 6",
+    image: "/Hall%20of%20Excellence/ebright-brand-ambassador-2.png",
+  },
+  {
+    name: "Sharvini Vijayakumar",
+    achievement: "Distinction in Ebright Examinations",
+    image: "/Hall%20of%20Excellence/hall-of-excellence-vyshnavi.png",
+  },
+  {
+    name: "Low Shuun",
+    achievement: "Lead Ebright Student since 2021",
+    image: "/Hall%20of%20Excellence/ebright-brand-ambassador-3.png",
+  },
+  {
+    name: "Dhya Humaira",
+    achievement: "Distinction in Trinity Communication Skills",
+    image: "/Hall%20of%20Excellence/hall-of-excellence-dhiya-humaira.jpg",
+  },
+  {
+    name: "Chui Chee Hui",
+    achievement: "Distinction in Trinity Communications 2023",
+    image: "/Hall%20of%20Excellence/hall-of-excellence-chee-hui.png",
+  },
+  {
+    name: "Cinta Summayah",
+    achievement: "Ebright Ambassador since 2023",
+    image: "/Hall%20of%20Excellence/hall-of-excellence-arishya-putri.png",
   },
 ];
+
+// ── Page ─────────────────────────────────────────────────────────────────
 
 export default function HallOfExcellence() {
   return (
     <>
-      {/* Header */}
-      <section className="bg-[var(--cream)]">
-        <div className="mx-auto max-w-3xl px-6 py-16 text-center md:py-20">
-          <p className="text-sm font-bold uppercase tracking-wider text-[var(--brand)]">Hall of Excellence</p>
-          <h1 className="mt-3 text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl">
-            Our Stars in the <span className="text-[var(--brand)]">Spotlight</span>
+      {/* ── Hero ──────────────────────────────────────────────── */}
+      <section className="relative isolate overflow-hidden bg-[var(--foreground)] text-white">
+        <Image
+          src="/Hall%20of%20Excellence/hall-of-excellence-hero.png"
+          alt=""
+          fill
+          priority
+          className="-z-10 object-cover object-top"
+          sizes="100vw"
+        />
+        <div className="absolute inset-0 -z-10 bg-black/60" />
+        <div className="mx-auto max-w-3xl px-6 py-24 text-center md:py-28">
+          <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl">
+            The Hall of Excellence
           </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-[var(--ink-soft)]">
-            From national television to live stages, our students are making their voices heard.
-            Here are some of the proud moments worth celebrating.
+          <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-white/80">
+            Celebrating the outstanding milestones, academic distinctions, and real-world
+            triumphs of our brilliant students who use the power of speech to lead.
           </p>
         </div>
       </section>
 
-      {/* Media features */}
-      <section className="bg-white py-16">
-        <div className="mx-auto max-w-6xl space-y-10 px-6">
-          {features.map((f, i) => (
-            <article
-              key={i}
-              className={`grid items-center gap-8 overflow-hidden rounded-3xl bg-[var(--cream)] ring-1 ring-black/5 md:grid-cols-2 ${
-                i % 2 === 1 ? "md:[&>div:first-child]:order-2" : ""
-              }`}
-            >
-              <div className="relative min-h-[320px] bg-[var(--foreground)]">
-                <Image src={f.image} alt={f.title} fill className="object-contain p-4" sizes="(max-width:768px) 100vw, 50vw" />
+      {/* ── Student spotlight grid ────────────────────────────── */}
+      <section className="bg-[var(--cream)] py-16 md:py-20">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:gap-6">
+            {students.map((s) => (
+              <div
+                key={s.name}
+                className="overflow-hidden rounded-3xl bg-white ring-1 ring-black/5"
+              >
+                <div className="relative aspect-[3/4] bg-[var(--cream)]">
+                  <Image
+                    src={s.image}
+                    alt={s.name}
+                    fill
+                    className="object-cover object-top"
+                    sizes="(max-width:640px) 50vw, 33vw"
+                  />
+                </div>
+                <div className="p-4">
+                  <p className="font-extrabold text-[var(--foreground)]">{s.name}</p>
+                  <p className="mt-1 text-xs leading-5 text-[var(--ink-soft)]">
+                    {s.achievement}
+                  </p>
+                </div>
               </div>
-              <div className="p-8 md:p-10">
-                <h2 className="text-2xl font-bold tracking-tight">{f.title}</h2>
-                <p className="mt-4 text-base leading-7 text-[var(--ink-soft)]">{f.body}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="bg-white px-6 pb-20">
-        <div className="mx-auto max-w-7xl rounded-3xl bg-[var(--brand)] px-6 py-16 text-center text-white">
-          <h2 className="text-3xl font-extrabold uppercase tracking-tight sm:text-4xl">
-            Give Your Child Stage Confidence
-          </h2>
-          <p className="mt-4 text-base text-white/85">
-            Book a quick trial class at any of our 20+ locations or online via Zoom.
-          </p>
-          <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
-            <Link
-              href="/trial-class"
-              className="inline-flex items-center justify-center rounded-lg bg-[var(--accent)] px-7 py-3.5 text-base font-bold text-[var(--foreground)] transition hover:brightness-95"
-            >
-              Book Trial Class
-            </Link>
-            <Link
-              href="/programmes"
-              className="inline-flex items-center justify-center rounded-lg border border-white/70 px-7 py-3.5 text-base font-semibold text-white transition hover:bg-white/10"
-            >
-              View Our Core Programs
-            </Link>
+            ))}
           </div>
         </div>
       </section>
+
+      {/* ── Real-World Triumphs & Success Stories ─────────────── */}
+      <section className="bg-white py-16 md:py-20">
+        <div className="mx-auto max-w-4xl px-6">
+          <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+            Real-World Triumphs &amp;{" "}
+            <span className="text-[var(--brand)]">Success Stories</span>
+          </h2>
+          <p className="mt-4 text-base leading-7 text-[var(--ink-soft)]">
+            Explore how our students use their script-free communication foundations to
+            conquer national broadcasting, elite sports, and prestigious international
+            academic stages.
+          </p>
+
+          <StoriesFilter />
+        </div>
+      </section>
+
+      <GrowingHistoryCta />
     </>
   );
 }

@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
+import FindAClassSection from "./components/FindAClass";
+import GrowingHistoryCta from "./components/GrowingHistoryCta";
 
 export default function Home() {
   return (
@@ -11,8 +13,8 @@ export default function Home() {
       <Programs />
       <VideoTestimonials />
       <Experts />
-      <FindAClass />
-      <FinalCta />
+      <FindAClassSection />
+      <GrowingHistoryCta />
     </>
   );
 }
@@ -347,88 +349,6 @@ function Experts() {
   );
 }
 
-/* -------------------------------------------------------- Find a class ---- */
-
-function FindAClass() {
-  const branches = Array.from({ length: 5 }, () => ({
-    name: "Ebright Public Speaking Academy - Subang Taipan",
-    distance: "Taipan, 2 Km",
-    address: "21-2, Jalan USJ 10/1d, Taipan Business Centre, 47620 Subang Jaya, Selangor, Malaysia",
-  }));
-  return (
-    <section className="bg-[var(--cream)] py-20">
-      <div className="mx-auto max-w-7xl px-6">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Find an Ebright Class <span className="text-[var(--brand)]">Near You</span>
-          </h2>
-          <p className="mt-4 text-lg text-[var(--ink-soft)]">
-            With physical locations across Klang Valley and structured virtual classrooms on Zoom,
-            premium training is always within reach.
-          </p>
-        </div>
-
-        <div className="mt-12 grid overflow-hidden rounded-3xl ring-1 ring-black/5 lg:grid-cols-2">
-          <div className="bg-white p-5">
-            <div className="flex items-center gap-2 rounded-full border border-black/10 px-4 py-2">
-              <SearchIcon className="h-4 w-4 text-[var(--ink-soft)]" />
-              <input
-                type="text"
-                placeholder="Find location"
-                className="w-full bg-transparent text-sm outline-none placeholder:text-[var(--ink-soft)]"
-              />
-            </div>
-            <ul className="mt-4 max-h-[360px] space-y-3 overflow-y-auto pr-1">
-              {branches.map((b, i) => (
-                <li key={i} className="rounded-xl border border-black/5 p-4">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-sm font-semibold">{b.name}</h3>
-                    <span className="text-xs font-medium text-[var(--brand)]">{b.distance}</span>
-                  </div>
-                  <p className="mt-1 text-xs leading-5 text-[var(--ink-soft)]">{b.address}</p>
-                </li>
-              ))}
-            </ul>
-            <Link
-              href="/our-branches"
-              className="mt-4 inline-flex w-full items-center justify-center rounded-lg bg-[var(--brand)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[var(--brand-strong)]"
-            >
-              View all branches
-            </Link>
-          </div>
-          <div className="relative min-h-[320px]">
-            <Image src="/home/map.png" alt="Map of Ebright branches" fill className="object-cover" sizes="(max-width:1024px) 100vw, 50vw" />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ----------------------------------------------------------- Final CTA ---- */
-
-function FinalCta() {
-  return (
-    <section className="bg-white px-6 py-16">
-      <div className="relative mx-auto max-w-7xl overflow-hidden rounded-3xl">
-        <Image src="/home/cta-bg.png" alt="Ebright students on stage" fill className="object-cover" sizes="100vw" />
-        <div className="absolute inset-0 bg-black/55" />
-        <div className="relative flex flex-col items-center px-6 py-20 text-center text-white">
-          <h2 className="max-w-2xl text-3xl font-extrabold uppercase tracking-tight sm:text-4xl">
-            Ready To Watch Your Child Shine On Stage?
-          </h2>
-          <Link
-            href="/trial-class"
-            className="mt-8 inline-flex items-center justify-center rounded-lg bg-[var(--accent)] px-8 py-4 text-base font-bold text-[var(--foreground)] shadow-lg transition hover:brightness-95"
-          >
-            Claim The Trial Class Now
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 /* --------------------------------------------------------------- Icons ---- */
 
 function CalendarIcon({ className }: { className?: string }) {
@@ -456,14 +376,6 @@ function ArrowIcon({ className }: { className?: string }) {
   );
 }
 
-function SearchIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-      <circle cx="11" cy="11" r="7" />
-      <path d="M21 21l-4-4" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
 
 function UsersIcon({ className }: { className?: string }) {
   return (

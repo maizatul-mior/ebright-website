@@ -11,28 +11,36 @@ export const metadata: Metadata = {
 
 const details = [
   {
-    title: "Weekly Core Classes (Physical Classes)",
-    body: "Held across our 20+ locations, this flagship program is built for consistent development. We ditch dry academic lectures and replace them with high-energy, interactive games that help children master vocal projection, strong body language, and impromptu thinking.",
-    image: "/home/prog-weekly.png",
+    titleBefore: "",
+    titleBrand: "Weekly Core",
+    titleAfter: " Classes (Physical Classes)",
+    body: "Every week, we bring the fun with multiple classes happening at different times and venues across Klang Valley! Kids will dive into exciting activities that boost their confidence and presentation skills, setting the stage for a lively and energetic learning experience!",
+    image: "/programmes/weekly-core-classes.jpg",
     href: "/programmes/weekly-classes",
   },
   {
-    title: "Interactive Online Classes (Zoom)",
-    body: "Premium training without the travel. Small, interactive Zoom classrooms — including sessions led by UK native-speaking coaches — connect children across Malaysia and the region in a safe, supportive space to overcome shyness and find their voice.",
-    image: "/home/prog-workshops.png",
-    href: "/programmes/online-classes",
-  },
-  {
-    title: "Holiday Camps",
-    body: "Make the school holidays count. Our intensive break programs pack debate, emceeing, and leadership into fun, confidence-building workshops that keep young minds engaged and growing.",
-    image: "/home/prog-camps.png",
+    titleBefore: "Public Speaking ",
+    titleBrand: "School Holiday",
+    titleAfter: " Workshops",
+    body: "Our special school collaboration program is sparking excitement across Malaysia! We're bringing dynamic public speaking classes to an ever-growing number of students from schools nationwide. This initiative is all about sharing our passion and expertise, making sure young speakers everywhere get the chance to shine.",
+    image: "/programmes/public-speaking-school-workshop.jpg",
     href: "/programmes/weekly-classes",
   },
   {
-    title: "Live Showcases",
-    body: "Confidence is built on real stages. Through monthly showcases and national events at malls and auditoriums, students put their skills into practice in front of live audiences — the moments parents never forget.",
-    image: "/home/prog-showcases.jpg",
-    href: "/gallery",
+    titleBefore: "School ",
+    titleBrand: "Workshop",
+    titleAfter: " and School Engagement",
+    body: "With this program, we're expanding our reach and empowering students to discover their voices. Get ready for a wave of enthusiasm and confidence as we nurture the next generation of stellar speakers and leaders!",
+    image: "/programmes/school-workshop-and-engagement.jpg",
+    href: "/programmes/weekly-classes",
+  },
+  {
+    titleBefore: "",
+    titleBrand: "",
+    titleAfter: "Trinity College London",
+    body: "Ebright Public Speaking is collaborating with the well-known Trinity College London which is specialized in certified international English examinations. We offer one-to-one training for students preparing for the Trinity College London Communication Skills assessment.",
+    image: "/programmes/trinity-college-london.jpg",
+    href: "/programmes/trinity-college-london",
   },
 ];
 
@@ -42,14 +50,14 @@ export default function Programmes() {
       {/* Hero — photo background with dark overlay */}
       <section className="relative isolate overflow-hidden bg-[var(--foreground)] text-white">
         <Image
-          src="/home/cta-bg.png"
+          src="/programmes/hero-programmes.jpg"
           alt=""
           fill
           priority
-          className="-z-10 object-cover opacity-40"
+          className="-z-10 object-cover"
           sizes="100vw"
         />
-        <div className="absolute inset-0 -z-10 bg-[var(--foreground)]/75" />
+        <div className="absolute inset-0 -z-10 bg-black/55" />
         <div className="mx-auto max-w-3xl px-6 py-20 text-center md:py-28">
           <h1 className="text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl">
             Pathways to Unstoppable Confidence
@@ -61,57 +69,35 @@ export default function Programmes() {
         </div>
       </section>
 
-      {/* Program cards — bento grid */}
-      <section className="bg-white py-20">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-5 lg:grid-cols-3 lg:grid-rows-2">
-            <BentoCard
-              className="lg:row-span-2 lg:min-h-[460px]"
-              img="/home/prog-weekly.png"
-              title="Weekly Classes"
-              body="Flagship physical campus public speaking training tailored for steady, long-term confidence building."
-              href="/programmes/weekly-classes"
-            />
-            <BentoCard
-              dark
-              title="Interactive Online Classes (Zoom)"
-              body="High-energy public speaking programs delivered live on Zoom, led by experienced and native-speaking coaches."
-              href="/programmes/online-classes"
-            />
-            <BentoCard
-              img="/home/prog-camps.png"
-              title="Holiday Camps"
-              body="Fast-paced, intensive school break programs covering debate, emceeing, and leadership."
-              href="/programmes/weekly-classes"
-            />
-            <BentoCard
-              className="lg:col-span-2"
-              img="/home/prog-showcases.jpg"
-              title="Live Showcases"
-              body="Regular opportunities for students to speak on real stages in front of live audiences."
-              href="/gallery"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Detailed program sections */}
+      {/* Programme cards — alternating layout */}
       <section className="bg-[var(--cream)] py-16">
         <div className="mx-auto max-w-6xl space-y-8 px-6">
           {details.map((d, i) => (
             <article
-              key={d.title}
-              className="grid items-center gap-8 overflow-hidden rounded-3xl bg-white ring-1 ring-black/5 md:grid-cols-2"
+              key={i}
+              className="grid items-center overflow-hidden rounded-3xl bg-white shadow-[0_4px_24px_rgba(0,0,0,0.07)] md:grid-cols-2"
             >
-              <div className={`relative min-h-[280px] ${i % 2 === 1 ? "md:order-2" : ""}`}>
-                <Image src={d.image} alt={d.title} fill className="object-cover" sizes="(max-width:768px) 100vw, 50vw" />
+              <div className={`relative min-h-[300px] ${i % 2 === 0 ? "md:order-2" : ""}`}>
+                <Image
+                  src={d.image}
+                  alt={d.titleBefore + d.titleBrand + d.titleAfter}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width:768px) 100vw, 50vw"
+                />
               </div>
               <div className="p-8 md:p-10">
-                <h3 className="text-2xl font-bold tracking-tight text-[var(--brand)]">{d.title}</h3>
+                <h3 className="text-2xl font-bold leading-snug tracking-tight sm:text-3xl">
+                  {d.titleBefore}
+                  {d.titleBrand && (
+                    <span className="text-[var(--brand)]">{d.titleBrand}</span>
+                  )}
+                  {d.titleAfter}
+                </h3>
                 <p className="mt-4 text-base leading-7 text-[var(--ink-soft)]">{d.body}</p>
                 <Link
                   href={d.href}
-                  className="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-[var(--brand)] hover:underline"
+                  className="mt-6 inline-flex items-center gap-2 rounded-lg border border-black/20 px-4 py-2 text-sm font-semibold transition hover:border-[var(--brand)] hover:text-[var(--brand)]"
                 >
                   Learn More
                   <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
@@ -129,50 +115,3 @@ export default function Programmes() {
   );
 }
 
-function BentoCard({
-  img,
-  title,
-  body,
-  href,
-  dark,
-  className,
-}: {
-  img?: string;
-  title: string;
-  body: string;
-  href: string;
-  dark?: boolean;
-  className?: string;
-}) {
-  return (
-    <Link
-      href={href}
-      className={`group relative flex min-h-[220px] flex-col justify-end overflow-hidden rounded-3xl p-6 text-white ring-1 ring-black/5 ${
-        dark ? "bg-[var(--foreground)]" : ""
-      } ${className ?? ""}`}
-    >
-      {img && (
-        <>
-          <Image
-            src={img}
-            alt={title}
-            fill
-            className="object-cover transition duration-500 group-hover:scale-105"
-            sizes="(max-width:1024px) 100vw, 50vw"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
-        </>
-      )}
-      <div className="relative">
-        <h3 className="text-xl font-bold">{title}</h3>
-        <p className="mt-1 max-w-sm text-sm leading-5 text-white/85">{body}</p>
-        <span className="mt-3 inline-flex items-center gap-1 rounded-md border border-white/40 px-3 py-1 text-xs font-semibold transition group-hover:bg-white/15">
-          Learn More
-          <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}>
-            <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </span>
-      </div>
-    </Link>
-  );
-}
