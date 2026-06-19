@@ -1,12 +1,14 @@
 // Cloudflare Pages Function: POST /api/lead
-// Replaces the retired Next.js Node route. Verifies Cloudflare Turnstile and
-// inserts the lead into D1. Returns the same JSON contract the form JS expects.
-import { parseLead, validateLead, LEAD_COLUMNS, toBindValues } from "./_lead-core";
+// Verifies Turnstile, then forwards the lead to the dashboard backend
+// (dashboard.ebright.my/api/website-lead) which writes to public.new_website_form.
+import { parseLead, validateLead } from "./_lead-core";
 
 interface Env {
-  DB: D1Database;
   TURNSTILE_SECRET?: string;
+  WEBSITE_LEAD_API_KEY?: string;
 }
+
+const DASHBOARD_API = "https://dashboard.ebright.my/api/website-lead";
 
 const json = (data: unknown, status = 200): Response =>
   new Response(JSON.stringify(data), {
@@ -19,7 +21,7 @@ async function verifyTurnstile(
   ip: string,
   secret: string | undefined
 ): Promise<boolean> {
-  if (!secret) return true; // not configured yet -> don't block submissions
+  if (!secret) return true;
   if (!token) return false;
   const body = new URLSearchParams({ secret, response: token });
   if (ip) body.append("remoteip", ip);
@@ -64,16 +66,35 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
   }
 
   try {
-    const placeholders = LEAD_COLUMNS.map((_, i) => `?${i + 1}`).join(", ");
-    const sql =
-      `INSERT INTO new_website_form (${LEAD_COLUMNS.join(", ")}) ` +
-      `VALUES (${placeholders}) RETURNING id`;
-    const row = await env.DB.prepare(sql)
-      .bind(...toBindValues(lead))
-      .first<{ id: number }>();
-    return json({ ok: true, id: row?.id });
+    const resp = await fetch(DASHBOARD_API, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        "x-api-key": env.WEBSITE_LEAD_API_KEY ?? "",
+      },
+      body: JSON.stringify({
+        parent_name:      lead.parent,
+        child_name:       lead.child,
+        child_age:        lead.age || null,
+        whatsapp_no:      lead.whatsapp,
+        email:            lead.email,
+        preferred_branch: lead.branch,
+        source:           lead.source,
+        utm_source:       lead.utmSource  || null,
+        utm_medium:       lead.utmMedium  || null,
+        utm_campaign:     lead.utmCampaign || null,
+        utm_id:           lead.utmId      || null,
+        utm_content:      lead.utmContent || null,
+        utm_term:         lead.utmTerm    || null,
+        fbclid:           lead.fbclid     || null,
+      }),
+    });
+
+    const result = (await resp.json().catch(() => ({}))) as { ok?: boolean; error?: string; id?: number };
+    if (!resp.ok || !result.ok) throw new Error(result.error || "Server error.");
+    return json({ ok: true, id: result.id });
   } catch (e) {
-    console.error("[lead] insert error", e);
+    console.error("[lead] forward error", e);
     return json({ ok: false, error: "Server error. Please try again." }, 500);
   }
 };
