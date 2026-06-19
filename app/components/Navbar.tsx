@@ -10,9 +10,15 @@ import Logo from "./Logo";
 const NO_NAVBAR_ROUTES = ["/trial-class"];
 
 const nav = [
-  { label: "Our Story", href: "/our-story" },
-  { label: "Our Branches", href: "/our-branches" },
-  { label: "Trial Class", href: "/trial-class" },
+  {
+    label: "About Us",
+    href: "#",
+    children: [
+      { label: "Our Story", href: "/our-story" },
+      { label: "Our Team", href: "/our-team" },
+      { label: "Career Opportunity", href: "/career-opportunity" },
+    ],
+  },
   {
     label: "Programmes",
     href: "/programmes",
@@ -22,22 +28,25 @@ const nav = [
       { label: "Trinity College London", href: "/programmes/trinity-college-london" },
     ],
   },
-  { label: "Gallery", href: "/gallery" },
-  { label: "Media Exposure", href: "/media-exposure" },
-  { label: "Testimonial", href: "/testimonial" },
+  { label: "Our Branches", href: "/our-branches" },
+  {
+    label: "Success Story",
+    href: "#",
+    children: [
+      { label: "Testimonial", href: "/testimonial" },
+      { label: "Gallery", href: "/gallery" },
+      { label: "Hall of Excellence", href: "/hall-of-excellence" },
+      { label: "Annual Showcase", href: "/annual-showcase-2025" },
+    ],
+  },
   { label: "Contact Us", href: "/contact-us" },
   {
     label: "More",
     href: "#",
     children: [
-      { label: "Our Team", href: "/our-team" },
-      { label: "Hall Of Excellence", href: "/hall-of-excellence" },
-      { label: "Annual Showcase 2025", href: "/annual-showcase-2025" },
-      { label: "Annual Showcase 2024", href: "/annual-showcase-2024" },
-      { label: "Annual Showcase 2023", href: "/annual-showcase-2023" },
-      { label: "FAQ", href: "/faq" },
+      { label: "Ebright Referral", href: "#" },
       { label: "Franchising Opportunity", href: "/franchising-opportunity" },
-      { label: "Join The Team", href: "/join-the-team" },
+      { label: "FAQ", href: "/faq" },
     ],
   },
 ];
