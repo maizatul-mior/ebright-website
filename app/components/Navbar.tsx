@@ -7,7 +7,7 @@ import Logo from "./Logo";
 
 // Routes that ship their own navigation chrome and should NOT render the global
 // site navbar. The marketing trial-class landing page has its own red navbar.
-const NO_NAVBAR_ROUTES = ["/trial-class"];
+const NO_NAVBAR_ROUTES = ["/trial-class", "/trial-class-2"];
 
 const nav = [
   {
@@ -44,7 +44,7 @@ const nav = [
     label: "More",
     href: "#",
     children: [
-      { label: "Ebright Referral", href: "#" },
+      { label: "Ebright Referral", href: "/ebright-referral" },
       { label: "Franchising Opportunity", href: "/franchising-opportunity" },
       { label: "FAQ", href: "/faq" },
     ],
@@ -124,10 +124,10 @@ export default function Navbar() {
                 <div key={item.label}>
                   <button
                     onClick={() => setOpenSub(openSub === item.label ? null : item.label)}
-                    className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm font-medium text-white"
+                    className="flex w-full items-center justify-between rounded-lg px-3 py-3 text-sm font-medium text-white"
                   >
                     {item.label}
-                    <span className="text-xs">{openSub === item.label ? "−" : "+"}</span>
+                    <span className="text-base leading-none">{openSub === item.label ? "−" : "+"}</span>
                   </button>
                   {openSub === item.label && (
                     <div className="ml-3 border-l border-white/20 pl-3">
@@ -136,7 +136,7 @@ export default function Navbar() {
                           key={c.href}
                           href={c.href}
                           onClick={() => setMobileOpen(false)}
-                          className="block rounded-lg px-3 py-1.5 text-sm text-white/80"
+                          className="block rounded-lg px-3 py-2.5 text-sm text-white/80"
                         >
                           {c.label}
                         </Link>

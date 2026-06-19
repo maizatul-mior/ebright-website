@@ -1,89 +1,147 @@
-export const metadata = {
-  title: "FAQ — Ebright",
-  description: "Frequently asked questions about Ebright's public speaking classes for kids.",
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
+import GrowingHistoryCta from "../components/GrowingHistoryCta";
+
+export const metadata: Metadata = {
+  title: "FAQ — Ebright Public Speaking Academy",
+  description:
+    "Frequently asked questions about Ebright's public speaking classes, coaches, schedules, and enrolment for children aged 6–16.",
 };
 
-const faqs = [
+// ── Data ────────────────────────────────────────────────────────────────
+
+const faqs: { q: string; a: string | string[] }[] = [
   {
-    q: "What is the focus of your public speaking program?",
-    a: "The program aims to unleash children's hidden potential through a Trinity College London-aligned curriculum using play-based teaching methods for ages 7–16, organized by grades (12 weeks each).",
+    q: "What Are Your Coaches' Qualifications?",
+    a: "Our coaches hold backgrounds in TESL and English Literature with strong command of the language. Many also have Toastmasters qualifications and World Scholar's Cup experience, and our online classes are led by UK native-speaking coaches.",
   },
   {
-    q: "How does your public speaking program work?",
-    a: "Through interactive lessons and custom worksheets, students gradually build confidence and communication skills, eventually delivering 2-minute speeches using main points rather than memorization.",
+    q: "Can I See My Kids Improve Within 3 Months?",
+    a: "Positive changes typically begin to emerge after 2 grades (around 6 months), though many parents notice improvements in confidence and willingness to speak even sooner. Full mastery develops with continued practice.",
   },
   {
-    q: "How long is your program?",
-    a: "The program is continuous. Positive changes typically emerge after 2 grades (6 months), with full mastery developing over longer periods.",
+    q: "Are Online Classes Effective When It Comes To Overcoming Shyness?",
+    a: "Yes. Our online classes are small, interactive, and led by experienced coaches — including UK native speakers — creating a safe, supportive space where shy children gradually open up and build confidence.",
   },
   {
-    q: "What are they learning in your weekly class?",
-    a: "Classes include games, warm-ups, topic-specific worksheets, speech practice, constructive feedback, and filmed presentations before the group.",
+    q: "How Can We Monitor Our Kids' Progress?",
+    a: [
+      "We provide weekly video updates and Parents-Coach Meetups so parents can monitor their kids' learning progress. The report card also contains feedback and tools for parents to further assist the kids' learning.",
+      "Parents who would like to play a more active role can witness their child shine on stage through our monthly showcase. (You might want to prepare some tissue paper around as many parents tear up when seeing their once shy kid express themselves on camera.)",
+    ],
   },
   {
-    q: "What are the coaches' qualifications?",
-    a: "Coaches hold backgrounds in TESL and English Literature with strong language command. Some possess Toastmasters qualifications and World Scholars Cup experience.",
+    q: "My Child Is Very Young, Will This Work For Him/Her?",
+    a: "Our programmes are designed for ages 7–16 and organized by grade, so younger children start with age-appropriate, play-based lessons that meet them exactly where they are.",
   },
   {
-    q: "What is your syllabus?",
-    a: "Based on original worksheets aligned with Trinity College London assessments, covering speech delivery techniques, vocal modulation, body language, persuasive communication, and critical thinking.",
+    q: "My Child Is Extremely Shy, Will This Work For Him/Her?",
+    a: "Absolutely — many of our students start out very shy. Our pressure-free, game-based approach and small class sizes (1 coach to 6 students) gently build confidence at a comfortable pace.",
   },
   {
-    q: "How many students are in a class?",
-    a: "Small groups maintain a 1-coach-to-6-students ratio, ensuring adequate individual guidance.",
+    q: "My Child Requires More Attention? Is This Program Suitable?",
+    a: "Our small-group ratio of one coach to six students ensures every child receives meaningful individual guidance. Speak to our team about your child's needs and we'll advise the best fit.",
   },
   {
-    q: "Is there any event that allows the students to showcase their public speaking skills?",
-    a: "Yes — monthly premium showcases, mandatory Foundation Appraisal sessions, mini showcases, competitions, and speech contests in public venues like auditoriums and shopping malls.",
+    q: "My Child Is Not Very Proficient In English, Can He/She Be Able To Handle Class?",
+    a: "Yes. Coaches adapt to each student's level and use interactive, supportive methods so children build both their English and their speaking confidence together over time.",
   },
   {
-    q: "How soon can I enrol my child in the program?",
-    a: "Enrollment is batchless — students can start anytime since each weekly class features independent topics.",
-  },
-  {
-    q: "Do you have any programmes during the school holiday?",
-    a: "Yes. Holiday programs are available at the Subang Taipan headquarters. Contact our marketing team for details.",
-  },
-  {
-    q: "Where are your public speaking classes available?",
-    a: "Online classes via Zoom plus 22 physical locations across the Klang Valley and Kuala Lumpur (full list on our Branches page).",
-  },
-  {
-    q: "Do you have native speaking coaches?",
-    a: "Yes — UK native coaches lead our online classes to expose students to various cultures.",
+    q: "Can I Register Later?",
+    a: "Enrollment is batchless — students can start anytime, since each weekly class features an independent topic. That said, slots fill up quickly, so we recommend securing your trial early.",
   },
 ];
+
+// ── Page ────────────────────────────────────────────────────────────────
 
 export default function FAQ() {
   return (
     <>
-      <section className="bg-[var(--cream)] py-20">
-        <div className="mx-auto max-w-4xl px-6 text-center">
-          <p className="text-sm font-semibold uppercase tracking-wider text-[var(--brand)]">FAQ</p>
-          <h1 className="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">
-            Frequently asked questions
+      {/* ── FAQ Section ───────────────────────────────────────── */}
+      <section className="bg-[var(--cream)] py-16 md:py-20">
+        <div className="mx-auto max-w-3xl px-6">
+          <h1 className="text-center text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl">
+            Frequently Asked Question
           </h1>
+
+          <div className="mt-10 divide-y divide-black/10">
+            {faqs.map((f, i) => (
+              <details
+                key={i}
+                className="group [&>summary::-webkit-details-marker]:hidden [&>summary::marker]:hidden"
+              >
+                <summary className="flex cursor-pointer items-center justify-between gap-4 py-5 text-left text-base font-semibold text-[var(--foreground)]">
+                  {f.q}
+                  <span className="shrink-0 text-[var(--ink-soft)] transition-transform duration-200 group-open:rotate-180">
+                    <svg
+                      className="h-5 w-5"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M6 9l6 6 6-6" />
+                    </svg>
+                  </span>
+                </summary>
+
+                <div className="pb-5 text-sm leading-7 text-[var(--ink-soft)]">
+                  {Array.isArray(f.a) ? (
+                    <div className="space-y-3">
+                      {f.a.map((p, j) => (
+                        <p key={j}>{p}</p>
+                      ))}
+                    </div>
+                  ) : (
+                    <p>{f.a}</p>
+                  )}
+                </div>
+              </details>
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="bg-white py-20">
-        <div className="mx-auto max-w-3xl space-y-4 px-6">
-          {faqs.map((f, i) => (
-            <details
-              key={i}
-              className="group rounded-2xl bg-[var(--cream)] p-6 ring-1 ring-black/5 [&_summary::-webkit-details-marker]:hidden"
-            >
-              <summary className="flex cursor-pointer items-center justify-between gap-4 text-left text-base font-semibold">
-                {f.q}
-                <span className="grid h-7 w-7 flex-shrink-0 place-items-center rounded-full bg-[var(--brand)] text-white transition group-open:rotate-45">
-                  +
-                </span>
-              </summary>
-              <p className="mt-4 text-base leading-7 text-[var(--ink-soft)]">{f.a}</p>
-            </details>
-          ))}
+      {/* ── Still Got Question? ───────────────────────────────── */}
+      <section className="bg-white py-16">
+        <div className="mx-auto max-w-5xl px-6">
+          <div className="grid items-center gap-8 overflow-hidden rounded-3xl bg-[var(--cream)] p-8 md:grid-cols-[3fr_2fr] md:p-12">
+            {/* Left */}
+            <div>
+              <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">
+                Still{" "}
+                <span className="text-[var(--brand)]">Got Question?</span>
+              </h2>
+              <p className="mt-4 max-w-xs text-base leading-7 text-[var(--ink-soft)]">
+                Our friendly team is always ready to guide you and clear up any doubts about
+                our public speaking tracks.
+              </p>
+              <Link
+                href="/contact-us"
+                className="mt-6 inline-flex items-center rounded-lg bg-[var(--brand)] px-6 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-[var(--brand-strong)]"
+              >
+                Contact Us
+              </Link>
+            </div>
+
+            {/* Right */}
+            <div className="flex justify-center md:justify-end">
+              <Image
+                src="/FAQ/contact-us.png"
+                alt="Contact Ebright customer centre"
+                width={360}
+                height={360}
+                className="h-auto w-full max-w-[280px] object-contain md:max-w-xs"
+              />
+            </div>
+          </div>
         </div>
       </section>
+
+      <GrowingHistoryCta />
     </>
   );
 }
