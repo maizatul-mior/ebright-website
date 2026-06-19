@@ -198,9 +198,7 @@ export default function TrialClassMarketingForm() {
         child_age: payload.child_age,
         preferred_branch: payload.preferred_branch,
       });
-      const email = encodeURIComponent(payload.email);
-      const phone = encodeURIComponent(payload.whatsapp_no);
-      window.location.assign(`https://ebright.my/thankyou?email=${email}&phone=${phone}`);
+      window.location.assign("https://www.ebright.my/thankyou");
     } catch (ex) {
       setShowCaptcha(false);
       pendingPayloadRef.current = null;
