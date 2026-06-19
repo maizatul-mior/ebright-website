@@ -289,9 +289,9 @@
 .mkt-field input,
 .mkt-field select {
   width: 100%;
-  padding: 13px 14px;
+  padding: 14px 16px;
   font-family: var(--font-body), system-ui, sans-serif;
-  font-size: 15px;
+  font-size: 16px;
   color: var(--mkt-ink);
   background: #fff;
   border: 1px solid #e3e6ea;
@@ -330,9 +330,9 @@
 }
 .mkt-custom-select-trigger {
   width: 100%;
-  padding: 13px 38px 13px 14px;
+  padding: 14px 38px 14px 16px;
   font-family: var(--font-body), system-ui, sans-serif;
-  font-size: 15px;
+  font-size: 16px;
   color: var(--mkt-ink);
   background: #fff;
   border: 1px solid #e3e6ea;
@@ -382,8 +382,8 @@
   margin: 0;
 }
 .mkt-custom-select-option {
-  padding: 11px 14px;
-  font-size: 15px;
+  padding: 12px 16px;
+  font-size: 16px;
   color: var(--mkt-ink);
   border-radius: 7px;
   cursor: pointer;
