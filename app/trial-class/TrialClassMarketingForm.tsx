@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback, useEffect, type FormEvent } from "react";
 import { BRANCH_OPTIONS } from "../data/branchOptions";
 import { isValidWhatsapp } from "../lib/phone";
 
@@ -198,7 +198,9 @@ export default function TrialClassMarketingForm() {
         child_age: payload.child_age,
         preferred_branch: payload.preferred_branch,
       });
-      window.location.assign("https://www.ebright.my/thankyou");
+      const email = encodeURIComponent(payload.email);
+      const phone = encodeURIComponent(payload.whatsapp_no);
+      window.location.assign(`https://ebright.my/thankyou.html?email=${email}&phone=${phone}`);
     } catch (ex) {
       setShowCaptcha(false);
       pendingPayloadRef.current = null;
@@ -237,7 +239,7 @@ export default function TrialClassMarketingForm() {
       });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
 

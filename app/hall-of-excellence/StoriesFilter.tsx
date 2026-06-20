@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 
 type Category = "All" | "Exam Distinction" | "Competitions" | "Media & TV";
 
@@ -55,7 +55,7 @@ const stories: {
   },
 ];
 
-const CATEGORY_ICON: Record<Exclude<Category, "All">, React.ReactNode> = {
+const CATEGORY_ICON: Record<Exclude<Category, "All">, ReactNode> = {
   "Exam Distinction": (
     <svg className="h-3 w-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
       <path d="M9 12l2 2 4-4" /><circle cx="12" cy="12" r="9" />

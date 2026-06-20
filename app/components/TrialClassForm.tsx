@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode, type ChangeEvent, type FormEvent } from "react";
 import { branches } from "../data/branches";
 import { isValidWhatsapp } from "../lib/phone";
 
@@ -32,11 +32,11 @@ export default function TrialClassForm() {
   const whatsappValid = isValidWhatsapp(form.whatsapp);
 
   function update(key: keyof typeof form) {
-    return (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+    return (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
       setForm((f) => ({ ...f, [key]: e.target.value }));
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const tokenEl = document.querySelector<HTMLInputElement>('[name="cf-turnstile-response"]');
     const ts = (window as unknown as { turnstile?: TurnstileApi }).turnstile;
@@ -158,7 +158,7 @@ export default function TrialClassForm() {
   );
 }
 
-function Field({ label, full, children }: { label: string; full?: boolean; children: React.ReactNode }) {
+function Field({ label, full, children }: { label: string; full?: boolean; children: ReactNode }) {
   return (
     <div className={full ? "col-span-2" : ""}>
       <label className="mb-1.5 block text-sm font-bold">

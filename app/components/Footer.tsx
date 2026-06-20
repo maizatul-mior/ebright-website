@@ -2,9 +2,10 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import type { ReactNode } from "react";
 import Logo from "./Logo";
 
-const socials: { label: string; href: string; icon: React.ReactNode }[] = [
+const socials: { label: string; href: string; icon: ReactNode }[] = [
   {
     label: "YouTube",
     href: "https://www.youtube.com/eBrightKidsPublicSpeaking",

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import Image from "next/image";
 import GrowingHistoryCta from "../components/GrowingHistoryCta";
 
@@ -170,7 +171,7 @@ function CollapsibleSection({
   subtitle,
   items,
 }: {
-  icon: React.ReactNode;
+  icon: ReactNode;
   title: string;
   subtitle: string;
   items: MediaItem[];
