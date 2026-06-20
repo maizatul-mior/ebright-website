@@ -94,8 +94,7 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
     if (!resp.ok || !result.ok) throw new Error(result.error || "Server error.");
     return json({ ok: true, id: result.id });
   } catch (e) {
-    const msg = e instanceof Error ? e.message : String(e);
-    console.error("[lead] forward error", msg);
-    return json({ ok: false, error: msg }, 500);
+    console.error("[lead] forward error", e);
+    return json({ ok: false, error: "Server error. Please try again." }, 500);
   }
 };
