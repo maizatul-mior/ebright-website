@@ -36,7 +36,7 @@ const socials: { label: string; href: string; icon: React.ReactNode }[] = [
 ];
 
 // The marketing trial-class landing page has no footer.
-const NO_FOOTER_ROUTES = ["/trial-class"];
+const NO_FOOTER_ROUTES = ["/trial-class", "/trial-class/"];
 
 export default function Footer() {
   const pathname = usePathname();
