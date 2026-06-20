@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 
 export default function RegistrationForm() {
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
   const [email, setEmail] = useState("");
 
-  function handleNext(e: React.FormEvent) {
+  function handleNext(e: FormEvent) {
     e.preventDefault();
     const params = new URLSearchParams();
     if (name) params.set("name", name);

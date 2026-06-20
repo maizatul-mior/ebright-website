@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import Image from "next/image";
 import FindAClass from "../components/FindAClass";
 import GrowingHistoryCta from "../components/GrowingHistoryCta";
@@ -64,9 +65,9 @@ function ContactRow({
   label,
   children,
 }: {
-  icon: React.ReactNode;
+  icon: ReactNode;
   label: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <li className="flex items-start gap-4">

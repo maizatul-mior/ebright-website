@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type ReactNode, type ChangeEvent, type FormEvent } from "react";
 import { branches } from "../data/branches";
 import { isValidWhatsapp } from "../lib/phone";
 
@@ -30,11 +30,11 @@ export default function ContactForm() {
   const contactValid = isValidWhatsapp(form.contact);
 
   function update(key: keyof typeof form) {
-    return (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
+    return (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
       setForm((f) => ({ ...f, [key]: e.target.value }));
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  function handleSubmit(e: FormEvent) {
     e.preventDefault();
     const msg =
       `Hi Ebright! I have an enquiry.%0A%0A` +
@@ -86,7 +86,7 @@ export default function ContactForm() {
   );
 }
 
-function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
+function Field({ label, required, children }: { label: string; required?: boolean; children: ReactNode }) {
   return (
     <div>
       <label className="mb-1.5 block text-sm font-semibold">
