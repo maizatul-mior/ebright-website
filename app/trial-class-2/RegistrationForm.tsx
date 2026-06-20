@@ -13,7 +13,7 @@ export default function RegistrationForm() {
     if (name) params.set("name", name);
     if (contact) params.set("phone", contact);
     if (email) params.set("email", email);
-    window.location.href = "https://www.ebright.my/thankyou";
+    window.location.href = "/thankyou";
   }
 
   return (

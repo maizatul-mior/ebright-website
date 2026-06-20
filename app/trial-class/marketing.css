@@ -813,20 +813,6 @@
   transform: translateY(1px);
 }
 
-/* ---------- Hero background photo (decorative, not in content flow) ---------- */
-.mkt-hero-bg-photo {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-20%);
-  height: 100%;
-  width: auto;
-  max-width: 45%;
-  object-fit: contain;
-  object-position: bottom center;
-  pointer-events: none;
-  z-index: 0;
-}
 .mkt-hero-inner {
   position: relative;
   z-index: 1;
@@ -945,9 +931,6 @@
   }
   .mkt-hero-trust {
     justify-content: center;
-  }
-  .mkt-hero-bg-photo {
-    display: none;
   }
   .mkt-form-shell {
     flex: 1 1 auto;

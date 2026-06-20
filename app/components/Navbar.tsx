@@ -7,7 +7,7 @@ import Logo from "./Logo";
 
 // Routes that ship their own navigation chrome and should NOT render the global
 // site navbar. The marketing trial-class landing page has its own red navbar.
-const NO_NAVBAR_ROUTES = ["/trial-class", "/trial-class-2", "/trial-class/", "/trial-class-2/"];
+const NO_NAVBAR_ROUTES = ["/trial-class", "/trial-class-2", "/trial-class/", "/trial-class-2/", "/thankyou", "/thankyou/"];
 
 const nav = [
   {
