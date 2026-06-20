@@ -134,7 +134,7 @@
       rgba(230, 36, 39, 0.08) 68%,
       transparent 85%
     ),
-    url("/trial-class/hero-bg.jpg") center / cover no-repeat;
+    url("/trial-class/hero-bg.jpg?v=2") center / cover no-repeat;
 }
 .mkt-hero-inner {
   max-width: 1240px;
