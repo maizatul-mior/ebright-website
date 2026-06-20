@@ -185,16 +185,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
       {/* Hero */}
       <section className="mkt-hero">
-        {/* Boy photo — decorative background, not part of content flow */}
-        <Image
-          src="/trial-class/hero-photo.png"
-          alt=""
-          aria-hidden="true"
-          width={480}
-          height={640}
-          className="mkt-hero-bg-photo"
-          priority
-        />
         <div className="mkt-hero-inner">
           <div className="mkt-hero-left">
             <h1 className="mkt-hero-title">
