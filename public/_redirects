@@ -1,0 +1,2 @@
+# Fix double-slash URLs generated when Facebook appends ?fbclid= to trailing-slash URLs
+/trial-class//  /trial-class/  301
