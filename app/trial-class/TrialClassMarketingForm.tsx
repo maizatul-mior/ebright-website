@@ -198,7 +198,9 @@ export default function TrialClassMarketingForm() {
         child_age: payload.child_age,
         preferred_branch: payload.preferred_branch,
       });
-      window.location.assign("/thankyou");
+      const email = encodeURIComponent(payload.email);
+      const phone = encodeURIComponent(payload.whatsapp_no);
+      window.location.assign(`/thankyou/?email=${email}&phone=${phone}`);
     } catch (ex) {
       setShowCaptcha(false);
       pendingPayloadRef.current = null;
