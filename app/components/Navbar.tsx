@@ -16,7 +16,7 @@ const nav = [
     children: [
       { label: "Our Story", href: "/our-story" },
       { label: "Our Team", href: "/our-team" },
-      { label: "Career Opportunity", href: "/career-opportunity" },
+      { label: "Career Opportunity", href: "/join-the-team" },
     ],
   },
   {

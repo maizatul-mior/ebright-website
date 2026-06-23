@@ -12,7 +12,6 @@ const nextConfig: NextConfig = {
   // makes globally ambient.  All hand-written TypeScript is correct; we only
   // silence errors that originate in Next.js-generated files.
   typescript: { ignoreBuildErrors: true },
-  eslint: { ignoreDuringBuilds: true },
 };
 
 export default nextConfig;
